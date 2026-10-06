@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OmniHub | Games, Apps, Movies & Anime</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+--bg:#080c14;
+--card:#121826;
+--purple:#8b5cf6;
+--cyan:#06b6d4;
+--text:#f3f4f6;
+--muted:#9ca3af;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+font-family:Arial, sans-serif;
+min-height:100vh;
+}
+
+header{
+position:sticky;
+top:0;
+z-index:10;
+background:rgba(8,12,20,.95);
+backdrop-filter:blur(15px);
+border-bottom:1px solid #252b38;
+padding:15px;
+}
+
+.header{
+max-width:1200px;
+margin:auto;
+display:flex;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.logo{
+font-size:24px;
+font-weight:900;
+color:white;
+text-decoration:none;
+}
+
+.logo span{color:var(--cyan)}
+
+nav{
+display:flex;
+gap:5px;
+overflow-x:auto;
+}
+
+nav button{
+background:#151c2b;
+border:1px solid #293244;
+color:var(--muted);
+padding:9px 14px;
+border-radius:8px;
+cursor:pointer;
+white-space:nowrap;
+}
+
+nav button.active,
+nav button:hover{
+background:var(--purple);
+color:white;
+}
+
+.search{
+margin-left:auto;
+min-width:220px;
+}
+
+.search input{
+width:100%;
+padding:10px 14px;
+border-radius:9px;
+border:1px solid #293244;
+background:#111827;
+color:white;
+outline:none;
+}
+
+main{
+max-width:1200px;
+margin:auto;
+padding:25px 15px;
+}
+
+.title{
+margin-bottom:20px;
+}
+
+.title h1{
+font-size:25px;
+}
+
+.title p{
+color:var(--muted);
+font-size:13px;
+margin-top:5px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+border:1px solid #252d3c;
+border-radius:15px;
+overflow:hidden;
+cursor:pointer;
+transition:.25s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:var(--purple);
+box-shadow:0 10px 30px #0008;
+}
+
+.poster{
+height:240px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:15px;
+font-size:21px;
+font-weight:900;
+}
+
+.info{
+padding:13px;
+}
+
+.info h3{
+font-size:15px;
+margin-bottom:5px;
+}
+
+.info p{
+font-size:12px;
+color:var(--muted);
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:#000d;
+display:none;
+align-items:center;
+justify-content:center;
+padding:15px;
+z-index:100;
+}
+
+.modal.show{display:flex}
+
+.box{
+background:#0d1322;
+border:1px solid #30394b;
+border-radius:18px;
+width:100%;
+max-width:750px;
+max-height:90vh;
+overflow:auto;
+padding:20px;
+position:relative;
+}
+
+.close{
+position:absolute;
+right:15px;
+top:12px;
+border:0;
+background:#ffffff18;
+color:white;
+width:35px;
+height:35px;
+border-radius:50%;
+font-size:22px;
+cursor:pointer;
+}
+
+.modal h2{
+margin:10px 0;
+}
+
+.modal p{
+color:#c5cad3;
+font-size:14px;
+line-height:1.5;
+margin-bottom:15px;
+}
+
+video{
+width:100%;
+border-radius:12px;
+background:#000;
+margin:10px 0 15px;
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.btn{
+display:inline-block;
+padding:11px 16px;
+border-radius:9px;
+border:0;
+text-decoration:none;
+color:white;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(135deg,var(--purple),var(--cyan));
+}
+
+@media(max-width:600px){
+.header{
+flex-direction:column;
+align-items:stretch;
+}
+
+.search{
+margin-left:0;
+}
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.poster{
+height:210px;
+font-size:17px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="header">
+
+<a class="logo" href="#" onclick="showCategory('all')">
+OMNI<span>HUB</span>
+</a>
+
+<nav>
+<button id="all" class="active" onclick="showCategory('all')">All</button>
+<button id="anime" onclick="showCategory('anime')">Anime</button>
+<button id="movies" onclick="showCategory('movies')">Movies</button>
+<button id="games" onclick="showCategory('games')">Games</button>
+<button id="apps" onclick="showCategory('apps')">Apps</button>
+</nav>
+
+<div class="search">
+<input id="search" placeholder="Search..." oninput="render()">
+</div>
+
+</div>
+</header>
+
+<main>
+
+<div class="title">
+<h1 id="pageTitle">All Original Content</h1>
+<p>Videos, apps, games and other content hosted on GitHub.</p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+</main>
+
+<!-- VIDEO / CONTENT MODAL -->
+
+<div class="modal" id="modal" onclick="closeOutside(event)">
+<div class="box">
+
+<button class="close" onclick="closeModal()">×</button>
+
+<h2 id="modalTitle"></h2>
+
+<p id="modalDescription"></p>
+
+<video id="player" controls playsinline>
+<source id="videoSource" src="" type="video/mp4">
+Your browser does not support video.
+</video>
+
+<div class="actions">
+
+<a id="downloadBtn"
+class="btn"
+href="#"
+download>
+📥 Download
+</a>
+
+<button class="btn" onclick="playVideo()">
+▶ Play
+</button>
+
+</div>
+
+</div>
+</div>
+
+<script>
+
+const items = [
+
+{
+id:"anime1",
+type:"anime",
+title:"My Anime Video",
+description:"Your own anime/video file hosted on GitHub.",
+video:"videos/anime1.mp4"
+},
+
+{
+id:"movie1",
+type:"movies",
+title:"My Movie Video",
+description:"Your own legally hosted movie/video.",
+video:"videos/movie1.mp4"
+},
+
+{
+id:"game1",
+type:"games",
+title:"My Game",
+description:"Game information and trailer.",
+video:"videos/game1.mp4"
+},
+
+{
+id:"app1",
+type:"apps",
+title:"My App",
+description:"Application information and demo.",
+video:"videos/app1.mp4"
+},
+
+{
+id:"video1",
+type:"anime",
+title:"Demo Video",
+description:"Replace this file with your own video.",
+video:"videos/video1.mp4"
+}
+
+];
+
+let category="all";
+
+function showCategory(type){
+
+category=type;
+
+document.querySelectorAll("nav button")
+.forEach(b=>b.classList.remove("active"));
+
+document.getElementById(type).classList.add("active");
+
+const titles={
+all:"All Original Content",
+anime:"Anime",
+movies:"Movies",
+games:"Games",
+apps:"Apps"
+};
+
+document.getElementById("pageTitle").innerText=titles[type];
+
+render();
+
+}
+
+function render(){
+
+const grid=document.getElementById("grid");
+
+const search=document
+.getElementById("search")
+.value
+.toLowerCase();
+
+let data=items.filter(item=>{
+
+const correctCategory=
+category==="all" || item.type===category;
+
+const correctSearch=
+item.title.toLowerCase().includes(search);
+
+return correctCategory && correctSearch;
+
+});
+
+if(data.length===0){
+
+grid.innerHTML=
+`<p style="color:#9ca3af">
+No content found.
+</p>`;
+
+return;
+
+}
+
+grid.innerHTML=data.map(item=>`
+
+<div class="card" onclick="openVideo('${item.id}')">
+
+<div class="poster"
+style="background:linear-gradient(135deg,
+${getColor(item.type,0)},
+${getColor(item.type,1)})">
+
+${item.title}
+
+</div>
+
+<div class="info">
+
+<h3>${item.title}</h3>
+
+<p>
+${item.type.toUpperCase()}
+</p>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+function getColor(type,n){
+
+const colors={
+anime:["#7c3aed","#ec4899"],
+movies:["#0f172a","#2563eb"],
+games:["#ca8a04","#f59e0b"],
+apps:["#0369a1","#06b6d4"]
+};
+
+return colors[type][n];
+
+}
+
+function openVideo(id){
+
+const item=items.find(x=>x.id===id);
+
+if(!item)return;
+
+document.getElementById("modalTitle")
+.innerText=item.title;
+
+document.getElementById("modalDescription")
+.innerText=item.description;
+
+const player=document.getElementById("player");
+
+document.getElementById("videoSource")
+.src=item.video;
+
+player.load();
+
+document.getElementById("downloadBtn")
+.href=item.video;
+
+document.getElementById("downloadBtn")
+.download=item.video.split("/").pop();
+
+document.getElementById("modal")
+.classList.add("show");
+
+}
+
+function playVideo(){
+
+const player=document.getElementById("player");
+
+player.play();
+
+}
+
+function closeModal(){
+
+const player=document.getElementById("player");
+
+player.pause();
+
+player.currentTime=0;
+
+document.getElementById("modal")
+.classList.remove("show");
+
+}
+
+function closeOutside(event){
+
+if(event.target.id==="modal"){
+closeModal();
+}
+
+}
+
+render();
+
+</script>
+
+</body>
+</html>
