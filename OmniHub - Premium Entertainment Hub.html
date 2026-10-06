@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniHub | Games, Apps, Movies & Anime</title>
+    <style>
+        /* Base reset & design system variables */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-dark: #080C14;
+            --bg-card: rgba(18, 24, 38, 0.85);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --brand-purple: #8B5CF6;
+            --brand-cyan: #06B6D4;
+            --brand-rose: #F43F5E;
+            --brand-amber: #F59E0B;
+            --brand-emerald: #10B981;
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --border-glass: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Utility classes */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-glass);
+            border-radius: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Header Layout */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: rgba(8, 12, 20, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 1rem 1.5rem;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.25rem;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            color: #fff;
+        }
+
+        .logo-text span {
+            color: var(--brand-cyan);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 0.35rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-glass);
+            overflow-x: auto;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            color: #fff;
+        }
+
+        .nav-btn.active {
+            background: rgba(139, 92, 246, 0.25);
+            color: #fff;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        /* Search input */
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 280px;
+            min-width: 200px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-glass);
+            border-radius: 0.75rem;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            color: #fff;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--brand-purple);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            fill: var(--text-muted);
+        }
+
+        /* Main Section */
+        main {
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .genres-bar {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .genre-pill {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            padding: 0.35rem 0.85rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .genre-pill.active {
+            background: var(--brand-purple);
+            color: #fff;
+            border-color: var(--brand-purple);
+        }
+
+        /* Media Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.25rem;
+        }
+
+        /* Cards */
+        .card {
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-thumb {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            background-color: #000;
+            overflow: hidden;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+        }
+
+        .card-thumb svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge-type {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.35rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-rating {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: var(--brand-amber);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.35rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+        }
+
+        .card-content {
+            padding: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: #0D1322;
+            border: 1px solid var(--border-glass);
+            border-radius: 1.5rem;
+            width: 100%;
+            max-width: 750px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Modal Inner elements */
+        .modal-header {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .modal-thumb {
+            width: 140px;
+            aspect-ratio: 3 / 4;
+            border-radius: 1rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .modal-info {
+            flex: 1;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--brand-purple), var(--brand-cyan));
+            border: none;
+            border-radius: 0.75rem;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .episodes-list {
+            display: grid;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .ep-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.6rem 0.8rem;
+            border-radius: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .ep-item:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: rgba(16, 185, 129, 0.9);
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transform: translateY(150%);
+            transition: transform 0.3s ease;
+            z-index: 200;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 640px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo" onclick="switchTab('all')">
+                <div class="logo-icon">O</div>
+                <div class="logo-text">OMNI<span>HUB</span></div>
+            </a>
+
+            <nav>
+                <button class="nav-btn active" id="tab-all" onclick="switchTab('all')">All Catalog</button>
+                <button class="nav-btn" id="tab-anime" onclick="switchTab('anime')">Anime</button>
+                <button class="nav-btn" id="tab-movies" onclick="switchTab('movies')">Movies</button>
+                <button class="nav-btn" id="tab-games" onclick="switchTab('games')">Games</button>
+                <button class="nav-btn" id="tab-apps" onclick="switchTab('apps')">Apps</button>
+            </nav>
+
+            <div class="search-box">
+                <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search title, genre..." oninput="handleSearch()">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="section-header">
+            <div>
+                <h1 id="sectionTitle" style="font-size: 1.5rem; font-weight: 800;">All Original Content</h1>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Verified media with direct downloads and streaming</p>
+            </div>
+            <div class="genres-bar" id="genresBar">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <div class="grid" id="mediaGrid">
+            <!-- Cards Injected via JS -->
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModalDirect()">&times;</button>
+            <div id="modalBody">
+                <!-- Content injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Action initialized successfully!</div>
+
+    <script>
+        // Inline SVG generation for embedded posters (Zero external image dependencies)
+        function generateSvgPoster(title, category, color1, color2) {
+            const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400">
+                <defs>
+                    <linearGradient id="grad-${title.replace(/\s+/g, '')}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="${color1}" />
+                        <stop offset="100%" stop-color="${color2}" />
+                    </linearGradient>
+                </defs>
+                <rect width="300" height="400" fill="url(#grad-${title.replace(/\s+/g, '')})" />
+                <circle cx="150" cy="160" r="70" fill="rgba(255,255,255,0.1)" />
+                <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="900" font-size="22">${title}</text>
+                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="sans-serif" font-size="12" font-weight="700">${category.toUpperCase()}</text>
+            </svg>`;
+            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svgStr);
+        }
+
+        // Complete Local Dataset
+        const database = [
+            {
+                id: 'a1',
+                type: 'anime',
+                title: 'Demon Slayer',
+                rating: '9.2',
+                year: '2024',
+                genre: 'Action',
+                quality: '4K Dual Audio',
+                color1: '#8B5CF6',
+                color2: '#EC4899',
+                desc: 'Tanjiro Kamado sets off to become a demon slayer to turn his sister back into a human and avenge his family.',
+                seasons: [
+                    { name: 'Season 1: Unwavering Resolve', eps: ['Ep 1: Cruelty', 'Ep 2: Trainer Sakonji', 'Ep 3: Sabito and Makomo'] },
+                    { name: 'Season 2: Entertainment District', eps: ['Ep 1: Sound Hashira', 'Ep 2: Infiltration', 'Ep 3: What Are You?'] },
+                    { name: 'Season 3: Hashira Training', eps: ['Ep 1: To Defeat Muzan', 'Ep 2: Water Hashira Pain'] }
+                ]
+            },
+            {
+                id: 'a2',
+                type: 'anime',
+                title: 'Jujutsu Kaisen',
+                rating: '8.9',
+                year: '2023',
+                genre: 'Supernatural',
+                quality: '1080p BluRay',
+                color1: '#06B6D4',
+                color2: '#3B82F6',
+                desc: 'A boy swallows a cursed talisman - the finger of a demon - and becomes cursed himself.',
+                seasons: [
+                    { name: 'Season 1', eps: ['Ep 1: Ryomen Sukuna', 'Ep 2: For Myself'] },
+                    { name: 'Season 2: Shibuya Incident', eps: ['Ep 1: Hidden Inventory', 'Ep 2: Evening Festival'] }
+                ]
+            },
+            {
+                id: 'm1',
+                type: 'movies',
+                title: 'Interstellar',
+                rating: '8.7',
+                year: '2014',
+                genre: 'Sci-Fi',
+                quality: '4K IMAX Remux',
+                color1: '#1E293B',
+                color2: '#0F172A',
+                desc: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.'
+            },
+            {
+                id: 'm2',
+                type: 'movies',
+                title: 'Oppenheimer',
+                rating: '8.9',
+                year: '2023',
+                genre: 'Drama',
+                quality: '4K Ultra HD',
+                color1: '#D97706',
+                color2: '#78350F',
+                desc: 'The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.'
+            },
+            {
+                id: 'g1',
+                type: 'games',
+                title: 'Cyberpunk 2077',
+                rating: '9.1',
+                year: '2024',
+                genre: 'RPG',
+                quality: 'v2.12 Direct Full Game',
+                color1: '#FACC15',
+                color2: '#CA8A04',
+                desc: 'An open-world action-adventure RPG set in the megalopolis of Night City.',
+                specs: 'Min Specs: GTX 1060, 12GB RAM, 70GB SSD'
+            },
+            {
+                id: 'g2',
+                type: 'games',
+                title: 'Elden Ring',
+                rating: '9.6',
+                year: '2024',
+                genre: 'Action',
+                quality: 'Shadow of Erdtree Bundle',
+                color1: '#059669',
+                color2: '#064E3B',
+                desc: 'THE NEW FANTASY ACTION RPG. Rise, Tarnished, and be guided by grace to brandish the power of the Elden Ring.',
+                specs: 'Min Specs: GTX 1060 3GB, 12GB RAM'
+            },
+            {
+                id: 'app1',
+                type: 'apps',
+                title: 'CapCut Pro 4K',
+                rating: '4.9',
+                year: '2026 Build',
+                genre: 'Video Suite',
+                quality: 'Official Unlocked Package',
+                color1: '#0284C7',
+                color2: '#0369A1',
+                desc: 'Full-featured official AI video editor with auto subtitles, 4K export, and visual effects.'
+            },
+            {
+                id: 'app2',
+                type: 'apps',
+                title: 'FL Studio Studio',
+                rating: '4.8',
+                year: '2026 Build',
+                genre: 'Audio DAW',
+                quality: 'Complete Producer Ed.',
+                color1: '#EA580C',
+                color2: '#9A3412',
+                desc: 'Complete software music production environment with multi-track audio recording and synthesis.'
+            }
+        ];
+
+        let currentTab = 'all';
+        let currentGenre = 'All';
+        let searchQuery = '';
+
+        // Application Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            renderGenres();
+            renderContent();
+        });
+
+        function switchTab(tab) {
+            currentTab = tab;
+            currentGenre = 'All';
+
+            document.querySelectorAll('nav .nav-btn').forEach(btn => btn.classList.remove('active'));
+            const activeNav = document.getElementById(`tab-${tab}`);
+            if (activeNav) activeNav.classList.add('active');
+
+            const titleMap = {
+                all: 'All Original Content',
+                anime: 'Anime Series (Complete Seasons)',
+                movies: '4K Ultra HD Movies',
+                games: 'Verified Original Games',
+                apps: 'Verified Utility Applications'
+            };
+            document.getElementById('sectionTitle').innerText = titleMap[tab];
+
+            renderGenres();
+            renderContent();
+        }
+
+        function renderGenres() {
+            const container = document.getElementById('genresBar');
+            let items = currentTab === 'all' ? database : database.filter(i => i.type === currentTab);
+            const genres = ['All', ...new Set(items.map(i => i.genre))];
+
+            container.innerHTML = genres.map(g => `
+                <button class="genre-pill ${currentGenre === g ? 'active' : ''}" onclick="filterGenre('${g}')">${g}</button>
+            `).join('');
+        }
+
+        function filterGenre(genre) {
+            currentGenre = genre;
+            renderGenres();
+            renderContent();
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            renderContent();
+        }
+
+        function renderContent() {
+            const grid = document.getElementById('mediaGrid');
+            let items = database;
+
+            if (currentTab !== 'all') {
+                items = items.filter(i => i.type === currentTab);
+            }
+            if (currentGenre !== 'All') {
+                items = items.filter(i => i.genre === currentGenre);
+            }
+            if (searchQuery) {
+                items = items.filter(i => i.title.toLowerCase().includes(searchQuery) || i.genre.toLowerCase().includes(searchQuery));
+            }
+
+            if (items.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">No matching content found.</div>`;
+                return;
+            }
+
+            grid.innerHTML = items.map(item => {
+                const posterSvg = generateSvgPoster(item.title, item.type, item.color1, item.color2);
+                return `
+                    <div class="glass-card card" onclick="openModal('${item.id}')">
+                        <div class="card-thumb">
+                            <img src="${posterSvg}" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">
+                            <span class="badge-type">${item.type}</span>
+                            <span class="badge-rating">★ ${item.rating}</span>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-title">${item.title}</div>
+                            <div class="card-sub">
+                                <span>${item.year}</span>
+                                <span>${item.genre}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openModal(id) {
+            const item = database.find(i => i.id === id);
+            if (!item) return;
+
+            const posterSvg = generateSvgPoster(item.title, item.type, item.color1, item.color2);
+            const modalBody = document.getElementById('modalBody');
+
+            let extraHtml = '';
+            if (item.type === 'anime' && item.seasons) {
+                extraHtml = `
+                    <div style="margin-top: 1rem;">
+                        <h4 style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Uploaded Seasons & Episodes</h4>
+                        ${item.seasons.map(s => `
+                            <div style="font-size: 0.8rem; font-weight:700; color: var(--brand-cyan); margin-top: 0.5rem;">${s.name}</div>
+                            <div class="episodes-list">
+                                ${s.eps.map(ep => `<div class="ep-item" onclick="triggerAction('Playing ${ep}')"><span>${ep}</span> <span style="color:var(--brand-purple);">Play</span></div>`).join('')}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (item.specs) {
+                extraHtml = `
+                    <div style="margin-top: 1rem; background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius:0.5rem; font-size: 0.8rem;">
+                        <strong>System Specs:</strong> ${item.specs}
+                    </div>
+                `;
+            }
+
+            modalBody.innerHTML = `
+                <div class="modal-header">
+                    <div class="modal-thumb">
+                        <img src="${posterSvg}" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="modal-info">
+                        <span style="font-size: 0.7rem; background: rgba(139,92,246,0.2); color: var(--brand-purple); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-weight: 700;">${item.quality}</span>
+                        <h2 style="font-size: 1.5rem; font-weight: 800; margin-top: 0.25rem;">${item.title}</h2>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">${item.year} • ${item.genre} • Rating: ★ ${item.rating}</p>
+                        <p style="font-size: 0.85rem; color: #D1D5DB; margin-top: 0.75rem; line-height: 1.4;">${item.desc}</p>
+                    </div>
+                </div>
+                ${extraHtml}
+                <button class="btn-action" onclick="triggerAction('Download/Launch initialized for ${item.title}')">Direct Download / Stream Source</button>
+            `;
+
+            document.getElementById('modalOverlay').classList.add('open');
+        }
+
+        function closeModal(event) {
+            if (event.target === document.getElementById('modalOverlay')) {
+                closeModalDirect();
+            }
+        }
+
+        function closeModalDirect() {
+            document.getElementById('modalOverlay').classList.remove('open');
+        }
+
+        function triggerAction(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
