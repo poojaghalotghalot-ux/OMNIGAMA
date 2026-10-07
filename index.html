@@ -1,28 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>OmniHub</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#08090d;
+  color:#fff;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:#0d0f15ee;
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid #292d38;
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:900;
+  color:#8b5cf6;
+}
+
+.search{
+  flex:1;
+}
+
+.search input{
+  width:100%;
+  padding:12px 18px;
+  border-radius:25px;
+  border:1px solid #303442;
+  outline:none;
+  background:#151820;
+  color:#fff;
+}
+
+.hero{
+  max-width:1200px;
+  margin:25px auto;
+  padding:40px 25px;
+  border-radius:25px;
+  background:linear-gradient(135deg,#21143b,#101827);
+  border:1px solid #292d3c;
+}
+
+.hero h1{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.hero h1 span{
+  color:#8b5cf6;
+}
+
+.hero p{
+  color:#aeb2c0;
+  line-height:1.6;
+}
+
+.categories{
+  max-width:1200px;
+  margin:20px auto;
+  padding:0 20px;
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+}
+
+.categories button{
+  border:1px solid #303442;
+  background:#171a23;
+  color:#ddd;
+  padding:10px 20px;
+  border-radius:22px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.categories button.active,
+.categories button:hover{
+  background:#8b5cf6;
+  color:#fff;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:10px 20px 60px;
+}
+
+.title{
+  font-size:25px;
+  font-weight:bold;
+  margin:25px 0 15px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:#11141b;
+  border:1px solid #252936;
+  border-radius:18px;
+  overflow:hidden;
+  transition:.25s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#8b5cf6;
+}
+
+.poster{
+  height:150px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:60px;
+  background:linear-gradient(135deg,#251840,#151b2b);
+}
+
+.info{
+  padding:15px;
+}
+
+.tag{
+  display:inline-block;
+  background:#202432;
+  color:#c5b5ff;
+  padding:5px 9px;
+  border-radius:7px;
+  font-size:11px;
+  margin-bottom:9px;
+}
+
+.info h3{
+  font-size:18px;
+  margin-bottom:7px;
+}
+
+.meta{
+  color:#8f95a5;
+  font-size:13px;
+  margin-bottom:14px;
+}
+
+.open{
+  width:100%;
+  border:0;
+  padding:11px;
+  border-radius:10px;
+  background:#8b5cf6;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.empty{
+  display:none;
+  text-align:center;
+  padding:50px;
+  color:#888;
+}
+
+footer{
+  border-top:1px solid #242733;
+  text-align:center;
+  padding:30px;
+  color:#777;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:500;
+  background:#000d;
+  padding:20px;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-box{
+  width:100%;
+  max-width:750px;
+  max-height:90vh;
+  overflow:auto;
+  background:#11141b;
+  border:1px solid #303442;
+  border-radius:22px;
+  padding:22px;
+}
+
+.close{
+  float:right;
+  border:0;
+  background:#292d38;
+  color:#fff;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.modal-icon{
+  font-size:60px;
+  margin-top:10px;
+}
+
+.modal h2{
+  margin:10px 0;
+}
+
+.description{
+  color:#aeb2c0;
+  line-height:1.6;
+}
+
+.player{
+  display:none;
+  margin-top:20px;
+}
+
+.player iframe{
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:14px;
+}
+
+.watch-btn{
+  display:block;
+  margin-top:18px;
+  padding:12px;
+  text-align:center;
+  background:#8b5cf6;
+  color:#fff;
+  text-decoration:none;
+  border-radius:10px;
+}
+
+@media(max-width:600px){
+
+  .nav{
+    flex-wrap:wrap;
+  }
+
+  .logo{
+    width:100%;
+  }
+
+  .hero h1{
+    font-size:30px;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .poster{
+    height:120px;
+    font-size:45px;
+  }
+
+  .info h3{
+    font-size:15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="nav">
+
+    <div class="logo">
+      OMNIHUB
+    </div>
+
+    <div class="search">
+      <input
+        id="search"
+        type="search"
+        placeholder="Search apps, games, anime, movies..."
+      >
+    </div>
+
+  </div>
+
+</header>
+
+
+<section class="hero">
+
+  <h1>
+    Welcome to <span>OmniHub</span>
+  </h1>
+
+  <p>
+    Apps, Games, Anime and Movies — all in one place.
+  </p>
+
+</section>
+
+
+<div class="categories">
+
+  <button class="active"
+    onclick="filterItems('All',this)">
+    All
+  </button>
+
+  <button
+    onclick="filterItems('Anime',this)">
+    Anime
+  </button>
+
+  <button
+    onclick="filterItems('Movies',this)">
+    Movies
+  </button>
+
+  <button
+    onclick="filterItems('Games',this)">
+    Games
+  </button>
+
+  <button
+    onclick="filterItems('Apps',this)">
+    Apps
+  </button>
+
+</div>
+
+
+<main class="container">
+
+  <div class="title">
+    Explore
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+  <div id="empty" class="empty">
+    No results found 😕
+  </div>
+
+</main>
+
+
+<footer>
+  © 2026 OmniHub
+</footer>
+
+
+<!-- PLAYER MODAL -->
+
+<div id="modal" class="modal">
+
+  <div class="modal-box">
+
+    <button
+      class="close"
+      onclick="closeModal()">
+      ×
+    </button>
+
+    <div
+      id="modalIcon"
+      class="modal-icon">
+    </div>
+
+    <h2 id="modalTitle"></h2>
+
+    <div
+      id="modalMeta"
+      class="meta">
+    </div>
+
+    <p
+      id="modalDescription"
+      class="description">
+    </p>
+
+
+    <!-- Official/embeddable YouTube player -->
+
+    <div
+      id="player"
+      class="player">
+
+      <iframe
+        id="videoPlayer"
+        src=""
+        title="OmniHub Player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+
+    </div>
+
+
+    <a
+      id="externalLink"
+      class="watch-btn"
+      href="#"
+      target="_blank">
+      Open Official Source
+    </a>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   OMNIHUB CONTENT
+   ===================================================== */
+
+const items = [
+
 /* ================= ANIME ================= */
 
 {
-  name:"Ani-One India",
+  name:"Anime Official",
   type:"Anime",
   icon:"🌸",
-  meta:"Official Anime • YouTube",
-  desc:"Watch officially available anime from Ani-One India.",
-  link:"https://www.youtube.com/@AniOneAsia"
-},
-
-{
-  name:"Anime on Ani-One",
-  type:"Anime",
-  icon:"🍥",
-  meta:"Official Anime",
-  desc:"Open the official Ani-One anime channel.",
+  meta:"Official YouTube",
+  desc:"Officially available anime video.",
+  video:"",
   link:"https://www.youtube.com/@AniOneAsia"
 },
 
 {
   name:"Ani-One Anime",
   type:"Anime",
+  icon:"🍥",
+  meta:"Official Channel",
+  desc:"Watch officially available anime from Ani-One.",
+  video:"",
+  link:"https://www.youtube.com/@AniOneAsia"
+},
+
+{
+  name:"Anime Collection",
+  type:"Anime",
   icon:"⭐",
   meta:"Official Anime",
-  desc:"Watch available licensed anime through the official channel.",
+  desc:"Discover anime from official sources.",
+  video:"",
   link:"https://www.youtube.com/@AniOneAsia"
+},
+
+
+/* ================= MOVIES ================= */
+
+{
+  name:"Movie Trailer",
+  type:"Movies",
+  icon:"🎬",
+  meta:"Official YouTube",
+  desc:"Official movie trailer or video.",
+  video:"",
+  link:"https://www.youtube.com/movies"
+},
+
+{
+  name:"Movie Collection",
+  type:"Movies",
+  icon:"🍿",
+  meta:"Official Source",
+  desc:"Discover movies through official sources.",
+  video:"",
+  link:"https://www.youtube.com/movies"
+},
+
+{
+  name:"Featured Movie",
+  type:"Movies",
+  icon:"🎞️",
+  meta:"Official Video",
+  desc:"Officially available movie content.",
+  video:"",
+  link:"https://www.youtube.com/movies"
+},
+
+
+/* ================= GAMES ================= */
+
+{
+  name:"Mindustry",
+  type:"Games",
+  icon:"⚙️",
+  meta:"Open Source • Android",
+  desc:"Factory building and tower defense game.",
+  video:"",
+  link:"https://f-droid.org/en/packages/io.anuke.mindustry/"
+},
+
+{
+  name:"Unciv",
+  type:"Games",
+  icon:"🏛️",
+  meta:"Open Source • Android",
+  desc:"Open-source civilization strategy game.",
+  video:"",
+  link:"https://f-droid.org/en/packages/com.unciv.app/"
+},
+
+{
+  name:"Shattered Pixel Dungeon",
+  type:"Games",
+  icon:"⚔️",
+  meta:"Open Source • Android",
+  desc:"Open-source roguelike dungeon crawler.",
+  video:"",
+  link:"https://f-droid.org/en/packages/com.shatteredpixel.shatteredpixeldungeon/"
+},
+
+{
+  name:"SuperTuxKart",
+  type:"Games",
+  icon:"🏎️",
+  meta:"Open Source • Android",
+  desc:"Open-source arcade racing game.",
+  video:"",
+  link:"https://f-droid.org/en/packages/org.supertuxkart.stk/"
+},
+
+
+/* ================= APPS ================= */
+
+{
+  name:"VLC",
+  type:"Apps",
+  icon:"🎥",
+  meta:"Open Source • Android",
+  desc:"Powerful open-source media player.",
+  video:"",
+  link:"https://f-droid.org/en/packages/org.videolan.vlc/"
+},
+
+{
+  name:"NewPipe",
+  type:"Apps",
+  icon:"▶️",
+  meta:"Open Source • Android",
+  desc:"Lightweight open-source video application.",
+  video:"",
+  link:"https://f-droid.org/en/packages/org.schabi.newpipe/"
+},
+
+{
+  name:"Fossify Gallery",
+  type:"Apps",
+  icon:"🖼️",
+  meta:"Open Source • Android",
+  desc:"Private photo and video gallery.",
+  video:"",
+  link:"https://f-droid.org/en/packages/org.fossify.gallery/"
+},
+
+{
+  name:"Fossify File Manager",
+  type:"Apps",
+  icon:"📁",
+  meta:"Open Source • Android",
+  desc:"Simple open-source file manager.",
+  video:"",
+  link:"https://f-droid.org/en/packages/org.fossify.filemanager/"
+},
+
+{
+  name:"Tasks.org",
+  type:"Apps",
+  icon:"✅",
+  meta:"Open Source • Android",
+  desc:"Open-source task manager.",
+  video:"",
+  link:"https://f-droid.org/en/packages/org.tasks/"
+},
+
+{
+  name:"KDE Connect",
+  type:"Apps",
+  icon:"📱",
+  meta:"Open Source • Android",
+  desc:"Connect your devices together.",
+  video:"",
+  link:"https://f-droid.org/packages/org.kde.kdeconnect_tp/"
 }
+
+];
+
+
+/* =====================================================
+   VARIABLES
+   ===================================================== */
+
+let currentCategory = "All";
+let currentSearch = "";
+
+
+/* =====================================================
+   RENDER
+   ===================================================== */
+
+function render(){
+
+  const grid =
+    document.getElementById("grid");
+
+  const empty =
+    document.getElementById("empty");
+
+  grid.innerHTML = "";
+
+  const filtered = items.filter(item => {
+
+    const categoryMatch =
+      currentCategory === "All" ||
+      item.type === currentCategory;
+
+    const searchMatch =
+      item.name
+      .toLowerCase()
+      .includes(currentSearch.toLowerCase()) ||
+
+      item.type
+      .toLowerCase()
+      .includes(currentSearch.toLowerCase());
+
+    return categoryMatch && searchMatch;
+
+  });
+
+
+  if(filtered.length === 0){
+
+    empty.style.display = "block";
+
+    return;
+  }
+
+
+  empty.style.display = "none";
+
+
+  filtered.forEach(item => {
+
+    const index =
+      items.indexOf(item);
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
+
+
+    card.innerHTML = `
+
+      <div class="poster">
+        ${item.icon}
+      </div>
+
+      <div class="info">
+
+        <span class="tag">
+          ${item.type}
+        </span>
+
+        <h3>
+          ${item.name}
+        </h3>
+
+        <div class="meta">
+          ${item.meta}
+        </div>
+
+        <button
+          class="open"
+          onclick="openModal(${index})">
+
+          ${item.type === "Anime" ||
+            item.type === "Movies"
+            ? "Watch"
+            : item.type === "Games"
+            ? "Open Game"
+            : "Open App"}
+
+        </button>
+
+      </div>
+    `;
+
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+/* =====================================================
+   FILTER
+   ===================================================== */
+
+function filterItems(category,button){
+
+  currentCategory = category;
+
+  document
+    .querySelectorAll(".categories button")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+  button.classList.add("active");
+
+  render();
+
+}
+
+
+/* =====================================================
+   SEARCH
+   ===================================================== */
+
+document
+  .getElementById("search")
+  .addEventListener("input",function(){
+
+    currentSearch = this.value;
+
+    render();
+
+  });
+
+
+/* =====================================================
+   OPEN PLAYER
+   ===================================================== */
+
+function openModal(index){
+
+  const item = items[index];
+
+  document
+    .getElementById("modalIcon")
+    .textContent = item.icon;
+
+  document
+    .getElementById("modalTitle")
+    .textContent = item.name;
+
+  document
+    .getElementById("modalMeta")
+    .textContent =
+      item.type + " • " + item.meta;
+
+  document
+    .getElementById("modalDescription")
+    .textContent = item.desc;
+
+
+  const player =
+    document.getElementById("player");
+
+  const iframe =
+    document.getElementById("videoPlayer");
+
+
+  /*
+    If an official YouTube video ID
+    is supplied, OmniHub's own player
+    page will show it.
+  */
+
+  if(item.video){
+
+    player.style.display = "block";
+
+    iframe.src =
+      "https://www.youtube-nocookie.com/embed/"
+      + item.video
+      + "?rel=0";
+
+  }else{
+
+    player.style.display = "none";
+
+    iframe.src = "";
+
+  }
+
+
+  document
+    .getElementById("externalLink")
+    .href = item.link;
+
+
+  document
+    .getElementById("externalLink")
+    .textContent =
+      item.type === "Anime"
+      ? "Open Official Anime"
+      : item.type === "Movies"
+      ? "Open Official Movie"
+      : item.type === "Games"
+      ? "Open / Download Game"
+      : "Open / Download App";
+
+
+  document
+    .getElementById("modal")
+    .style.display = "flex";
+
+}
+
+
+/* =====================================================
+   CLOSE
+   ===================================================== */
+
+function closeModal(){
+
+  const modal =
+    document.getElementById("modal");
+
+  const iframe =
+    document.getElementById("videoPlayer");
+
+  modal.style.display = "none";
+
+  iframe.src = "";
+
+}
+
+
+document
+  .getElementById("modal")
+  .addEventListener("click",function(e){
+
+    if(e.target === this){
+
+      closeModal();
+
+    }
+
+  });
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+render();
+
+</script>
+
+</body>
+      </html>
