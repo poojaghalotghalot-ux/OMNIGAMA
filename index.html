@@ -2,505 +2,918 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#090b12">
+
 <title>OmniHub</title>
 
 <style>
+:root{
+  --bg:#080a10;
+  --panel:#11141d;
+  --panel2:#171b26;
+  --line:#252b39;
+  --text:#fff;
+  --muted:#9299aa;
+  --accent:#805cff;
+  --accent2:#a98fff;
+  --danger:#ff5577;
+}
+
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
-  font-family:Arial,sans-serif;
-  background:#0b0d12;
-  color:white;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 20% 0%,#21144a 0,transparent 32%),
+    radial-gradient(circle at 90% 20%,#172451 0,transparent 28%),
+    var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
 }
 
-header{
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  text-decoration:none;
+}
+
+/* HEADER */
+
+.header{
   position:sticky;
   top:0;
   z-index:100;
-  padding:16px;
-  background:#11141b;
-  border-bottom:1px solid #252a35;
+  backdrop-filter:blur(18px);
+  background:rgba(8,10,16,.82);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 18px;
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
 
 .logo{
   font-size:25px;
-  font-weight:800;
+  font-weight:900;
+  letter-spacing:-1px;
 }
 
 .logo span{
-  color:#7c5cff;
+  color:var(--accent2);
+}
+
+.live{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#b9bfd0;
+  font-size:11px;
+  background:#151923;
+  border:1px solid var(--line);
+  padding:7px 10px;
+  border-radius:30px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#42e68a;
+  box-shadow:0 0 10px #42e68a;
 }
 
 .search{
   width:100%;
   margin-top:14px;
   padding:13px 16px;
-  border:0;
-  outline:0;
-  border-radius:12px;
-  background:#20242e;
-  color:white;
-  font-size:15px;
+  border:1px solid var(--line);
+  outline:none;
+  border-radius:13px;
+  background:#11141d;
+  color:#fff;
+}
+
+.search:focus{
+  border-color:var(--accent);
 }
 
 .categories{
   display:flex;
   gap:8px;
   overflow-x:auto;
-  padding:14px 0 2px;
+  margin-top:12px;
+  padding-bottom:2px;
 }
 
-.categories button{
-  flex:none;
-  border:0;
+.categories::-webkit-scrollbar{
+  display:none;
+}
+
+.cat{
+  white-space:nowrap;
+  border:1px solid var(--line);
+  background:#151923;
+  color:#bfc4d1;
   padding:9px 15px;
-  border-radius:20px;
-  background:#20242e;
-  color:#ddd;
+  border-radius:30px;
 }
 
-.categories button.active{
-  background:#7c5cff;
-  color:white;
+.cat.active{
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
 }
 
-.container{
-  padding:18px;
+/* MAIN */
+
+.main{
+  max-width:1200px;
+  margin:auto;
+  padding:20px 18px 60px;
 }
 
 .hero{
-  padding:22px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#21174a,#151923);
-  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:30px 22px;
+  background:
+    linear-gradient(135deg,rgba(128,92,255,.22),rgba(20,24,37,.7));
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:rgba(128,92,255,.18);
+  filter:blur(25px);
+  right:-50px;
+  top:-60px;
 }
 
 .hero h1{
-  font-size:28px;
-  margin-bottom:8px;
+  position:relative;
+  z-index:1;
+  font-size:clamp(28px,6vw,50px);
+  letter-spacing:-2px;
 }
 
 .hero p{
-  color:#b8bcc8;
-  line-height:1.5;
+  position:relative;
+  z-index:1;
+  max-width:650px;
+  color:#b4bac8;
+  margin-top:10px;
+  line-height:1.55;
 }
 
-.section-title{
-  font-size:20px;
-  margin:22px 0 12px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:13px;
-}
-
-.card{
-  background:#151820;
-  border:1px solid #242936;
-  border-radius:16px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.card:hover{
-  transform:translateY(-3px);
-  border-color:#7c5cff;
-}
-
-.poster{
-  height:150px;
+.hero-actions{
+  position:relative;
+  z-index:2;
   display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:20px;
+}
+
+.primary,
+.secondary{
+  border:0;
+  padding:12px 17px;
+  border-radius:12px;
+  font-weight:700;
+}
+
+.primary{
+  background:var(--accent);
+  color:#fff;
+}
+
+.secondary{
+  background:#202531;
+  color:#fff;
+  border:1px solid var(--line);
+}
+
+/* SECTION */
+
+.section{
+  margin-top:28px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
   align-items:center;
-  justify-content:center;
-  font-size:45px;
-  background:linear-gradient(135deg,#292d3a,#171a22);
+  gap:10px;
+  margin-bottom:13px;
 }
 
-.card-content{
-  padding:12px;
+.section-head h2{
+  font-size:21px;
 }
 
-.card h3{
-  font-size:16px;
-  margin-bottom:5px;
-}
-
-.card p{
-  color:#9298a6;
+.section-head span{
+  color:#858c9e;
   font-size:12px;
 }
 
-.promo{
-  margin-top:25px;
-  padding:20px;
-  border-radius:18px;
-  background:#151820;
-  border:1px solid #292e3b;
+/* CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
 }
 
-.promo h2{
-  margin-bottom:7px;
+@media(min-width:650px){
+  .grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+
+@media(min-width:950px){
+  .grid{
+    grid-template-columns:repeat(5,minmax(0,1fr));
+  }
+}
+
+.card{
+  overflow:hidden;
+  background:linear-gradient(180deg,#151923,#10131a);
+  border:1px solid var(--line);
+  border-radius:17px;
+  transition:.2s ease;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:#6950d7;
+}
+
+.cover{
+  height:145px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+  background:
+    radial-gradient(circle at 50% 25%,rgba(128,92,255,.25),transparent 45%),
+    #171b25;
+}
+
+.info{
+  padding:12px;
+}
+
+.info h3{
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.info p{
+  color:var(--muted);
+  font-size:11px;
+  min-height:30px;
+}
+
+.open-btn{
+  width:100%;
+  margin-top:10px;
+  padding:9px;
+  border:0;
+  border-radius:10px;
+  background:#222734;
+  color:#fff;
+}
+
+/* PROMO */
+
+.promo{
+  margin-top:28px;
+  padding:18px;
+  border-radius:19px;
+  background:linear-gradient(135deg,#171329,#121620);
+  border:1px solid #30265b;
+}
+
+.promo-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
 }
 
 .promo p{
-  color:#aeb3bf;
-  font-size:14px;
+  color:#aeb4c3;
+  font-size:13px;
   line-height:1.5;
+  margin-top:7px;
 }
 
-.promo button{
+.promo-btn{
   width:100%;
-  margin-top:15px;
-  padding:13px;
+  margin-top:13px;
+  padding:12px;
   border:0;
-  border-radius:12px;
-  background:#7c5cff;
-  color:white;
-  font-size:15px;
-  font-weight:bold;
+  border-radius:11px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:800;
 }
 
 .stats{
   display:flex;
-  gap:10px;
-  margin-top:15px;
+  gap:9px;
+  margin-top:11px;
 }
 
 .stat{
   flex:1;
-  padding:13px;
-  border-radius:12px;
-  background:#20242e;
+  padding:11px;
+  border-radius:11px;
   text-align:center;
+  background:#1c202b;
 }
 
 .stat b{
   display:block;
-  font-size:20px;
+  font-size:18px;
 }
 
-.stat span{
-  color:#969cab;
-  font-size:11px;
+.stat small{
+  color:#858c9e;
+  font-size:10px;
 }
+
+/* MODAL */
 
 .modal{
   display:none;
   position:fixed;
   inset:0;
-  z-index:999;
-  background:rgba(0,0,0,.82);
+  z-index:500;
+  padding:15px;
   align-items:center;
   justify-content:center;
-  padding:18px;
+  background:rgba(0,0,0,.84);
+  backdrop-filter:blur(8px);
+}
+
+.modal.show{
+  display:flex;
 }
 
 .modal-box{
-  width:100%;
-  max-width:700px;
-  background:#12151c;
-  border-radius:18px;
-  padding:18px;
+  width:min(760px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#10131b;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:17px;
+}
+
+.modal-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
 }
 
 .close{
-  float:right;
   border:0;
-  background:#292e39;
-  color:white;
-  padding:7px 11px;
-  border-radius:9px;
+  background:#242936;
+  color:#fff;
+  width:35px;
+  height:35px;
+  border-radius:10px;
 }
 
-.player{
+.modal-desc{
+  color:#9ca3b3;
+  font-size:13px;
+  line-height:1.5;
+  margin-top:8px;
+}
+
+.preview{
   width:100%;
   aspect-ratio:16/9;
   margin-top:15px;
-  border:0;
-  border-radius:12px;
-  background:#050608;
+  border-radius:14px;
+  background:
+    radial-gradient(circle,#252b40,#080a0e 70%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
 }
 
-.action{
-  display:block;
-  text-align:center;
-  margin-top:12px;
-  padding:12px;
-  background:#7c5cff;
-  color:white;
-  border-radius:11px;
-  text-decoration:none;
+.preview-icon{
+  font-size:55px;
 }
+
+.preview p{
+  color:#8e96a8;
+  font-size:12px;
+  margin-top:8px;
+}
+
+.modal-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:12px;
+}
+
+.modal-actions a,
+.modal-actions button{
+  border:0;
+  padding:12px;
+  border-radius:11px;
+  text-align:center;
+  color:#fff;
+  background:#242936;
+}
+
+.modal-actions .watch{
+  background:var(--accent);
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  z-index:900;
+  left:50%;
+  bottom:20px;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  background:#1d222d;
+  border:1px solid var(--line);
+  color:#fff;
+  padding:11px 15px;
+  border-radius:12px;
+  font-size:12px;
+  transition:.25s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* FOOTER */
 
 footer{
+  border-top:1px solid var(--line);
+  padding:30px 18px;
   text-align:center;
-  color:#777d8a;
-  padding:35px 15px;
-  font-size:12px;
+  color:#6f7685;
+  font-size:11px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">OMNI<span>HUB</span></div>
+<header class="header">
 
-  <input
-    id="search"
-    class="search"
-    placeholder="Search apps, games, anime, movies..."
-    oninput="searchItems()"
-  >
+  <div class="header-inner">
 
-  <div class="categories">
-    <button class="active" onclick="filterItems('All',this)">All</button>
-    <button onclick="filterItems('Anime',this)">Anime</button>
-    <button onclick="filterItems('Movies',this)">Movies</button>
-    <button onclick="filterItems('Games',this)">Games</button>
-    <button onclick="filterItems('Apps',this)">Apps</button>
+    <div class="top">
+
+      <div class="logo">
+        OMNI<span>HUB</span>
+      </div>
+
+      <div class="live">
+        <i class="dot"></i>
+        ONLINE
+      </div>
+
+    </div>
+
+    <input
+      id="search"
+      class="search"
+      type="search"
+      placeholder="Search anime, movies, games, apps..."
+      autocomplete="off"
+    >
+
+    <div class="categories">
+
+      <button class="cat active" onclick="setCategory('All',this)">
+        All
+      </button>
+
+      <button class="cat" onclick="setCategory('Anime',this)">
+        🎌 Anime
+      </button>
+
+      <button class="cat" onclick="setCategory('Movies',this)">
+        🎬 Movies
+      </button>
+
+      <button class="cat" onclick="setCategory('Games',this)">
+        🎮 Games
+      </button>
+
+      <button class="cat" onclick="setCategory('Apps',this)">
+        📱 Apps
+      </button>
+
+    </div>
+
   </div>
+
 </header>
 
-<main class="container">
+
+<main class="main">
 
 <section class="hero">
-  <h1>Everything in one place.</h1>
+
+  <h1>Your digital world.<br>One hub.</h1>
+
   <p>
-    Discover apps, games, anime and movies through the OmniHub interface.
+    Discover apps, games, anime and movies through one
+    clean OmniHub experience.
   </p>
+
+  <div class="hero-actions">
+
+    <button class="primary" onclick="setCategoryByName('All')">
+      Explore Everything
+    </button>
+
+    <button class="secondary" onclick="scrollToPromo()">
+      Featured
+    </button>
+
+  </div>
+
 </section>
 
-<h2 class="section-title">Explore</h2>
-<div id="grid" class="grid"></div>
 
-<section class="promo">
-  <h2>🚀 Featured Promotion</h2>
+<section class="section">
+
+  <div class="section-head">
+    <h2 id="sectionTitle">Everything</h2>
+    <span id="resultCount">0 items</span>
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+</section>
+
+
+<section id="promo" class="promo">
+
+  <div class="promo-title">
+    <span>🚀</span>
+    <h2>Featured Promotion</h2>
+  </div>
 
   <p>
-    Open an approved promotional link from OmniHub.
-    Genuine user activity is counted by the advertising or affiliate network.
+    Open an approved promotional offer. Genuine user activity
+    can be measured by the connected advertising or affiliate network.
   </p>
 
-  <button onclick="openPromotion()">
+  <button class="promo-btn" onclick="openPromotion()">
     Open Promotion
   </button>
 
   <div class="stats">
+
     <div class="stat">
       <b id="totalClicks">0</b>
-      <span>OmniHub Opens</span>
+      <small>OmniHub Opens</small>
     </div>
 
     <div class="stat">
       <b id="todayClicks">0</b>
-      <span>Today</span>
+      <small>Today</small>
     </div>
+
   </div>
+
 </section>
 
 </main>
 
+
 <footer>
-  © 2026 OmniHub • Official & legal sources only
+  © 2018 OmniHub • Official and authorized sources only
 </footer>
 
 
+<!-- CONTENT MODAL -->
+
 <div id="modal" class="modal">
+
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal()">✕</button>
+    <div class="modal-top">
 
-    <h2 id="modalTitle">OmniHub</h2>
-    <p id="modalDescription" style="color:#999;margin-top:8px;"></p>
+      <div>
+        <h2 id="modalTitle">OmniHub</h2>
+      </div>
 
-    <iframe
-      id="player"
-      class="player"
-      allowfullscreen
-      style="display:none">
-    </iframe>
+      <button class="close" onclick="closeModal()">
+        ✕
+      </button>
 
-    <a
-      id="officialLink"
-      class="action"
-      target="_blank"
-      rel="noopener noreferrer">
-      Open Official Source
-    </a>
+    </div>
+
+    <p id="modalDesc" class="modal-desc"></p>
+
+    <div class="preview">
+
+      <div id="modalIcon" class="preview-icon">
+        ✨
+      </div>
+
+      <p>
+        OmniHub preview
+      </p>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <a
+        id="openSource"
+        class="watch"
+        target="_blank"
+        rel="noopener noreferrer">
+        Open Official Source
+      </a>
+
+      <button onclick="closeModal()">
+        Close
+      </button>
+
+    </div>
 
   </div>
+
 </div>
+
+
+<div id="toast" class="toast"></div>
 
 
 <script>
 
-/* =====================================================
-   1. APPROVED PROMOTION LINK
-   =====================================================
+/* =========================================================
+   OMNIHUB FINAL CONFIG
+   =========================================================
 
-   Yaha apne approved advertising/affiliate network
-   ka tracking URL paste karo.
+   YAHAN APNA APPROVED AD/AFFILIATE TRACKING LINK LAGAO.
 
    Example:
-   const PROMO_LINK = "YOUR_APPROVED_TRACKING_LINK";
+   const PROMO_LINK = "https://your-approved-network-link...";
 
-   IMPORTANT:
-   Random website/ad link mat lagana.
-   Sirf apne approved network ka link use karna.
-===================================================== */
+   Payment account yahan mat lagana.
+   Payment details network ke dashboard me hoti hain.
+========================================================= */
 
 const PROMO_LINK = "YOUR_APPROVED_TRACKING_LINK";
 
 
-/* =====================================================
-   2. OMNIHUB CONTENT
-===================================================== */
+/* =========================================================
+   CONTENT DATABASE
 
-const items = [
+   IMPORTANT:
+   External websites are opened only after the user chooses
+   an item. Use official/authorized sources.
+========================================================= */
+
+const CONTENT = [
 
   {
-    title:"Anime",
+    title:"Anime Hub",
     type:"Anime",
     icon:"🍥",
-    description:"Watch anime from official sources.",
+    desc:"Anime from an official source.",
     link:"https://www.youtube.com/@AniOneAsia"
   },
 
   {
-    title:"Crunchyroll",
+    title:"Anime Hub"
     type:"Anime",
     icon:"🎌",
-    description:"Official anime platform.",
+    desc:"Official anime platform.",
     link:"https://www.crunchyroll.com/"
   },
 
   {
-    title:"YouTube Movies",
+    title:"Movie Hub",
     type:"Movies",
     icon:"🎬",
-    description:"Official movie platform.",
+    desc:"Official movie destination.",
     link:"https://www.youtube.com/movies"
   },
 
   {
-    title:"Mindustry",
+    title:"Game Hub",
     type:"Games",
     icon:"⚙️",
-    description:"Open-source strategy game.",
+    desc:"Open-source strategy game.",
     link:"https://f-droid.org/en/packages/io.anuke.mindustry/"
   },
 
   {
-    title:"Unciv",
+    title:"Battleground Mobile India",
     type:"Games",
     icon:"🏰",
-    description:"Open-source strategy game.",
+    desc:"Open-source strategy game.",
     link:"https://f-droid.org/en/packages/com.unciv.app/"
   },
 
   {
-    title:"Shattered Pixel Dungeon",
+    title:"Call of Duty",
     type:"Games",
     icon:"⚔️",
-    description:"Open-source roguelike game.",
+    desc:"Open-source roguelike game.",
     link:"https://f-droid.org/en/packages/com.shatteredpixel.shatteredpixeldungeon/"
   },
 
   {
-    title:"SuperTuxKart",
+    title:"Mr driving",
     type:"Games",
     icon:"🏎️",
-    description:"Open-source kart racing game.",
+    desc:"Open-source kart racing game.",
     link:"https://f-droid.org/en/packages/org.supertuxkart.stk/"
   },
 
   {
-    title:"VLC",
+    title:"Instagram",
     type:"Apps",
     icon:"▶️",
-    description:"Open-source media player.",
+    desc:"Open-source media player.",
     link:"https://f-droid.org/en/packages/org.videolan.vlc/"
   },
 
   {
-    title:"NewPipe",
+    title:"Mx player",
     type:"Apps",
     icon:"📺",
-    description:"Open-source media application.",
+    desc:"Open-source media application.",
     link:"https://f-droid.org/en/packages/org.schabi.newpipe/"
   },
 
   {
-    title:"Fossify Gallery",
+    title:"Facebook",
     type:"Apps",
     icon:"🖼️",
-    description:"Open-source gallery.",
+    desc:"Open-source gallery.",
     link:"https://f-droid.org/en/packages/org.fossify.gallery/"
   },
 
   {
-    title:"KDE Connect",
+    title:"File Manager",
     type:"Apps",
-    icon:"📱",
-    description:"Connect your devices.",
+    icon:"📁",
+    desc:"Open-source file manager.",
+    link:"https://f-droid.org/en/packages/org.fossify.filemanager/"
+  },
+
+  {
+    title:"vidmate",
+    type:"Apps",
+    icon:"🔗",
+    desc:"Connect Android and other devices.",
     link:"https://f-droid.org/packages/org.kde.kdeconnect_tp/"
+  },
+
+  {
+    title:"YouTube",
+    type:"Apps",
+    icon:"✅",
+    desc:"Open-source task manager.",
+    link:"https://f-droid.org/en/packages/org.tasks/"
   }
 
 ];
 
 
-let currentFilter = "All";
+let activeCategory = "All";
 
 
-/* =====================================================
-   3. DISPLAY ITEMS
-===================================================== */
+/* =========================================================
+   RENDER
+========================================================= */
 
-function displayItems(list){
+function render(){
 
   const grid = document.getElementById("grid");
+  const search = document
+    .getElementById("search")
+    .value
+    .toLowerCase()
+    .trim();
+
+  let data = [...CONTENT];
+
+  if(activeCategory !== "All"){
+    data = data.filter(x => x.type === activeCategory);
+  }
+
+  if(search){
+    data = data.filter(x =>
+      x.title.toLowerCase().includes(search) ||
+      x.type.toLowerCase().includes(search) ||
+      x.desc.toLowerCase().includes(search)
+    );
+  }
+
+  document.getElementById("resultCount").textContent =
+    data.length + (data.length === 1 ? " item" : " items");
 
   grid.innerHTML = "";
 
-  if(list.length === 0){
+  if(!data.length){
 
-    grid.innerHTML =
-      "<p style='color:#999'>No results found.</p>";
+    grid.innerHTML = `
+      <div style="
+        grid-column:1/-1;
+        padding:30px;
+        text-align:center;
+        color:#858c9e;
+        background:#11141b;
+        border:1px solid #252b39;
+        border-radius:16px;
+      ">
+        Nothing found in OmniHub.
+      </div>
+    `;
 
     return;
   }
 
-  list.forEach((item,index)=>{
+  data.forEach(item => {
+
+    const index = CONTENT.indexOf(item);
 
     grid.innerHTML += `
 
-      <div class="card"
-           onclick="openItem(${items.indexOf(item)})">
+      <article class="card">
 
-        <div class="poster">
+        <div class="cover">
           ${item.icon}
         </div>
 
-        <div class="card-content">
+        <div class="info">
 
-          <h3>${item.title}</h3>
+          <h3>${escapeHTML(item.title)}</h3>
 
           <p>
-            ${item.type} • ${item.description}
+            ${escapeHTML(item.type)} •
+            ${escapeHTML(item.desc)}
           </p>
+
+          <button
+            class="open-btn"
+            onclick="openItem(${index})">
+            Open
+          </button>
 
         </div>
 
-      </div>
+      </article>
 
     `;
 
@@ -509,185 +922,189 @@ function displayItems(list){
 }
 
 
-displayItems(items);
+/* =========================================================
+   CATEGORY
+========================================================= */
 
+function setCategory(category, button){
 
-/* =====================================================
-   4. FILTER
-===================================================== */
-
-function filterItems(type,button){
-
-  currentFilter = type;
+  activeCategory = category;
 
   document
-    .querySelectorAll(".categories button")
-    .forEach(btn=>btn.classList.remove("active"));
+    .querySelectorAll(".cat")
+    .forEach(x => x.classList.remove("active"));
 
-  button.classList.add("active");
-
-  if(type === "All"){
-
-    displayItems(items);
-
-  }else{
-
-    displayItems(
-      items.filter(item=>item.type === type)
-    );
-
+  if(button){
+    button.classList.add("active");
   }
+
+  document.getElementById("sectionTitle").textContent =
+    category === "All" ? "Everything" : category;
+
+  render();
 
 }
 
 
-/* =====================================================
-   5. SEARCH
-===================================================== */
+function setCategoryByName(category){
 
-function searchItems(){
+  const buttons =
+    document.querySelectorAll(".cat");
 
-  const query =
-    document
-      .getElementById("search")
-      .value
-      .toLowerCase()
-      .trim();
+  buttons.forEach(button => {
 
-  let result = items;
+    const text = button.textContent.toLowerCase();
 
-  if(currentFilter !== "All"){
+    if(
+      category === "All" &&
+      text.includes("all")
+    ){
+      setCategory(category,button);
+    }
 
-    result =
-      result.filter(
-        item=>item.type === currentFilter
-      );
+    if(
+      category !== "All" &&
+      text.includes(category.toLowerCase())
+    ){
+      setCategory(category,button);
+    }
 
-  }
-
-  if(query){
-
-    result =
-      result.filter(item=>
-        item.title.toLowerCase().includes(query) ||
-        item.description.toLowerCase().includes(query) ||
-        item.type.toLowerCase().includes(query)
-      );
-
-  }
-
-  displayItems(result);
+  });
 
 }
 
 
-/* =====================================================
-   6. OPEN CONTENT
-===================================================== */
+/* =========================================================
+   SEARCH
+========================================================= */
+
+document
+  .getElementById("search")
+  .addEventListener("input",render);
+
+
+/* =========================================================
+   OPEN CONTENT
+========================================================= */
 
 function openItem(index){
 
-  const item = items[index];
+  const item = CONTENT[index];
+
+  if(!item) return;
 
   document.getElementById("modalTitle").textContent =
     item.title;
 
-  document.getElementById("modalDescription").textContent =
-    item.description;
+  document.getElementById("modalDesc").textContent =
+    item.desc;
 
-  const player =
-    document.getElementById("player");
+  document.getElementById("modalIcon").textContent =
+    item.icon;
 
-  const officialLink =
-    document.getElementById("officialLink");
+  const source =
+    document.getElementById("openSource");
 
-  player.style.display = "none";
-  player.src = "";
+  source.href = item.link;
 
-  officialLink.href = item.link;
-
-  document.getElementById("modal").style.display =
-    "flex";
+  document.getElementById("modal").classList.add("show");
 
 }
 
 
-/* =====================================================
-   7. CLOSE MODAL
-===================================================== */
+/* =========================================================
+   CLOSE
+========================================================= */
 
 function closeModal(){
 
-  const modal =
-    document.getElementById("modal");
-
-  const player =
-    document.getElementById("player");
-
-  modal.style.display = "none";
-
-  player.src = "";
+  document
+    .getElementById("modal")
+    .classList.remove("show");
 
 }
 
 
-/* =====================================================
-   8. PROMOTION TRACKING
-===================================================== */
+document
+  .getElementById("modal")
+  .addEventListener("click",function(e){
 
-function getToday(){
+    if(e.target === this){
+      closeModal();
+    }
 
-  const date = new Date();
+  });
 
-  return date.toISOString().split("T")[0];
+
+document.addEventListener("keydown",function(e){
+
+  if(e.key === "Escape"){
+    closeModal();
+  }
+
+});
+
+
+/* =========================================================
+   PROMOTION
+
+   Counts the user's actual click locally.
+   It does NOT fake ad-network clicks.
+========================================================= */
+
+function todayKey(){
+
+  const d = new Date();
+
+  return d.getFullYear() +
+    "-" +
+    String(d.getMonth()+1).padStart(2,"0") +
+    "-" +
+    String(d.getDate()).padStart(2,"0");
 
 }
 
 
 function openPromotion(){
 
-  /* Don't open anything until a real approved
-     tracking link has been added. */
-
   if(
-    !PROMO_LINK ||
-    PROMO_LINK === "YOUR_APPROVED_TRACKING_LINK"
+    PROMO_LINK ===
+    "YOUR_APPROVED_TRACKING_LINK"
   ){
 
-    alert(
-      "Pehle apna approved advertising/affiliate tracking link code me add karo."
+    showToast(
+      "Pehle approved promotion link add karo."
     );
 
     return;
+
   }
 
 
-  /* Genuine user click counter */
+  const current =
+    todayKey();
+
+  const saved =
+    localStorage.getItem("omni_date");
 
   let total =
     Number(
-      localStorage.getItem("omni_total_clicks") || 0
+      localStorage.getItem("omni_total") || 0
     );
 
   let today =
     Number(
-      localStorage.getItem("omni_today_clicks") || 0
+      localStorage.getItem("omni_today") || 0
     );
 
-  const savedDate =
-    localStorage.getItem("omni_click_date");
 
-  const currentDate =
-    getToday();
-
-
-  if(savedDate !== currentDate){
+  if(saved !== current){
 
     today = 0;
 
     localStorage.setItem(
-      "omni_click_date",
-      currentDate
+      "omni_date",
+      current
     );
 
   }
@@ -698,12 +1115,12 @@ function openPromotion(){
 
 
   localStorage.setItem(
-    "omni_total_clicks",
+    "omni_total",
     total
   );
 
   localStorage.setItem(
-    "omni_today_clicks",
+    "omni_today",
     today
   );
 
@@ -711,7 +1128,12 @@ function openPromotion(){
   updateStats();
 
 
-  /* Open the approved promotion */
+  /*
+    IMPORTANT:
+    Browser popup blockers generally allow a window
+    because this function was directly triggered by
+    the user's button click.
+  */
 
   window.open(
     PROMO_LINK,
@@ -722,38 +1144,84 @@ function openPromotion(){
 }
 
 
-/* =====================================================
-   9. STATS
-===================================================== */
+/* =========================================================
+   STATS
+========================================================= */
 
 function updateStats(){
 
   document.getElementById("totalClicks").textContent =
-    localStorage.getItem("omni_total_clicks") || 0;
+    localStorage.getItem("omni_total") || "0";
 
   document.getElementById("todayClicks").textContent =
-    localStorage.getItem("omni_today_clicks") || 0;
+    localStorage.getItem("omni_today") || "0";
 
 }
 
 updateStats();
 
 
-/* =====================================================
-   10. CLOSE MODAL OUTSIDE BOX
-===================================================== */
+/* =========================================================
+   TOAST
+========================================================= */
 
-document
-  .getElementById("modal")
-  .addEventListener("click",function(e){
+let toastTimer;
 
-    if(e.target === this){
+function showToast(message){
 
-      closeModal();
+  const toast =
+    document.getElementById("toast");
 
-    }
+  toast.textContent = message;
 
-  });
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(
+    () => toast.classList.remove("show"),
+    2500
+  );
+
+}
+
+
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollToPromo(){
+
+  document
+    .getElementById("promo")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+render();
 
 </script>
 
