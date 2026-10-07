@@ -3,304 +3,418 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>OmniHub | Movies, Anime, Games & Apps</title>
+<title>OmniHub - Apps, Games, Movies & Anime</title>
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 :root{
---bg:#070b13;
---card:#111827;
---card2:#172033;
---purple:#8b5cf6;
---cyan:#06b6d4;
---text:#f8fafc;
---muted:#94a3b8;
---border:#273449;
+  --bg:#07090d;
+  --card:#11151d;
+  --card2:#171c26;
+  --text:#fff;
+  --muted:#9ba3b4;
+  --line:#252b38;
+  --accent:#7c5cff;
+  --green:#22c55e;
 }
 
 body{
-background:var(--bg);
-color:var(--text);
-font-family:Arial,sans-serif;
-min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
 }
 
+button,input{font:inherit}
+button{cursor:pointer}
+
+/* HEADER */
 header{
-position:sticky;
-top:0;
-z-index:20;
-background:rgba(7,11,19,.96);
-backdrop-filter:blur(15px);
-border-bottom:1px solid var(--border);
-padding:15px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:rgba(7,9,13,.95);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--line);
 }
 
-.header{
-max-width:1200px;
-margin:auto;
-display:flex;
-align-items:center;
-gap:15px;
-flex-wrap:wrap;
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:15px 18px;
+  display:flex;
+  align-items:center;
+  gap:18px;
 }
 
 .logo{
-font-size:25px;
-font-weight:900;
-color:white;
-text-decoration:none;
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap;
 }
 
-.logo span{
-color:var(--cyan);
-}
-
-nav{
-display:flex;
-gap:6px;
-overflow-x:auto;
-}
-
-nav button{
-background:#151d2c;
-border:1px solid var(--border);
-color:var(--muted);
-padding:9px 14px;
-border-radius:9px;
-cursor:pointer;
-white-space:nowrap;
-}
-
-nav button.active{
-background:linear-gradient(135deg,var(--purple),var(--cyan));
-color:white;
-border-color:transparent;
-}
+.logo span{color:var(--accent)}
 
 .search{
-margin-left:auto;
-min-width:230px;
+  flex:1;
+  position:relative;
 }
 
 .search input{
-width:100%;
-padding:11px 14px;
-border-radius:10px;
-border:1px solid var(--border);
-background:#101827;
-color:white;
-outline:none;
+  width:100%;
+  padding:12px 15px 12px 40px;
+  border-radius:13px;
+  border:1px solid var(--line);
+  outline:none;
+  background:var(--card);
+  color:white;
 }
 
-main{
-max-width:1200px;
-margin:auto;
-padding:25px 15px;
+.search input:focus{
+  border-color:var(--accent);
 }
 
-.title{
-margin-bottom:22px;
+.search-icon{
+  position:absolute;
+  left:14px;
+  top:11px;
+  color:var(--muted);
 }
 
-.title h1{
-font-size:27px;
+/* HERO */
+.hero{
+  max-width:1200px;
+  margin:25px auto 0;
+  padding:0 18px;
 }
 
-.title p{
-color:var(--muted);
-font-size:13px;
-margin-top:6px;
+.hero-box{
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:35px;
+  background:
+  radial-gradient(circle at 85% 20%,rgba(124,92,255,.35),transparent 30%),
+  radial-gradient(circle at 10% 90%,rgba(34,197,94,.10),transparent 25%),
+  #0d1118;
 }
 
+.hero h1{
+  font-size:clamp(34px,6vw,58px);
+  line-height:1;
+  max-width:700px;
+}
+
+.hero h1 span{color:#a18cff}
+
+.hero p{
+  color:var(--muted);
+  max-width:650px;
+  margin-top:15px;
+  line-height:1.6;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:22px;
+  flex-wrap:wrap;
+}
+
+.primary,.secondary{
+  border:0;
+  padding:12px 18px;
+  border-radius:12px;
+  font-weight:bold;
+}
+
+.primary{
+  background:var(--accent);
+  color:white;
+}
+
+.secondary{
+  background:#1a202b;
+  color:white;
+  border:1px solid var(--line);
+}
+
+/* CATEGORIES */
+.categories{
+  max-width:1200px;
+  margin:25px auto 0;
+  padding:0 18px;
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.categories::-webkit-scrollbar{display:none}
+
+.cat{
+  border:1px solid var(--line);
+  background:var(--card);
+  color:#b7bfcd;
+  padding:10px 16px;
+  border-radius:999px;
+  white-space:nowrap;
+}
+
+.cat.active,.cat:hover{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:white;
+}
+
+/* CONTENT */
+.content{
+  max-width:1200px;
+  margin:28px auto;
+  padding:0 18px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:15px;
+}
+
+.section-head h2{font-size:22px}
+
+.section-head p{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* GRID */
 .grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(175px,1fr));
-gap:18px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
 }
 
 .card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:15px;
-overflow:hidden;
-cursor:pointer;
-transition:.25s;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:17px;
+  overflow:hidden;
+  transition:.2s;
+  cursor:pointer;
 }
 
 .card:hover{
-transform:translateY(-5px);
-border-color:var(--purple);
-box-shadow:0 10px 30px #0008;
+  transform:translateY(-4px);
+  border-color:#454d5e;
 }
 
 .poster{
-height:245px;
-width:100%;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:15px;
-font-size:20px;
-font-weight:900;
-background-size:cover;
-background-position:center;
+  height:170px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:18px;
+  font-size:22px;
+  font-weight:900;
+  position:relative;
+  overflow:hidden;
 }
 
-.info{
-padding:13px;
+.poster:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,transparent,rgba(255,255,255,.1));
 }
 
-.info h3{
-font-size:15px;
-margin-bottom:7px;
+.poster span{
+  position:relative;
+  z-index:2;
+  text-shadow:0 3px 12px rgba(0,0,0,.5);
 }
 
-.info p{
-font-size:12px;
-color:var(--muted);
-margin-bottom:5px;
+.movie{
+  background:linear-gradient(135deg,#57204f,#17152b);
 }
 
-.rating{
-color:#fbbf24 !important;
+.anime{
+  background:linear-gradient(135deg,#164b75,#28153f);
 }
 
+.game{
+  background:linear-gradient(135deg,#15533e,#15292e);
+}
+
+.app{
+  background:linear-gradient(135deg,#604019,#291931);
+}
+
+.card-body{padding:14px}
+
+.type{
+  color:#a18cff;
+  font-size:11px;
+  text-transform:uppercase;
+  font-weight:bold;
+}
+
+.title{
+  margin-top:5px;
+  font-weight:800;
+  font-size:16px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.meta{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.rating{color:#ffd166}
+
+/* MODAL */
 .modal{
-position:fixed;
-inset:0;
-background:#000d;
-display:none;
-align-items:center;
-justify-content:center;
-padding:15px;
-z-index:100;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:rgba(0,0,0,.8);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
 }
 
-.modal.show{
-display:flex;
-}
+.modal.show{display:flex}
 
-.box{
-background:#0d1322;
-border:1px solid #30394b;
-border-radius:18px;
-width:100%;
-max-width:750px;
-max-height:90vh;
-overflow:auto;
-padding:20px;
-position:relative;
+.modal-box{
+  width:min(700px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#10141c;
+  border:1px solid var(--line);
+  border-radius:22px;
+  position:relative;
 }
 
 .close{
-position:absolute;
-right:15px;
-top:12px;
-border:0;
-background:#ffffff18;
-color:white;
-width:35px;
-height:35px;
-border-radius:50%;
-font-size:22px;
-cursor:pointer;
+  position:absolute;
+  right:15px;
+  top:15px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:#11151d;
+  color:white;
+  font-size:22px;
+  z-index:3;
 }
 
-.modal h2{
-margin:10px 40px 12px 0;
+.modal-poster{
+  height:230px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+  font-size:34px;
+  font-weight:900;
 }
 
-.modal p{
-color:#c5cad3;
-font-size:14px;
-line-height:1.5;
-margin-bottom:10px;
+.modal-content{padding:23px}
+
+.modal-content h2{font-size:28px}
+
+.description{
+  color:var(--muted);
+  line-height:1.6;
+  margin-top:12px;
 }
 
-.modalPoster{
-width:150px;
-height:200px;
-object-fit:cover;
-border-radius:12px;
-margin-bottom:15px;
-display:none;
+.modal-meta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
 }
 
-video{
-width:100%;
-border-radius:12px;
-background:#000;
-margin:10px 0 15px;
-display:none;
+.badge{
+  background:#1a202b;
+  border:1px solid var(--line);
+  padding:7px 10px;
+  border-radius:9px;
+  color:#cbd2df;
+  font-size:12px;
 }
 
 .actions{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:15px;
+  display:flex;
+  gap:10px;
+  margin-top:20px;
 }
 
-.btn{
-display:inline-block;
-padding:11px 16px;
-border-radius:9px;
-border:0;
-text-decoration:none;
-color:white;
-font-weight:bold;
-cursor:pointer;
-background:linear-gradient(135deg,var(--purple),var(--cyan));
+.action{
+  flex:1;
+  border:0;
+  border-radius:12px;
+  padding:13px;
+  font-weight:800;
 }
 
-.btn.secondary{
-background:#202938;
+.watch{
+  background:var(--accent);
+  color:white;
+}
+
+.download{
+  background:var(--green);
+  color:#06120a;
 }
 
 .empty{
-grid-column:1/-1;
-text-align:center;
-padding:60px 10px;
-color:var(--muted);
+  text-align:center;
+  padding:60px 20px;
+  color:var(--muted);
+  display:none;
 }
 
 footer{
-text-align:center;
-padding:35px 15px;
-margin-top:40px;
-border-top:1px solid var(--border);
-color:var(--muted);
-font-size:13px;
+  border-top:1px solid var(--line);
+  margin-top:45px;
+  padding:28px 18px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
 }
 
-@media(max-width:600px){
-
-.header{
-flex-direction:column;
-align-items:stretch;
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(3,1fr)}
 }
 
-.search{
-margin-left:0;
+@media(max-width:650px){
+  .nav{flex-wrap:wrap}
+  .logo{width:100%}
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:11px;
+  }
+  .poster{height:145px}
+  .hero-box{padding:25px}
 }
 
-.grid{
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-.poster{
-height:210px;
-font-size:17px;
-}
-
+@media(max-width:400px){
+  .poster{
+    height:135px;
+    font-size:18px;
+  }
 }
 </style>
 </head>
@@ -308,995 +422,821 @@ font-size:17px;
 <body>
 
 <header>
+  <div class="nav">
 
-<div class="header">
+    <div class="logo">
+      OMNI<span>HUB</span>
+    </div>
 
-<a class="logo"
-href="#"
-onclick="showCategory('all');return false;">
-OMNI<span>HUB</span>
-</a>
+    <div class="search">
+      <div class="search-icon">🔎</div>
+      <input
+        id="search"
+        type="text"
+        placeholder="Search apps, games, movies, anime..."
+      >
+    </div>
 
-<nav>
-
-<button id="all"
-class="active"
-onclick="showCategory('all')">All</button>
-
-<button id="anime"
-onclick="showCategory('anime')">Anime</button>
-
-<button id="movies"
-onclick="showCategory('movies')">Movies</button>
-
-<button id="games"
-onclick="showCategory('games')">Games</button>
-
-<button id="apps"
-onclick="showCategory('apps')">Apps</button>
-
-</nav>
-
-<div class="search">
-
-<input
-id="search"
-placeholder="Search movies, anime, games & apps..."
-oninput="render()">
-
-</div>
-
-</div>
-
+  </div>
 </header>
 
+<section class="hero">
+  <div class="hero-box">
 
-<main>
+    <h1>
+      Everything in <span>One Hub</span>
+    </h1>
 
-<div class="title">
+    <p>
+      Discover apps, games, movies and anime from one simple place.
+      Download apps and games from authorized sources and watch
+      movies and anime through legal sources.
+    </p>
 
-<h1 id="pageTitle">All Content</h1>
+    <div class="hero-buttons">
+      <button class="primary" onclick="setCategory('all')">
+        Explore Now
+      </button>
 
-<p>
-Movies & Anime to watch • Games & Apps to download
-</p>
+      <button class="secondary" onclick="setCategory('games')">
+        🎮 Games
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<div class="categories">
+
+  <button class="cat active" data-category="all">
+    All
+  </button>
+
+  <button class="cat" data-category="movies">
+    🎬 Movies
+  </button>
+
+  <button class="cat" data-category="anime">
+    🍥 Anime
+  </button>
+
+  <button class="cat" data-category="games">
+    🎮 Games
+  </button>
+
+  <button class="cat" data-category="apps">
+    📱 Apps
+  </button>
 
 </div>
 
-<div class="grid" id="grid"></div>
+<main class="content">
+
+  <div class="section-head">
+    <div>
+      <h2 id="heading">All Content</h2>
+      <p id="count"></p>
+    </div>
+  </div>
+
+  <div id="grid" class="grid"></div>
+
+  <div id="empty" class="empty">
+    <h3>No results found</h3>
+    <p>Try another search.</p>
+  </div>
 
 </main>
 
-
 <!-- MODAL -->
 
-<div class="modal"
-id="modal"
-onclick="closeOutside(event)">
+<div id="modal" class="modal">
 
-<div class="box">
+  <div class="modal-box">
 
-<button class="close"
-onclick="closeModal()">×</button>
+    <button class="close" onclick="closeModal()">×</button>
 
-<img
-id="modalPoster"
-class="modalPoster"
-src=""
-alt="Poster">
+    <div id="modalPoster" class="modal-poster"></div>
 
-<h2 id="modalTitle"></h2>
+    <div class="modal-content">
 
-<p id="modalDescription"></p>
+      <h2 id="modalTitle"></h2>
 
-<p id="modalMeta"></p>
+      <div id="modalMeta" class="modal-meta"></div>
 
-<video
-id="player"
-controls
-playsinline>
+      <p id="modalDescription" class="description"></p>
 
-<source
-id="videoSource"
-src=""
-type="video/mp4">
+      <div class="actions">
 
-Your browser does not support video.
+        <button
+          id="watchBtn"
+          class="action watch"
+          onclick="openWatch()"
+        >
+          ▶ Watch
+        </button>
 
-</video>
+        <button
+          id="downloadBtn"
+          class="action download"
+          onclick="openDownload()"
+        >
+          ⬇ Download
+        </button>
 
-<div class="actions">
+      </div>
 
-<a
-id="watchBtn"
-class="btn"
-href="#"
-target="_blank"
-style="display:none">
-▶ Watch
-</a>
+    </div>
 
-<a
-id="downloadBtn"
-class="btn"
-href="#"
-download
-style="display:none">
-📥 Download
-</a>
-
-<button
-id="playBtn"
-class="btn secondary"
-onclick="playVideo()"
-style="display:none">
-▶ Play Video
-</button>
+  </div>
 
 </div>
-
-</div>
-
-</div>
-
 
 <footer>
-
-© 2026 OmniHub • Movies • Anime • Games • Apps
-
+  © 2026 OmniHub • Apps • Games • Movies • Anime
 </footer>
-
 
 <script>
 
-/* =====================================================
-   OMNIHUB DATA
-   ===================================================== */
+/* =========================
+   CONTENT DATA
+========================= */
 
 const items = [
 
-/* ================= MOVIES ================= */
+/* MOVIES */
 
 {
-id:"movie1",
-type:"movies",
-title:"The Adventure",
-poster:"",
-rating:"4.5",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m1",
+ type:"movies",
+ title:"The Adventure",
+ rating:"4.7",
+ year:"2026",
+ size:"2.1 GB",
+ description:"Adventure movie information and legal viewing options.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie2",
-type:"movies",
-title:"Dark Horizon",
-poster:"",
-rating:"4.6",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m2",
+ type:"movies",
+ title:"Night Mission",
+ rating:"4.5",
+ year:"2026",
+ size:"1.8 GB",
+ description:"Action and adventure movie information.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie3",
-type:"movies",
-title:"Future World",
-poster:"",
-rating:"4.7",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m3",
+ type:"movies",
+ title:"Future World",
+ rating:"4.6",
+ year:"2026",
+ size:"2.4 GB",
+ description:"A futuristic movie experience.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie4",
-type:"movies",
-title:"Lost City",
-poster:"",
-rating:"4.4",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m4",
+ type:"movies",
+ title:"The Last Journey",
+ rating:"4.4",
+ year:"2025",
+ size:"2.0 GB",
+ description:"A dramatic journey through an unknown world.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie5",
-type:"movies",
-title:"Night Runner",
-poster:"",
-rating:"4.8",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m5",
+ type:"movies",
+ title:"Hidden City",
+ rating:"4.3",
+ year:"2025",
+ size:"1.9 GB",
+ description:"Mystery and adventure movie.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie6",
-type:"movies",
-title:"Final Mission",
-poster:"",
-rating:"4.5",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m6",
+ type:"movies",
+ title:"Sky Warriors",
+ rating:"4.8",
+ year:"2026",
+ size:"2.5 GB",
+ description:"High-flying action adventure.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie7",
-type:"movies",
-title:"Sky Force",
-poster:"",
-rating:"4.3",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m7",
+ type:"movies",
+ title:"Dark Horizon",
+ rating:"4.5",
+ year:"2025",
+ size:"2.2 GB",
+ description:"A dark futuristic story.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie8",
-type:"movies",
-title:"The Secret",
-poster:"",
-rating:"4.7",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m8",
+ type:"movies",
+ title:"Lost Kingdom",
+ rating:"4.6",
+ year:"2026",
+ size:"2.3 GB",
+ description:"Fantasy adventure movie.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie9",
-type:"movies",
-title:"Last Journey",
-poster:"",
-rating:"4.6",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m9",
+ type:"movies",
+ title:"Final Destination",
+ rating:"4.2",
+ year:"2025",
+ size:"1.7 GB",
+ description:"Thriller movie information.",
+ watch:"https://example.com"
 },
 
 {
-id:"movie10",
-type:"movies",
-title:"Infinity",
-poster:"",
-rating:"4.9",
-year:"2026",
-description:"Add your legally licensed movie information here.",
-watch:"https://example.com"
+ id:"m10",
+ type:"movies",
+ title:"Beyond Time",
+ rating:"4.7",
+ year:"2026",
+ size:"2.6 GB",
+ description:"Science fiction adventure.",
+ watch:"https://example.com"
 },
 
-
-/* ================= ANIME ================= */
-
-{
-id:"anime1",
-type:"anime",
-title:"Dragon Warriors",
-poster:"",
-rating:"4.7",
-episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
+/* ANIME */
 
 {
-id:"anime2",
-type:"anime",
-title:"Shadow Hunter",
-poster:"",
-rating:"4.8",
-episodes:"24 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
+ id:"a1",
+ type:"anime",
+ title:"Demon Adventure",
+ rating:"4.9",
+ year:"2026",
+ size:"1.2 GB",
+ description:"Anime adventure information.",
+ watch:"https://example.com"
 },
 
 {
-id:"anime3",
-type:"anime",
-title:"Sky Legends",
-poster:"",
-rating:"4.6",
-episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
+ id:"a2",
+ type:"anime",
+ title:"Shadow Hero",
+ rating:"4.8",
+ year:"2026",
+ size:"1.1 GB",
+ description:"Hero and action anime.",
+ watch:"https://example.com"
 },
 
 {
-id:"anime4",
-type:"anime",
-title:"Moon Blade",
-poster:"",
-rating:"4.9",
-episodes:"24 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
+ id:"a3",
+ type:"anime",
+ title:"Future Fighter",
+ rating:"4.7",
+ year:"2026",
+ size:"1.3 GB",
+ description:"Futuristic action anime.",
+ watch:"https://example.com"
 },
 
 {
-id:"anime5",
-type:"anime",
-title:"Cyber World",
-poster:"",
-rating:"4.5",
-episodes:"13 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
+ id:"a4",
+ type:"anime",
+ title:"Dragon Legend",
+ rating:"4.9",
+ year:"2025",
+ size:"1.4 GB",
+ description:"Fantasy dragon adventure.",
+ watch:"https://example.com"
 },
 
 {
-id:"anime6",
-type:"anime",
-title:"Fire Soul",
-poster:"",
-rating:"4.7",
-episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
+ id:"a5",
+ type:"anime",
+ title:"Mystic World",
+ rating:"4.6",
+ year:"2025",
+ size:"1.0 GB",
+ description:"Fantasy anime world.",
+ watch:"https://example.com"
 },
 
 {
-id:"anime7",
-type:"anime",
-title:"Dark Samurai",
-poster:"",
-rating:"4.8",
-episodes:"25 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
+ id:"a6",
+ type:"anime",
+ title:"Cyber Samurai",
+ rating:"4.8",
+ year:"2026",
+ size:"1.3 GB",
+ description:"Cyberpunk samurai adventure.",
+ watch:"https://example.com"
 },
 
 {
-id:"anime8",
-type:"anime",
-title:"Star Warriors",
-poster:"",
-rating:"4.4",
-episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
+ id:"a7",
+ type:"anime",
+ title:"Moon Warriors",
+ rating:"4.7",
+ year:"2026",
+ size:"1.1 GB",
+ description:"Fantasy warrior anime.",
+ watch:"https://example.com"
 },
 
 {
-id:"anime9",
-type:"anime",
-title:"Demon World",
-poster:"",
-rating:"4.9",
-episodes:"24 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
+ id:"a8",
+ type:"anime",
+ title:"Spirit Quest",
+ rating:"4.5",
+ year:"2025",
+ size:"1.0 GB",
+ description:"Supernatural adventure anime.",
+ watch:"https://example.com"
 },
 
 {
-id:"anime10",
-type:"anime",
-title:"One Last Hero",
-poster:"",
-rating:"4.6",
-episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-
-
-/* ================= GAMES ================= */
-
-{
-id:"game1",
-type:"games",
-title:"Galaxy Battle",
-poster:"",
-rating:"4.8",
-version:"1.0",
-size:"100 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"a9",
+ type:"anime",
+ title:"Star Academy",
+ rating:"4.6",
+ year:"2026",
+ size:"1.2 GB",
+ description:"School and adventure anime.",
+ watch:"https://example.com"
 },
 
 {
-id:"game2",
-type:"games",
-title:"Speed Racer",
-poster:"",
-rating:"4.7",
-version:"2.0",
-size:"250 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"a10",
+ type:"anime",
+ title:"Legend of Heroes",
+ rating:"4.9",
+ year:"2026",
+ size:"1.5 GB",
+ description:"Heroic fantasy anime.",
+ watch:"https://example.com"
+},
+
+/* GAMES */
+
+{
+ id:"g1",
+ type:"games",
+ title:"Battle Arena",
+ rating:"4.8",
+ year:"2026",
+ version:"2.1.0",
+ size:"850 MB",
+ description:"Multiplayer battle game.",
+ download:"https://example.com"
 },
 
 {
-id:"game3",
-type:"games",
-title:"Zombie Attack",
-poster:"",
-rating:"4.6",
-version:"1.5",
-size:"180 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"g2",
+ type:"games",
+ title:"Speed Racing",
+ rating:"4.7",
+ year:"2026",
+ version:"3.2.1",
+ size:"1.1 GB",
+ description:"Fast racing game.",
+ download:"https://example.com"
 },
 
 {
-id:"game4",
-type:"games",
-title:"Battle Arena",
-poster:"",
-rating:"4.9",
-version:"3.0",
-size:"500 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"g3",
+ type:"games",
+ title:"War Zone",
+ rating:"4.6",
+ year:"2026",
+ version:"4.0.2",
+ size:"950 MB",
+ description:"Action battle game.",
+ download:"https://example.com"
 },
 
 {
-id:"game5",
-type:"games",
-title:"Street Racer",
-poster:"",
-rating:"4.5",
-version:"1.2",
-size:"120 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"g4",
+ type:"games",
+ title:"Zombie Survival",
+ rating:"4.5",
+ year:"2025",
+ version:"2.4.0",
+ size:"780 MB",
+ description:"Survival adventure game.",
+ download:"https://example.com"
 },
 
 {
-id:"game6",
-type:"games",
-title:"Space War",
-poster:"",
-rating:"4.7",
-version:"2.1",
-size:"300 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"g5",
+ type:"games",
+ title:"Sky Battle",
+ rating:"4.7",
+ year:"2026",
+ version:"1.9.0",
+ size:"620 MB",
+ description:"Air combat game.",
+ download:"https://example.com"
 },
 
 {
-id:"game7",
-type:"games",
-title:"Football Stars",
-poster:"",
-rating:"4.8",
-version:"1.8",
-size:"220 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"g6",
+ type:"games",
+ title:"City Driver",
+ rating:"4.4",
+ year:"2025",
+ version:"5.1.0",
+ size:"1.3 GB",
+ description:"Open city driving game.",
+ download:"https://example.com"
 },
 
 {
-id:"game8",
-type:"games",
-title:"Ninja Run",
-poster:"",
-rating:"4.4",
-version:"1.1",
-size:"90 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"g7",
+ type:"games",
+ title:"Galaxy War",
+ rating:"4.8",
+ year:"2026",
+ version:"2.8.0",
+ size:"900 MB",
+ description:"Space battle game.",
+ download:"https://example.com"
 },
 
 {
-id:"game9",
-type:"games",
-title:"War Zone",
-poster:"",
-rating:"4.9",
-version:"4.0",
-size:"700 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+ id:"g8",
+ type:"games",
+ title:"Football Pro",
+ rating:"4.6",
+ year:"2026",
+ version:"6.0.1",
+ size:"1.0 GB",
+ description:"Football sports game.",
+ download:"https://example.com"
 },
 
 {
-id:"game10",
-type:"games",
-title:"Island Survival",
-poster:"",
-rating:"4.6",
-version:"2.5",
-size:"350 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-
-
-/* ================= APPS ================= */
-
-{
-id:"app1",
-type:"apps",
-title:"Photo Editor",
-poster:"",
-rating:"4.6",
-version:"1.0",
-size:"25 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"g9",
+ type:"games",
+ title:"Ninja Fight",
+ rating:"4.5",
+ year:"2025",
+ version:"2.2.0",
+ size:"540 MB",
+ description:"Ninja fighting adventure.",
+ download:"https://example.com"
 },
 
 {
-id:"app2",
-type:"apps",
-title:"Video Editor",
-poster:"",
-rating:"4.7",
-version:"2.0",
-size:"35 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"g10",
+ type:"games",
+ title:"Adventure Quest",
+ rating:"4.8",
+ year:"2026",
+ version:"3.0.0",
+ size:"1.2 GB",
+ description:"Fantasy adventure game.",
+ download:"https://example.com"
+},
+
+/* APPS */
+
+{
+ id:"p1",
+ type:"apps",
+ title:"Video Editor",
+ rating:"4.7",
+ year:"2026",
+ version:"5.1.0",
+ size:"120 MB",
+ description:"Video editing application.",
+ download:"https://example.com"
 },
 
 {
-id:"app3",
-type:"apps",
-title:"Music Player",
-poster:"",
-rating:"4.5",
-version:"1.5",
-size:"20 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"p2",
+ type:"apps",
+ title:"Music Player",
+ rating:"4.6",
+ year:"2026",
+ version:"4.2.0",
+ size:"45 MB",
+ description:"Music player application.",
+ download:"https://example.com"
 },
 
 {
-id:"app4",
-type:"apps",
-title:"File Manager",
-poster:"",
-rating:"4.8",
-version:"3.0",
-size:"50 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"p3",
+ type:"apps",
+ title:"Photo Editor",
+ rating:"4.8",
+ year:"2026",
+ version:"7.0.1",
+ size:"95 MB",
+ description:"Photo editing application.",
+ download:"https://example.com"
 },
 
 {
-id:"app5",
-type:"apps",
-title:"Notes",
-poster:"",
-rating:"4.4",
-version:"1.2",
-size:"18 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"p4",
+ type:"apps",
+ title:"File Manager",
+ rating:"4.5",
+ year:"2026",
+ version:"3.4.0",
+ size:"32 MB",
+ description:"File management application.",
+ download:"https://example.com"
 },
 
 {
-id:"app6",
-type:"apps",
-title:"Weather",
-poster:"",
-rating:"4.9",
-version:"2.1",
-size:"45 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"p5",
+ type:"apps",
+ title:"Note Master",
+ rating:"4.6",
+ year:"2026",
+ version:"2.5.0",
+ size:"28 MB",
+ description:"Notes and productivity application.",
+ download:"https://example.com"
 },
 
 {
-id:"app7",
-type:"apps",
-title:"Calculator",
-poster:"",
-rating:"4.6",
-version:"1.8",
-size:"30 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"p6",
+ type:"apps",
+ title:"Screen Recorder",
+ rating:"4.7",
+ year:"2026",
+ version:"6.2.0",
+ size:"52 MB",
+ description:"Screen recording application.",
+ download:"https://example.com"
 },
 
 {
-id:"app8",
-type:"apps",
-title:"QR Scanner",
-poster:"",
-rating:"4.7",
-version:"1.1",
-size:"22 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"p7",
+ type:"apps",
+ title:"AI Assistant",
+ rating:"4.8",
+ year:"2026",
+ version:"1.8.0",
+ size:"68 MB",
+ description:"AI productivity application.",
+ download:"https://example.com"
 },
 
 {
-id:"app9",
-type:"apps",
-title:"Document Reader",
-poster:"",
-rating:"4.8",
-version:"4.0",
-size:"60 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"p8",
+ type:"apps",
+ title:"Weather App",
+ rating:"4.4",
+ year:"2026",
+ version:"3.1.0",
+ size:"24 MB",
+ description:"Weather information application.",
+ download:"https://example.com"
 },
 
 {
-id:"app10",
-type:"apps",
-title:"Task Manager",
-poster:"",
-rating:"4.5",
-version:"2.5",
-size:"40 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+ id:"p9",
+ type:"apps",
+ title:"Calculator Pro",
+ rating:"4.5",
+ year:"2026",
+ version:"2.0.0",
+ size:"18 MB",
+ description:"Advanced calculator application.",
+ download:"https://example.com"
+},
+
+{
+ id:"p10",
+ type:"apps",
+ title:"Study Helper",
+ rating:"4.9",
+ year:"2026",
+ version:"4.0.0",
+ size:"76 MB",
+ description:"Study and learning application.",
+ download:"https://example.com"
 }
 
 ];
 
+/* =========================
+   VARIABLES
+========================= */
 
-/* =====================================================
-   CATEGORY
-   ===================================================== */
+let currentCategory="all";
+let currentItem=null;
 
-let category="all";
+/* =========================
+   ELEMENTS
+========================= */
 
-function showCategory(type){
+const grid=document.getElementById("grid");
+const search=document.getElementById("search");
+const empty=document.getElementById("empty");
+const count=document.getElementById("count");
+const heading=document.getElementById("heading");
 
-category=type;
+const modal=document.getElementById("modal");
+const modalPoster=document.getElementById("modalPoster");
+const modalTitle=document.getElementById("modalTitle");
+const modalMeta=document.getElementById("modalMeta");
+const modalDescription=document.getElementById("modalDescription");
 
-document.querySelectorAll("nav button")
-.forEach(button=>{
-button.classList.remove("active");
-});
+const watchBtn=document.getElementById("watchBtn");
+const downloadBtn=document.getElementById("downloadBtn");
 
-document.getElementById(type)
-.classList.add("active");
-
-const titles={
-all:"All Content",
-anime:"Anime",
-movies:"Movies",
-games:"Games",
-apps:"Apps"
-};
-
-document.getElementById("pageTitle")
-.innerText=titles[type];
-
-render();
-}
-
-
-/* =====================================================
+/* =========================
    RENDER
-   ===================================================== */
+========================= */
 
 function render(){
 
-const grid=document.getElementById("grid");
+  const query=search.value.toLowerCase().trim();
 
-const search=document
-.getElementById("search")
-.value
-.toLowerCase()
-.trim();
+  const filtered=items.filter(item=>{
 
-const data=items.filter(item=>{
+    const categoryMatch=
+      currentCategory==="all" ||
+      item.type===currentCategory;
 
-const correctCategory=
-category==="all" ||
-item.type===category;
+    const searchMatch=
+      item.title.toLowerCase().includes(query) ||
+      item.type.toLowerCase().includes(query);
 
-const correctSearch=
-item.title
-.toLowerCase()
-.includes(search);
+    return categoryMatch && searchMatch;
 
-return correctCategory && correctSearch;
+  });
+
+  grid.innerHTML="";
+
+  count.textContent=
+    filtered.length+" item"+(filtered.length===1?"":"s");
+
+  if(filtered.length===0){
+    empty.style.display="block";
+    return;
+  }
+
+  empty.style.display="none";
+
+  filtered.forEach(item=>{
+
+    const card=document.createElement("div");
+
+    card.className="card";
+
+    card.innerHTML=`
+
+      <div class="poster ${posterClass(item.type)}">
+        <span>${item.title}</span>
+      </div>
+
+      <div class="card-body">
+
+        <div class="type">
+          ${item.type}
+        </div>
+
+        <div class="title">
+          ${item.title}
+        </div>
+
+        <div class="meta">
+
+          <span>
+            ${item.year}
+          </span>
+
+          <span class="rating">
+            ⭐ ${item.rating}
+          </span>
+
+        </div>
+
+      </div>
+    `;
+
+    card.onclick=()=>openModal(item);
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+/* =========================
+   POSTER CLASS
+========================= */
+
+function posterClass(type){
+
+  if(type==="movies") return "movie";
+  if(type==="anime") return "anime";
+  if(type==="games") return "game";
+
+  return "app";
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+function setCategory(category){
+
+  currentCategory=category;
+
+  document.querySelectorAll(".cat").forEach(btn=>{
+
+    btn.classList.toggle(
+      "active",
+      btn.dataset.category===category
+    );
+
+  });
+
+  const names={
+    all:"All Content",
+    movies:"Movies",
+    anime:"Anime",
+    games:"Games",
+    apps:"Apps"
+  };
+
+  heading.textContent=names[category];
+
+  render();
+
+  window.scrollTo({
+    top:document.querySelector(".content").offsetTop-80,
+    behavior:"smooth"
+  });
+
+}
+
+document.querySelectorAll(".cat").forEach(btn=>{
+
+  btn.addEventListener("click",()=>{
+
+    setCategory(btn.dataset.category);
+
+  });
 
 });
 
-if(data.length===0){
+/* =========================
+   SEARCH
+========================= */
 
-grid.innerHTML=`
-<div class="empty">
-<h2>No content found</h2>
-<p>Try another search or category.</p>
-</div>
-`;
+search.addEventListener("input",render);
 
-return;
-}
+/* =========================
+   MODAL
+========================= */
 
-grid.innerHTML=data.map(item=>{
+function openModal(item){
 
-let posterHTML="";
+  currentItem=item;
 
-if(item.poster){
+  modal.classList.add("show");
 
-posterHTML=`
-<div
-class="poster"
-style="background-image:url('${item.poster}');">
-</div>
-`;
+  modalTitle.textContent=item.title;
 
-}else{
+  modalPoster.textContent=item.title;
 
-posterHTML=`
-<div
-class="poster"
-style="
-background:linear-gradient(
-135deg,
-${getColor(item.type,0)},
-${getColor(item.type,1)}
-);">
-${item.title}
-</div>
-`;
+  modalPoster.className=
+    "modal-poster "+posterClass(item.type);
 
-}
+  modalDescription.textContent=item.description;
 
-return `
-<div
-class="card"
-onclick="openItem('${item.id}')">
+  modalMeta.innerHTML=`
 
-${posterHTML}
+    <span class="badge">
+      ${item.type.toUpperCase()}
+    </span>
 
-<div class="info">
+    <span class="badge">
+      ⭐ ${item.rating}
+    </span>
 
-<h3>${item.title}</h3>
+    <span class="badge">
+      📅 ${item.year}
+    </span>
 
-<p>${item.type.toUpperCase()}</p>
-
-${item.rating ?
-`<p class="rating">★ ${item.rating}</p>`
-:""}
-
-${item.year ?
-`<p>📅 ${item.year}</p>`
-:""}
-
-${item.episodes ?
-`<p>🎞️ ${item.episodes}</p>`
-:""}
-
-${item.version ?
-`<p>Version ${item.version}</p>`
-:""}
-
-${item.size ?
-`<p>💾 ${item.size}</p>`
-:""}
-
-</div>
-</div>
-`;
-
-}).join("");
-
-}
-
-
-/* =====================================================
-   COLORS
-   ===================================================== */
-
-function getColor(type,n){
-
-const colors={
-
-anime:[
-"#7c3aed",
-"#ec4899"
-],
-
-movies:[
-"#0f172a",
-"#2563eb"
-],
-
-games:[
-"#ca8a04",
-"#f59e0b"
-],
-
-apps:[
-"#0369a1",
-"#06b6d4"
-]
-
-};
-
-return colors[type][n];
-
-}
-
-
-/* =====================================================
-   OPEN ITEM
-   ===================================================== */
-
-function openItem(id){
-
-const item=items.find(x=>x.id===id);
-
-if(!item)return;
-
-document.getElementById("modalTitle")
-.innerText=item.title;
-
-document.getElementById("modalDescription")
-.innerText=item.description;
-
-const poster=
-document.getElementById("modalPoster");
-
-if(item.poster){
-
-poster.src=item.poster;
-poster.style.display="block";
-
-}else{
-
-poster.style.display="none";
-
-}
-
-let meta="";
-
-if(item.rating)
-meta+="⭐ "+item.rating+"   ";
-
-if(item.year)
-meta+="📅 "+item.year+"   ";
-
-if(item.episodes)
-meta+="🎞️ "+item.episodes+"   ";
-
-if(item.version)
-meta+="📦 Version "+item.version+"   ";
-
-if(item.size)
-meta+="💾 "+item.size;
-
-document.getElementById("modalMeta")
-.innerText=meta;
-
-const watch=
-document.getElementById("watchBtn");
-
-const download=
-document.getElementById("downloadBtn");
-
-const player=
-document.getElementById("player");
-
-const playBtn=
-document.getElementById("playBtn");
-
-const source=
-document.getElementById("videoSource");
-
-watch.style.display="none";
-download.style.display="none";
-playBtn.style.display="none";
-player.style.display="none";
-
-source.src="";
-
-
-/* MOVIES + ANIME */
-
-if(
-item.type==="movies" ||
-item.type==="anime"
-){
-
-if(item.watch){
-
-watch.href=item.watch;
-watch.style.display="inline-block";
-
-}
-
-if(item.video){
-
-source.src=item.video;
-
-player.load();
-
-player.style.display="block";
-
-playBtn.style.display="inline-block";
-
-}
-
-}
-
-
-/* GAMES + APPS */
-
-if(
-item.type==="games" ||
-item.type==="apps"
-){
-
-if(item.download){
-
-download.href=item.download;
-
-download.style.display="inline-block";
-
-}
-
-if(item.video){
-
-source.src=item.video;
-
-player.load();
-
-player.style.display="block";
-
-playBtn.style.display="inline-block";
-
-}
-
-}
-
-document.getElementById("modal")
-.classList.add("show");
-
-}
-
-
-/* =====================================================
-   PLAY VIDEO
-   ===================================================== */
-
-function playVideo(){
-
-const player=
-document.getElementById("player");
-
-player.play();
-
-}
-
-
-/* =====================================================
-   CLOSE
-   ===================================================== */
-
-function closeModal(){
-
-const player=
-document.getElementById("player");
-
-player.pause();
-
-player.currentTime=0;
-
-document.getElementById("modal")
-.classList.remove("show");
-
-}
-
-function closeOutside(event){
-
-if(event.target.id==="modal"){
-
-closeModal();
-
-}
-
-}
-
-
-/* =====================================================
-   START
-   ===================================================== */
-
-render();
-
-</script>
-
-</body>
-</html>
+    ${item.version ? `
+      <span class="badge">
+        Version ${item.ver
