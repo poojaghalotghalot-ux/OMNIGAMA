@@ -1,222 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OmniHub | Movies, Anime, Games & Apps</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+:root{
+--bg:#070b13;
+--card:#111827;
+--card2:#172033;
+--purple:#8b5cf6;
+--cyan:#06b6d4;
+--text:#f8fafc;
+--muted:#94a3b8;
+--border:#273449;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+font-family:Arial,sans-serif;
+min-height:100vh;
+}
+
+header{
+position:sticky;
+top:0;
+z-index:20;
+background:rgba(7,11,19,.96);
+backdrop-filter:blur(15px);
+border-bottom:1px solid var(--border);
+padding:15px;
+}
+
+.header{
+max-width:1200px;
+margin:auto;
+display:flex;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.logo{
+font-size:25px;
+font-weight:900;
+color:white;
+text-decoration:none;
+}
+
+.logo span{
+color:var(--cyan);
+}
+
+nav{
+display:flex;
+gap:6px;
+overflow-x:auto;
+}
+
+nav button{
+background:#151d2c;
+border:1px solid var(--border);
+color:var(--muted);
+padding:9px 14px;
+border-radius:9px;
+cursor:pointer;
+white-space:nowrap;
+}
+
+nav button.active{
+background:linear-gradient(135deg,var(--purple),var(--cyan));
+color:white;
+border-color:transparent;
+}
+
+.search{
+margin-left:auto;
+min-width:230px;
+}
+
+.search input{
+width:100%;
+padding:11px 14px;
+border-radius:10px;
+border:1px solid var(--border);
+background:#101827;
+color:white;
+outline:none;
+}
+
+main{
+max-width:1200px;
+margin:auto;
+padding:25px 15px;
+}
+
+.title{
+margin-bottom:22px;
+}
+
+.title h1{
+font-size:27px;
+}
+
+.title p{
+color:var(--muted);
+font-size:13px;
+margin-top:6px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(175px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:15px;
+overflow:hidden;
+cursor:pointer;
+transition:.25s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:var(--purple);
+box-shadow:0 10px 30px #0008;
+}
+
+.poster{
+height:245px;
+width:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:15px;
+font-size:20px;
+font-weight:900;
+background-size:cover;
+background-position:center;
+}
+
+.info{
+padding:13px;
+}
+
+.info h3{
+font-size:15px;
+margin-bottom:7px;
+}
+
+.info p{
+font-size:12px;
+color:var(--muted);
+margin-bottom:5px;
+}
+
+.rating{
+color:#fbbf24 !important;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:#000d;
+display:none;
+align-items:center;
+justify-content:center;
+padding:15px;
+z-index:100;
+}
+
+.modal.show{
+display:flex;
+}
+
+.box{
+background:#0d1322;
+border:1px solid #30394b;
+border-radius:18px;
+width:100%;
+max-width:750px;
+max-height:90vh;
+overflow:auto;
+padding:20px;
+position:relative;
+}
+
+.close{
+position:absolute;
+right:15px;
+top:12px;
+border:0;
+background:#ffffff18;
+color:white;
+width:35px;
+height:35px;
+border-radius:50%;
+font-size:22px;
+cursor:pointer;
+}
+
+.modal h2{
+margin:10px 40px 12px 0;
+}
+
+.modal p{
+color:#c5cad3;
+font-size:14px;
+line-height:1.5;
+margin-bottom:10px;
+}
+
+.modalPoster{
+width:150px;
+height:200px;
+object-fit:cover;
+border-radius:12px;
+margin-bottom:15px;
+display:none;
+}
+
+video{
+width:100%;
+border-radius:12px;
+background:#000;
+margin:10px 0 15px;
+display:none;
+}
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:15px;
+}
+
+.btn{
+display:inline-block;
+padding:11px 16px;
+border-radius:9px;
+border:0;
+text-decoration:none;
+color:white;
+font-weight:bold;
+cursor:pointer;
+background:linear-gradient(135deg,var(--purple),var(--cyan));
+}
+
+.btn.secondary{
+background:#202938;
+}
+
+.empty{
+grid-column:1/-1;
+text-align:center;
+padding:60px 10px;
+color:var(--muted);
+}
+
+footer{
+text-align:center;
+padding:35px 15px;
+margin-top:40px;
+border-top:1px solid var(--border);
+color:var(--muted);
+font-size:13px;
+}
+
+@media(max-width:600px){
+
+.header{
+flex-direction:column;
+align-items:stretch;
+}
+
+.search{
+margin-left:0;
+}
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.poster{
+height:210px;
+font-size:17px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="header">
+
+<a class="logo"
+href="#"
+onclick="showCategory('all');return false;">
+OMNI<span>HUB</span>
+</a>
+
+<nav>
+
+<button id="all"
+class="active"
+onclick="showCategory('all')">All</button>
+
+<button id="anime"
+onclick="showCategory('anime')">Anime</button>
+
+<button id="movies"
+onclick="showCategory('movies')">Movies</button>
+
+<button id="games"
+onclick="showCategory('games')">Games</button>
+
+<button id="apps"
+onclick="showCategory('apps')">Apps</button>
+
+</nav>
+
+<div class="search">
+
+<input
+id="search"
+placeholder="Search movies, anime, games & apps..."
+oninput="render()">
+
+</div>
+
+</div>
+
+</header>
+
+
+<main>
+
+<div class="title">
+
+<h1 id="pageTitle">All Content</h1>
+
+<p>
+Movies & Anime to watch • Games & Apps to download
+</p>
+
+</div>
+
+<div class="grid" id="grid"></div>
+
+</main>
+
+
+<!-- MODAL -->
+
+<div class="modal"
+id="modal"
+onclick="closeOutside(event)">
+
+<div class="box">
+
+<button class="close"
+onclick="closeModal()">×</button>
+
+<img
+id="modalPoster"
+class="modalPoster"
+src=""
+alt="Poster">
+
+<h2 id="modalTitle"></h2>
+
+<p id="modalDescription"></p>
+
+<p id="modalMeta"></p>
+
+<video
+id="player"
+controls
+playsinline>
+
+<source
+id="videoSource"
+src=""
+type="video/mp4">
+
+Your browser does not support video.
+
+</video>
+
+<div class="actions">
+
+<a
+id="watchBtn"
+class="btn"
+href="#"
+target="_blank"
+style="display:none">
+▶ Watch
+</a>
+
+<a
+id="downloadBtn"
+class="btn"
+href="#"
+download
+style="display:none">
+📥 Download
+</a>
+
+<button
+id="playBtn"
+class="btn secondary"
+onclick="playVideo()"
+style="display:none">
+▶ Play Video
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+
+© 2026 OmniHub • Movies • Anime • Games • Apps
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   OMNIHUB DATA
+   ===================================================== */
+
 const items = [
 
 /* ================= MOVIES ================= */
 
 {
-id:"movie1",type:"movies",title:"Movie 1",poster:"",
-rating:"4.5",year:"2026",
+id:"movie1",
+type:"movies",
+title:"The Adventure",
+poster:"",
+rating:"4.5",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie2",type:"movies",title:"Movie 2",poster:"",
-rating:"4.6",year:"2026",
+id:"movie2",
+type:"movies",
+title:"Dark Horizon",
+poster:"",
+rating:"4.6",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie3",type:"movies",title:"Movie 3",poster:"",
-rating:"4.7",year:"2026",
+id:"movie3",
+type:"movies",
+title:"Future World",
+poster:"",
+rating:"4.7",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie4",type:"movies",title:"Movie 4",poster:"",
-rating:"4.4",year:"2026",
+id:"movie4",
+type:"movies",
+title:"Lost City",
+poster:"",
+rating:"4.4",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie5",type:"movies",title:"Movie 5",poster:"",
-rating:"4.8",year:"2026",
+id:"movie5",
+type:"movies",
+title:"Night Runner",
+poster:"",
+rating:"4.8",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie6",type:"movies",title:"Movie 6",poster:"",
-rating:"4.5",year:"2026",
+id:"movie6",
+type:"movies",
+title:"Final Mission",
+poster:"",
+rating:"4.5",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie7",type:"movies",title:"Movie 7",poster:"",
-rating:"4.3",year:"2026",
+id:"movie7",
+type:"movies",
+title:"Sky Force",
+poster:"",
+rating:"4.3",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie8",type:"movies",title:"Movie 8",poster:"",
-rating:"4.7",year:"2026",
+id:"movie8",
+type:"movies",
+title:"The Secret",
+poster:"",
+rating:"4.7",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie9",type:"movies",title:"Movie 9",poster:"",
-rating:"4.6",year:"2026",
+id:"movie9",
+type:"movies",
+title:"Last Journey",
+poster:"",
+rating:"4.6",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 {
-id:"movie10",type:"movies",title:"Movie 10",poster:"",
-rating:"4.9",year:"2026",
+id:"movie10",
+type:"movies",
+title:"Infinity",
+poster:"",
+rating:"4.9",
+year:"2026",
 description:"Add your legally licensed movie information here.",
 watch:"https://example.com"
 },
+
 
 /* ================= ANIME ================= */
 
 {
-id:"anime1",type:"anime",title:"Anime 1",poster:"",
-rating:"4.7",episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime2",type:"anime",title:"Anime 2",poster:"",
-rating:"4.8",episodes:"24 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime3",type:"anime",title:"Anime 3",poster:"",
-rating:"4.6",episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime4",type:"anime",title:"Anime 4",poster:"",
-rating:"4.9",episodes:"24 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime5",type:"anime",title:"Anime 5",poster:"",
-rating:"4.5",episodes:"13 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime6",type:"anime",title:"Anime 6",poster:"",
-rating:"4.7",episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime7",type:"anime",title:"Anime 7",poster:"",
-rating:"4.8",episodes:"25 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime8",type:"anime",title:"Anime 8",poster:"",
-rating:"4.4",episodes:"12 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime9",type:"anime",title:"Anime 9",poster:"",
-rating:"4.9",episodes:"24 Episodes",
-description:"Add your legally licensed anime information here.",
-watch:"https://example.com"
-},
-{
-id:"anime10",type:"anime",title:"Anime 10",poster:"",
-rating:"4.6",episodes:"12 Episodes",
+id:"anime1",
+type:"anime",
+title:"Dragon Warriors",
+poster:"",
+rating:"4.7",
+episodes:"12 Episodes",
 description:"Add your legally licensed anime information here.",
 watch:"https://example.com"
 },
 
-/* ================= GAMES ================= */
-
 {
-id:"game1",type:"games",title:"Game 1",poster:"",
-rating:"4.8",version:"1.0",size:"100 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game2",type:"games",title:"Game 2",poster:"",
-rating:"4.7",version:"2.0",size:"250 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game3",type:"games",title:"Game 3",poster:"",
-rating:"4.6",version:"1.5",size:"180 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game4",type:"games",title:"Game 4",poster:"",
-rating:"4.9",version:"3.0",size:"500 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game5",type:"games",title:"Game 5",poster:"",
-rating:"4.5",version:"1.2",size:"120 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game6",type:"games",title:"Game 6",poster:"",
-rating:"4.7",version:"2.1",size:"300 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game7",type:"games",title:"Game 7",poster:"",
-rating:"4.8",version:"1.8",size:"220 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game8",type:"games",title:"Game 8",poster:"",
-rating:"4.4",version:"1.1",size:"90 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game9",type:"games",title:"Game 9",poster:"",
-rating:"4.9",version:"4.0",size:"700 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
-},
-{
-id:"game10",type:"games",title:"Game 10",poster:"",
-rating:"4.6",version:"2.5",size:"350 MB",
-description:"Add your own or authorized game here.",
-download:"YOUR-AUTHORIZED-GAME-LINK"
+id:"anime2",
+type:"anime",
+title:"Shadow Hunter",
+poster:"",
+rating:"4.8",
+episodes:"24 Episodes",
+description:"Add your legally licensed anime information here.",
+watch:"https://example.com"
 },
 
-/* ================= APPS ================= */
+{
+id:"anime3",
+type:"anime",
+title:"Sky Legends",
+poster:"",
+rating:"4.6",
+episodes:"12 Episodes",
+description:"Add your legally licensed anime information here.",
+watch:"https://example.com"
+},
 
 {
-id:"app1",type:"apps",title:"App 1",poster:"",
-rating:"4.6",version:"1.0",size:"25 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
+id:"anime4",
+type:"anime",
+title:"Moon Blade",
+poster:"",
+rating:"4.9",
+episodes:"24 Episodes",
+description:"Add your legally licensed anime information here.",
+watch:"https://example.com"
 },
+
 {
-id:"app2",type:"apps",title:"App 2",poster:"",
-rating:"4.7",version:"2.0",size:"35 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
-},
-{
-id:"app3",type:"apps",title:"App 3",poster:"",
-rating:"4.5",version:"1.5",size:"20 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
-},
-{
-id:"app4",type:"apps",title:"App 4",poster:"",
-rating:"4.8",version:"3.0",size:"50 MB",
-description:"Add your own or authorized application here.",
-download:"YOUR-AUTHORIZED-APP-LINK"
-},
-{
-id:"app5",type:"apps",title:"App 5",poster:"",
-rating:"4.4",version:"1.2",size:"18 MB",
-description:"Add your own or authorized application here.",
-download
+id:"anime
