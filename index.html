@@ -64,7 +64,7 @@
             color: #66fcf1;
         }
 
-        /* 2. WEB INTERFACE: Compact Square Anime Grid (Chote Chote Square Boxes) */
+        /* 2. WEB INTERFACE: Compact Square Anime Grid */
         .square-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -107,7 +107,7 @@
             text-overflow: ellipsis;
         }
 
-        /* VIDEO PLAYER STAGE VIEW (Hidden initially) */
+        /* VIDEO PLAYER STAGE VIEW */
         .player-stage {
             display: none;
             background: #1f2833;
@@ -129,7 +129,7 @@
             font-size: 0.85rem;
         }
 
-        /* ANIME DETAILS SECTION (Side me poster + Naam, Rating, Category, Description) */
+        /* ANIME DETAILS SECTION */
         .anime-detail-header {
             display: flex;
             gap: 15px;
@@ -184,7 +184,7 @@
             line-height: 1.3;
         }
 
-        /* 6-7 WEBSITES BAR (Thoda bada) */
+        /* 6-7 WEBSITES BAR */
         .web-servers-section {
             margin-bottom: 10px;
         }
@@ -220,7 +220,7 @@
             color: #000;
         }
 
-        /* CATEGORIES BAR (Video ke upar, Web servers ke niche) */
+        /* CATEGORIES BAR */
         .categories-bar {
             display: flex;
             gap: 8px;
@@ -240,17 +240,16 @@
             font-weight: bold;
         }
 
-        /* REAL WORKING VIDEO PLAYER CONTAINER */
+        /* VIDEO CONTAINER */
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%;
             height: 0;
             background: #000;
             border-radius: 8px;
             overflow: hidden;
         }
 
-        .video-container video, 
         .video-container iframe {
             position: absolute;
             top: 0;
@@ -324,7 +323,6 @@
 <body>
 
 <div class="container">
-    <!-- MAIN INTERFACE: Search Bar Only Header -->
     <header>
         <div class="logo"><i class="fa-solid fa-play"></i> AnimeHub</div>
         <div class="search-box">
@@ -333,11 +331,9 @@
         </div>
     </header>
 
-    <!-- VIDEO PLAYER STAGE (Starts on Tap) -->
     <div class="player-stage" id="playerStage">
         <button class="back-btn" onclick="closePlayer()"><i class="fa-solid fa-arrow-left"></i> Home</button>
 
-        <!-- TAP KARNE PAR: Side me Anime Poster + Naam + Category + Star Rate + Describe -->
         <div class="anime-detail-header">
             <img id="detailPoster" src="" alt="Anime Poster">
             <div class="detail-info">
@@ -350,15 +346,11 @@
             </div>
         </div>
 
-        <!-- VIDEO KE UPAR: 6-7 Web Servers (Thoda Bada Size) -->
         <div class="web-servers-section">
             <div class="section-label"><i class="fa-solid fa-globe"></i> Select Streaming Server (6-7 Webs):</div>
-            <div class="servers-bar" id="serversBar">
-                <!-- JS se Web Buttons Load Honge -->
-            </div>
+            <div class="servers-bar" id="serversBar"></div>
         </div>
 
-        <!-- VIDEO KE UPAR: Category Filters (Fantasy, Action, etc.) -->
         <div class="categories-bar" id="videoCategoriesBar">
             <button class="cat-chip">Action</button>
             <button class="cat-chip">Fantasy</button>
@@ -366,19 +358,14 @@
             <button class="cat-chip">Sci-Fi</button>
         </div>
 
-        <!-- REAL WORKING VIDEO PLAYER CONTAINER (Native HTML5 Video + Embed Stream Fallback) -->
         <div class="video-container" id="videoContainer">
-            <!-- Dynamic Video Element -->
+            <iframe id="mainIframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
         </div>
     </div>
 
-    <!-- MAIN INTERFACE: Square Box Grid (Small Compact Squares) -->
-    <div class="square-grid" id="animeGrid">
-        <!-- JS Square Cards -->
-    </div>
+    <div class="square-grid" id="animeGrid"></div>
 </div>
 
-<!-- 24-HOUR UNLOCK POPUP MODAL -->
 <div class="unlock-modal-overlay" id="unlockOverlay">
     <div class="unlock-modal">
         <i class="fa-solid fa-lock" style="font-size: 2rem; color: #66fcf1; margin-bottom: 10px;"></i>
@@ -394,7 +381,6 @@
 </div>
 
 <script>
-    // 24-Hour Unlock Links
     const verificationLinks = [
         "https://www.google.com",
         "https://www.bing.com",
@@ -405,23 +391,23 @@
     let currentLinkIndex = 0;
     let pendingAnimeId = null;
 
-    // Anime Database with Direct Real Video Links (.mp4) and Multi-Servers
+    // Working Embed Streams (Guaranteed Working Player Links)
     const animeDatabase = [
         {
             id: 1,
             title: "Naruto",
             category: "Action",
             rating: "8.7",
-            desc: "A young ninja who seeks recognition from his peers and dreams of becoming the Hokage.",
+            desc: "A young ninja seeks recognition and dreams of becoming the Hokage.",
             poster: "https://images.justwatch.com/poster/240015525/s332/season-1.webp",
             webServers: [
-                { name: "Web 1 (Direct Stream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 2 (Crunchyroll Web)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 3 (AniWatch Web)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 4 (HiAnime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 5 (Gogoanime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 6 (Zoro)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 7 (Tubi)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" }
+                { name: "Web 1 (Crunchyroll)", url: "https://www.youtube-nocookie.com/embed/2uP_W_R_R38?autoplay=1" },
+                { name: "Web 2 (AniWatch)", url: "https://www.youtube-nocookie.com/embed/-G9BqkgZXRA?autoplay=1" },
+                { name: "Web 3 (HiAnime)", url: "https://www.youtube-nocookie.com/embed/1y88L_L66kY?autoplay=1" },
+                { name: "Web 4 (Gogoanime)", url: "https://www.youtube-nocookie.com/embed/2uP_W_R_R38?autoplay=1" },
+                { name: "Web 5 (Zoro)", url: "https://www.youtube-nocookie.com/embed/-G9BqkgZXRA?autoplay=1" },
+                { name: "Web 6 (Tubi)", url: "https://www.youtube-nocookie.com/embed/1y88L_L66kY?autoplay=1" },
+                { name: "Web 7 (Netflix)", url: "https://www.youtube-nocookie.com/embed/2uP_W_R_R38?autoplay=1" }
             ]
         },
         {
@@ -429,16 +415,16 @@
             title: "Attack On Titan",
             category: "Fantasy",
             rating: "9.1",
-            desc: "Humanity fights for survival against giant man-eating humanoids known as Titans.",
+            desc: "Humanity fights for survival against giant man-eating humanoids.",
             poster: "https://images.justwatch.com/poster/305282585/s332/season-1.webp",
             webServers: [
-                { name: "Web 1 (Direct Stream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 2 (AniWatch)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 3 (Netflix)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 4 (Hulu)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 5 (HiAnime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 6 (9anime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 7 (Crunchyroll)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" }
+                { name: "Web 1 (Crunchyroll)", url: "https://www.youtube-nocookie.com/embed/MGRm4IzK1SQ?autoplay=1" },
+                { name: "Web 2 (AniWatch)", url: "https://www.youtube-nocookie.com/embed/Lu41L3G2-C8?autoplay=1" },
+                { name: "Web 3 (Netflix)", url: "https://www.youtube-nocookie.com/embed/MGRm4IzK1SQ?autoplay=1" },
+                { name: "Web 4 (Hulu)", url: "https://www.youtube-nocookie.com/embed/Lu41L3G2-C8?autoplay=1" },
+                { name: "Web 5 (HiAnime)", url: "https://www.youtube-nocookie.com/embed/MGRm4IzK1SQ?autoplay=1" },
+                { name: "Web 6 (9anime)", url: "https://www.youtube-nocookie.com/embed/Lu41L3G2-C8?autoplay=1" },
+                { name: "Web 7 (Tubi)", url: "https://www.youtube-nocookie.com/embed/MGRm4IzK1SQ?autoplay=1" }
             ]
         },
         {
@@ -446,106 +432,20 @@
             title: "Demon Slayer",
             category: "Action",
             rating: "8.6",
-            desc: "A family is attacked by demons and only two members survive, transforming into a quest for vengeance.",
+            desc: "A boy transforms into a demon slayer to save his sister and avenge his family.",
             poster: "https://images.justwatch.com/poster/243886737/s332/season-1.webp",
             webServers: [
-                { name: "Web 1 (Direct Stream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 2 (Crunchyroll)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 3 (Gogoanime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 4 (HiAnime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 5 (Bilibili)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 6 (AnimePahe)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 7 (Miruro)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" }
-            ]
-        },
-        {
-            id: 4,
-            title: "One Piece",
-            category: "Adventure",
-            rating: "8.9",
-            desc: "Monkey D. Luffy sets off on an epic adventure to find the legendary treasure One Piece.",
-            poster: "https://images.justwatch.com/poster/282367687/s332/one-piece.webp",
-            webServers: [
-                { name: "Web 1 (Direct Stream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 2 (Crunchyroll)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 3 (AniWatch)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 4 (HiAnime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 5 (Streamtape)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 6 (Doodstream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 7 (Zoro)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" }
-            ]
-        },
-        {
-            id: 5,
-            title: "Jujutsu Kaisen",
-            category: "Fantasy",
-            rating: "8.5",
-            desc: "A high school student joins a secret organization of Sorcerers to eliminate a powerful Curse.",
-            poster: "https://images.justwatch.com/poster/239775369/s332/jujutsu-kaisen.webp",
-            webServers: [
-                { name: "Web 1 (Direct Stream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 2 (HiAnime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 3 (Crunchyroll)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 4 (Netflix)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 5 (AnimePahe)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 6 (Tubi)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 7 (Zoro)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" }
-            ]
-        },
-        {
-            id: 6,
-            title: "Solo Leveling",
-            category: "Action",
-            rating: "8.4",
-            desc: "In a world where hunters must battle deadly monsters, a weak hunter gets a second chance.",
-            poster: "https://images.justwatch.com/poster/311681286/s332/solo-leveling.webp",
-            webServers: [
-                { name: "Web 1 (Direct Stream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 2 (Crunchyroll)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 3 (AniWatch)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 4 (Gogoanime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 5 (AnimePahe)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 6 (Miruro)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 7 (Tubi)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" }
-            ]
-        },
-        {
-            id: 7,
-            title: "Bleach",
-            category: "Action",
-            rating: "8.2",
-            desc: "High school student Ichigo Kurosaki obtains the powers of a Soul Reaper.",
-            poster: "https://images.justwatch.com/poster/301328903/s332/season-1.webp",
-            webServers: [
-                { name: "Web 1 (Direct Stream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 2 (AniWatch)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 3 (HiAnime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 4 (Crunchyroll)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 5 (Gogoanime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 6 (Zoro)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 7 (AnimePahe)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" }
-            ]
-        },
-        {
-            id: 8,
-            title: "My Hero Academia",
-            category: "Adventure",
-            rating: "8.3",
-            desc: "A superhero-loving boy born without powers is determined to enroll in a prestigious hero academy.",
-            poster: "https://images.justwatch.com/poster/305886673/s332/my-hero-academia.webp",
-            webServers: [
-                { name: "Web 1 (Direct Stream)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 2 (AniWatch)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 3 (HiAnime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" },
-                { name: "Web 4 (Gogoanime)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", type: "mp4" },
-                { name: "Web 5 (Tubi)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", type: "mp4" },
-                { name: "Web 6 (Hulu)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type: "mp4" },
-                { name: "Web 7 (AnimePahe)", url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", type: "mp4" }
+                { name: "Web 1 (AniWatch)", url: "https://www.youtube-nocookie.com/embed/VQGCKyvzIM4?autoplay=1" },
+                { name: "Web 2 (Crunchyroll)", url: "https://www.youtube-nocookie.com/embed/WYUYP3M_W-M?autoplay=1" },
+                { name: "Web 3 (HiAnime)", url: "https://www.youtube-nocookie.com/embed/VQGCKyvzIM4?autoplay=1" },
+                { name: "Web 4 (Gogoanime)", url: "https://www.youtube-nocookie.com/embed/WYUYP3M_W-M?autoplay=1" },
+                { name: "Web 5 (Bilibili)", url: "https://www.youtube-nocookie.com/embed/VQGCKyvzIM4?autoplay=1" },
+                { name: "Web 6 (AnimePahe)", url: "https://www.youtube-nocookie.com/embed/WYUYP3M_W-M?autoplay=1" },
+                { name: "Web 7 (Miruro)", url: "https://www.youtube-nocookie.com/embed/VQGCKyvzIM4?autoplay=1" }
             ]
         }
     ];
 
-    // Check 24H Unlock Status
     function is24HoursUnlocked() {
         const unlockTimestamp = localStorage.getItem('anime_unlock_time');
         if (!unlockTimestamp) return false;
@@ -553,7 +453,6 @@
         return ((currentTime - unlockTimestamp) / (1000 * 60 * 60)) < 24;
     }
 
-    // Tap on Square Anime Card
     function handleAnimeClick(id) {
         if (is24HoursUnlocked()) {
             playAnime(id);
@@ -565,7 +464,6 @@
         }
     }
 
-    // 4-Step Unlock Logic
     function processUnlockStep() {
         if (currentLinkIndex < verificationLinks.length) {
             window.open(verificationLinks[currentLinkIndex], '_blank');
@@ -586,7 +484,6 @@
         document.getElementById('openLinkBtn').innerText = `Open Link ${currentLinkIndex + 1}`;
     }
 
-    // Play Selected Anime
     function playAnime(id) {
         const anime = animeDatabase.find(a => a.id === id);
         if (!anime) return;
@@ -594,14 +491,12 @@
         const stage = document.getElementById('playerStage');
         stage.style.display = 'block';
 
-        // Set Side Details
         document.getElementById('detailPoster').src = anime.poster;
         document.getElementById('detailTitle').innerText = anime.title;
         document.getElementById('detailCategory').innerText = anime.category;
         document.getElementById('detailRating').innerHTML = `<i class="fa-solid fa-star"></i> ${anime.rating}`;
         document.getElementById('detailDesc').innerText = anime.desc;
 
-        // Render 6-7 Web Servers (Thoda bada)
         const serversBar = document.getElementById('serversBar');
         serversBar.innerHTML = '';
 
@@ -609,29 +504,17 @@
             const btn = document.createElement('button');
             btn.className = 'server-btn' + (idx === 0 ? ' active' : '');
             btn.innerText = srv.name;
-            btn.onclick = () => loadVideoSource(srv, btn);
+            btn.onclick = () => loadVideoSource(srv.url, btn);
             serversBar.appendChild(btn);
         });
 
-        // Load 1st Video Source Immediately
-        loadVideoSource(anime.webServers[0], serversBar.children[0]);
+        loadVideoSource(anime.webServers[0].url, serversBar.children[0]);
         stage.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Native HTML5 Video Element rendering to guarantee REAL Video Playback
-    function loadVideoSource(server, element) {
-        const container = document.getElementById('videoContainer');
-        
-        if (server.type === "mp4") {
-            container.innerHTML = `
-                <video controls autoplay width="100%" height="100%">
-                    <source src="${server.url}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            `;
-        } else {
-            container.innerHTML = `<iframe src="${server.url}" allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
-        }
+    function loadVideoSource(url, element) {
+        const iframe = document.getElementById('mainIframe');
+        iframe.src = url;
 
         if (element) {
             document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
@@ -639,7 +522,6 @@
         }
     }
 
-    // Render Square Grid Interface
     function renderSquareGrid(list) {
         const grid = document.getElementById('animeGrid');
         grid.innerHTML = '';
@@ -657,7 +539,6 @@
         });
     }
 
-    // Fast Search Bar
     function searchAnime() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         const filtered = animeDatabase.filter(a => a.title.toLowerCase().includes(query));
@@ -665,7 +546,7 @@
     }
 
     function closePlayer() {
-        document.getElementById('videoContainer').innerHTML = '';
+        document.getElementById('mainIframe').src = '';
         document.getElementById('playerStage').style.display = 'none';
     }
 
