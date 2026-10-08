@@ -3,17 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anime Stream Portal</title>
+    <title>Anime Stream Portal - 24H Lock System</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0b0c10;
-            --card-bg: #1f2833;
-            --accent-color: #66fcf1;
-            --text-color: #c5c6c7;
-            --highlight-color: #45a29e;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,114 +14,162 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        header h1 {
-            color: var(--accent-color);
-            font-size: 2.2rem;
-            margin-bottom: 5px;
+            background-color: #0d0e12;
+            color: #e1e1e6;
+            padding: 15px;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Player Container */
-        .player-section {
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-            border: 1px solid #333;
-            margin-bottom: 30px;
-        }
-
-        /* Server Bar Header */
-        .server-control-bar {
-            background: var(--card-bg);
-            padding: 15px;
+        /* Top Header & Search Bar Area */
+        header {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
             justify-content: space-between;
-            gap: 10px;
-            border-bottom: 1px solid #333;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #222;
+            margin-bottom: 20px;
+            gap: 15px;
         }
 
-        .anime-title-display {
-            font-weight: bold;
+        header h1 {
+            color: #00f2fe;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+
+        /* Fast Search Bar */
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            background: #1a1c23;
+            border: 1px solid #333;
+            border-radius: 20px;
             color: #fff;
-            font-size: 1.1rem;
+            outline: none;
+            font-size: 0.95rem;
         }
 
-        .server-selector-wrapper {
+        .search-box input:focus {
+            border-color: #00f2fe;
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00f2fe;
+        }
+
+        /* Categories Section */
+        .category-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: #00f2fe;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .server-selector-wrapper label {
-            font-size: 0.9rem;
-            color: var(--accent-color);
-        }
-
-        select.server-dropdown {
-            background-color: var(--bg-color);
-            color: #fff;
-            border: 1px solid var(--highlight-color);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            outline: none;
-            cursor: pointer;
-        }
-
-        /* Server Tabs */
-        .server-buttons-bar {
-            background: #151922;
-            padding: 10px 15px;
-            display: flex;
             gap: 8px;
+        }
+
+        .category-bar {
+            display: flex;
+            gap: 10px;
             overflow-x: auto;
-            white-space: nowrap;
-            border-bottom: 1px solid #222;
+            padding-bottom: 8px;
         }
 
-        .server-btn {
-            background: #252c3b;
-            color: #fff;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 4px;
+        .cat-btn {
+            background: #1a1c23;
+            color: #aaa;
+            border: 1px solid #333;
+            padding: 8px 18px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
+            white-space: nowrap;
+            font-size: 0.9rem;
         }
 
-        .server-btn:hover, .server-btn.active {
-            background: var(--accent-color);
+        .cat-btn.active, .cat-btn:hover {
+            background: #00f2fe;
+            color: #000;
+            font-weight: bold;
+            border-color: #00f2fe;
+        }
+
+        /* Video Stage View */
+        .player-stage {
+            display: none;
+            background: #15171e;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #2a2d3d;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .back-btn {
+            background: #222531;
+            color: #00f2fe;
+            border: 1px solid #00f2fe;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        /* Top Web Servers Bar */
+        .server-top-bar {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #262938;
+        }
+
+        .server-chip {
+            background: #202330;
+            color: #ccc;
+            border: 1px solid #3a3f55;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+
+        .server-chip.active {
+            background: #00f2fe;
             color: #000;
             font-weight: bold;
         }
 
-        /* Video Iframe Frame */
-        .video-wrapper {
+        .video-box {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            padding-bottom: 56.25%;
             height: 0;
             background: #000;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
-        .video-wrapper iframe {
+        .video-box iframe {
             position: absolute;
             top: 0;
             left: 0;
@@ -138,233 +178,542 @@
             border: 0;
         }
 
-        /* Anime Catalog Section */
-        .catalog-title {
-            margin-bottom: 15px;
-            color: var(--accent-color);
-            font-size: 1.4rem;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 10px;
+        /* Featured Square Box Grid */
+        .featured-square-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
+        .square-card {
+            aspect-ratio: 1 / 1;
+            background: #1a1c23;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .square-card:hover {
+            border-color: #00f2fe;
+            transform: scale(1.03);
+        }
+
+        .square-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .square-card .overlay {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        /* Main Anime Grid */
         .anime-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px;
         }
 
         .anime-card {
-            background-color: var(--card-bg);
-            border-radius: 8px;
+            background: #15171e;
+            border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid transparent;
+            border: 1px solid #222533;
         }
 
         .anime-card:hover {
             transform: translateY(-5px);
-            border-color: var(--highlight-color);
-            box-shadow: 0 4px 15px rgba(102, 252, 241, 0.2);
+            border-color: #00f2fe;
         }
 
         .anime-card img {
             width: 100%;
-            height: 260px;
+            height: 240px;
             object-fit: cover;
         }
 
-        .anime-info {
-            padding: 12px;
+        .anime-card .card-info {
+            padding: 10px;
+            text-align: center;
         }
 
-        .anime-info h3 {
-            font-size: 1rem;
+        .anime-card .card-info h4 {
+            font-size: 0.95rem;
             color: #fff;
-            margin-bottom: 5px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .anime-info p {
-            font-size: 0.8rem;
-            color: #888;
+        .anime-card .card-info span {
+            font-size: 0.75rem;
+            color: #00f2fe;
+        }
+
+        /* --- 24-HOUR 4-LINK UNLOCK MODAL POPUP --- */
+        .unlock-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .unlock-modal {
+            background: #1a1c24;
+            border: 2px solid #00f2fe;
+            border-radius: 15px;
+            max-width: 450px;
+            width: 100%;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+        }
+
+        .unlock-modal h3 {
+            color: #00f2fe;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .unlock-modal p {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .link-counter-badge {
+            background: #252836;
+            color: #00f2fe;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid #3a3f58;
+        }
+
+        .action-link-btn {
+            background: #00f2fe;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .action-link-btn:hover {
+            background: #4facfe;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <!-- HEADER & FAST SEARCH BAR -->
     <header>
-        <h1><i class="fa-solid =>-play"></i> AnimeVerse Portal</h1>
-        <p>Multiple Servers me Anime Stream Karein</p>
+        <h1>Anime Stream Center</h1>
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="searchAnime()" placeholder="Anime name search karein...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
     </header>
 
-    <!-- Main Player Section -->
-    <div class="player-section">
-        <div class="server-control-bar">
-            <div class="anime-title-display" id="currentAnimeTitle">Anime Select Karein</div>
-            
-            <div class="server-selector-wrapper">
-                <label for="serverSelect"><i class="fa-solid fa-server"></i> Server Choose Karein:</label>
-                <select id="serverSelect" class="server-dropdown" onchange="changeServer(this.value)">
-                    <!-- Options JavaScript se render honge -->
-                </select>
-            </div>
+    <!-- VIDEO STAGE VIEW -->
+    <div class="player-stage" id="playerStage">
+        <button class="back-btn" onclick="closePlayer()"><i class="fa-solid fa-arrow-left"></i> Home Par Wapas Jayein</button>
+        <h2 id="videoTitle" style="margin-bottom: 10px;">Anime Title</h2>
+
+        <!-- Top 6-7 Web Servers Links -->
+        <div class="server-top-bar" id="serverBar">
+            <!-- Dynamic Server Buttons -->
         </div>
 
-        <!-- Server Quick Access Buttons -->
-        <div class="server-buttons-bar" id="serverButtons">
-            <!-- Buttons dynamically load honge -->
-        </div>
-
-        <!-- Video Player Display -->
-        <div class="video-wrapper">
-            <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        <!-- Video Player Frame -->
+        <div class="video-box">
+            <iframe id="embedPlayer" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
         </div>
     </div>
 
-    <!-- Anime Selection Grid -->
-    <h2 class="catalog-title">Available Anime Series</h2>
-    <div class="anime-grid" id="animeGrid">
-        <!-- Anime List dynamically load hogi -->
+    <!-- CATEGORIES SECTION -->
+    <div class="category-section">
+        <div class="section-title"><i class="fa-solid fa-layer-group"></i> Category Choose Karein</div>
+        <div class="category-bar">
+            <button class="cat-btn active" onclick="filterCategory('All')">All</button>
+            <button class="cat-btn" onclick="filterCategory('Action')">Action</button>
+            <button class="cat-btn" onclick="filterCategory('Fantasy')">Fantasy</button>
+            <button class="cat-btn" onclick="filterCategory('Adventure')">Adventure</button>
+            <button class="cat-btn" onclick="filterCategory('Sci-Fi')">Sci-Fi</button>
+        </div>
+    </div>
+
+    <!-- FEATURED PROFESSIONAL SQUARE ANIMES -->
+    <div class="section-title"><i class="fa-solid fa-star"></i> Featured Professional Animes</div>
+    <div class="featured-square-grid" id="featuredGrid">
+        <!-- JS Square Cards -->
+    </div>
+
+    <!-- MAIN ANIME LIBRARY (9-10 Items) -->
+    <div class="section-title"><i class="fa-solid fa-tv"></i> Full Anime Library</div>
+    <div class="anime-grid" id="mainGrid">
+        <!-- JS Grid Cards -->
+    </div>
+</div>
+
+<!-- 24-HOUR 4-LINK UNLOCK POPUP MODAL -->
+<div class="unlock-modal-overlay" id="unlockOverlay">
+    <div class="unlock-modal">
+        <i class="fa-solid fa-lock" style="font-size: 2.5rem; color: #00f2fe; margin-bottom: 15px;"></i>
+        <h3>24 Hours Access Unlock</h3>
+        <p>Video start karne ke liye niche button par tap karke link open karein aur back aayein (4 Steps Verification).</p>
+        
+        <div class="link-counter-badge" id="linkCounterText">Link 1 of 4</div>
+        
+        <button class="action-link-btn" id="openLinkBtn" onclick="processUnlockStep()">
+            <i class="fa-solid fa-external-link-alt"></i> Open Link 1
+        </button>
     </div>
 </div>
 
 <script>
-    // Database Structure: Every Anime has 6-7 Provider Embed Links
-    const animeData = [
+    // 24 Hours Verification Links Data
+    const verificationLinks = [
+        "https://www.google.com",
+        "https://www.bing.com",
+        "https://www.yahoo.com",
+        "https://www.duckduckgo.com"
+    ];
+
+    let currentLinkIndex = 0;
+    let pendingAnimeId = null;
+
+    // Database
+    const animeDatabase = [
         {
-            id: "1",
+            id: 1,
             title: "Naruto Shippuden",
-            poster: "https://via.placeholder.com/200x260/1f2833/66fcf1?text=Naruto",
-            servers: [
-                { name: "Server 1 (Vidstreaming)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 2 (Gogoanime)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 3 (Streamtape)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 4 (Doodstream)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 5 (Filemoon)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 6 (Mixdrop)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 7 (StreamWish)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" }
+            category: "Action",
+            featured: true,
+            thumbnail: "https://images.justwatch.com/poster/240015525/s332/season-1.webp",
+            webServers: [
+                { name: "Server 1 (AniWatch)", url: "https://vidsrc.me/embed/anime?imdb=tt0988824" },
+                { name: "Server 2 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 3 (Gogoanime)", url: "https://anitaku.to" },
+                { name: "Server 4 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 5 (TubiTV)", url: "https://tubitv.com" },
+                { name: "Server 6 (ZoroWeb)", url: "https://zoro.to" },
+                { name: "Server 7 (AnimePahe)", url: "https://animepahe.ru" }
             ]
         },
         {
-            id: "2",
+            id: 2,
             title: "Attack On Titan",
-            poster: "https://via.placeholder.com/200x260/1f2833/66fcf1?text=AOT",
-            servers: [
-                { name: "Server 1 (Vidcloud)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                { name: "Server 2 (Vidstreaming)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                { name: "Server 3 (Mp4upload)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                { name: "Server 4 (Streamtape)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                { name: "Server 5 (Doodstream)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                { name: "Server 6 (Filemoon)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
-                { name: "Server 7 (Upstream)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
+            category: "Fantasy",
+            featured: true,
+            thumbnail: "https://images.justwatch.com/poster/305282585/s332/season-1.webp",
+            webServers: [
+                { name: "Server 1 (AniWatch)", url: "https://vidsrc.me/embed/anime?imdb=tt2560140" },
+                { name: "Server 2 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 3 (Netflix)", url: "https://www.netflix.com" },
+                { name: "Server 4 (Hulu)", url: "https://www.hulu.com" },
+                { name: "Server 5 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 6 (9anime)", url: "https://9animetv.to" },
+                { name: "Server 7 (AnimeHeaven)", url: "https://animeheaven.me" }
             ]
         },
         {
-            id: "3",
+            id: 3,
             title: "Demon Slayer",
-            poster: "https://via.placeholder.com/200x260/1f2833/66fcf1?text=Demon+Slayer",
-            servers: [
-                { name: "Server 1 (FastServer)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 2 (Gogoanime)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 3 (Vidstreaming)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 4 (Streamtape)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 5 (Doodstream)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 6 (Mixdrop)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
-                { name: "Server 7 (Filemoon)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" }
+            category: "Action",
+            featured: true,
+            thumbnail: "https://images.justwatch.com/poster/243886737/s332/season-1.webp",
+            webServers: [
+                { name: "Server 1 (AniWatch)", url: "https://vidsrc.me/embed/anime?imdb=tt9335498" },
+                { name: "Server 2 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 3 (Gogoanime)", url: "https://anitaku.to" },
+                { name: "Server 4 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 5 (Bilibili)", url: "https://www.bilibili.tv" },
+                { name: "Server 6 (AnimePahe)", url: "https://animepahe.ru" },
+                { name: "Server 7 (Miruro)", url: "https://www.miruro.tv" }
+            ]
+        },
+        {
+            id: 4,
+            title: "One Piece",
+            category: "Adventure",
+            featured: false,
+            thumbnail: "https://images.justwatch.com/poster/282367687/s332/one-piece.webp",
+            webServers: [
+                { name: "Server 1 (Gogoanime)", url: "https://anitaku.to" },
+                { name: "Server 2 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 3 (AniWatch)", url: "https://aniwatchtv.to" },
+                { name: "Server 4 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 5 (Streamtape)", url: "https://streamtape.com" },
+                { name: "Server 6 (Doodstream)", url: "https://doodstream.com" },
+                { name: "Server 7 (Zoro)", url: "https://zoro.to" }
+            ]
+        },
+        {
+            id: 5,
+            title: "Jujutsu Kaisen",
+            category: "Fantasy",
+            featured: false,
+            thumbnail: "https://images.justwatch.com/poster/239775369/s332/jujutsu-kaisen.webp",
+            webServers: [
+                { name: "Server 1 (AniWatch)", url: "https://aniwatchtv.to" },
+                { name: "Server 2 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 3 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 4 (Netflix)", url: "https://www.netflix.com" },
+                { name: "Server 5 (AnimePahe)", url: "https://animepahe.ru" },
+                { name: "Server 6 (Tubi)", url: "https://tubitv.com" },
+                { name: "Server 7 (Zoro)", url: "https://zoro.to" }
+            ]
+        },
+        {
+            id: 6,
+            title: "Solo Leveling",
+            category: "Action",
+            featured: false,
+            thumbnail: "https://images.justwatch.com/poster/311681286/s332/solo-leveling.webp",
+            webServers: [
+                { name: "Server 1 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 2 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 3 (AniWatch)", url: "https://aniwatchtv.to" },
+                { name: "Server 4 (Gogoanime)", url: "https://anitaku.to" },
+                { name: "Server 5 (AnimePahe)", url: "https://animepahe.ru" },
+                { name: "Server 6 (Miruro)", url: "https://www.miruro.tv" },
+                { name: "Server 7 (Tubi)", url: "https://tubitv.com" }
+            ]
+        },
+        {
+            id: 7,
+            title: "Bleach: TYBW",
+            category: "Action",
+            featured: false,
+            thumbnail: "https://images.justwatch.com/poster/301328903/s332/season-1.webp",
+            webServers: [
+                { name: "Server 1 (Hulu)", url: "https://www.hulu.com" },
+                { name: "Server 2 (AniWatch)", url: "https://aniwatchtv.to" },
+                { name: "Server 3 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 4 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 5 (Gogoanime)", url: "https://anitaku.to" },
+                { name: "Server 6 (Zoro)", url: "https://zoro.to" },
+                { name: "Server 7 (AnimePahe)", url: "https://animepahe.ru" }
+            ]
+        },
+        {
+            id: 8,
+            title: "My Hero Academia",
+            category: "Adventure",
+            featured: false,
+            thumbnail: "https://images.justwatch.com/poster/305886673/s332/my-hero-academia.webp",
+            webServers: [
+                { name: "Server 1 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 2 (AniWatch)", url: "https://aniwatchtv.to" },
+                { name: "Server 3 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 4 (Gogoanime)", url: "https://anitaku.to" },
+                { name: "Server 5 (Tubi)", url: "https://tubitv.com" },
+                { name: "Server 6 (Hulu)", url: "https://www.hulu.com" },
+                { name: "Server 7 (AnimePahe)", url: "https://animepahe.ru" }
+            ]
+        },
+        {
+            id: 9,
+            title: "Dragon Ball Super",
+            category: "Sci-Fi",
+            featured: false,
+            thumbnail: "https://images.justwatch.com/poster/8636838/s332/dragon-ball-super.webp",
+            webServers: [
+                { name: "Server 1 (Crunchyroll)", url: "https://www.crunchyroll.com" },
+                { name: "Server 2 (AniWatch)", url: "https://aniwatchtv.to" },
+                { name: "Server 3 (HiAnime)", url: "https://hianime.to" },
+                { name: "Server 4 (Gogoanime)", url: "https://anitaku.to" },
+                { name: "Server 5 (Bilibili)", url: "https://www.bilibili.tv" },
+                { name: "Server 6 (Zoro)", url: "https://zoro.to" },
+                { name: "Server 7 (Tubi)", url: "https://tubitv.com" }
             ]
         }
     ];
 
-    let currentSelectedAnime = null;
+    // Check if 24 Hours Unlocked
+    function is24HoursUnlocked() {
+        const unlockTimestamp = localStorage.getItem('anime_unlock_time');
+        if (!unlockTimestamp) return false;
 
-    // Load Anime Cards
-    function renderCatalog() {
-        const grid = document.getElementById('animeGrid');
-        grid.innerHTML = '';
+        const currentTime = new Date().getTime();
+        const hoursPassed = (currentTime - unlockTimestamp) / (1000 * 60 * 60);
 
-        animeData.forEach(anime => {
+        return hoursPassed < 24; // 24 Ghante tak unlocked rahega
+    }
+
+    // Tap on Anime Thumbnail
+    function handleAnimeClick(id) {
+        if (is24HoursUnlocked()) {
+            playAnimeDirectly(id);
+        } else {
+            pendingAnimeId = id;
+            currentLinkIndex = 0;
+            updateModalUI();
+            document.getElementById('unlockOverlay').style.display = 'flex';
+        }
+    }
+
+    // Process Unlock Links Step-by-Step
+    function processUnlockStep() {
+        if (currentLinkIndex < verificationLinks.length) {
+            // Open Link in New Tab
+            window.open(verificationLinks[currentLinkIndex], '_blank');
+
+            currentLinkIndex++;
+
+            if (currentLinkIndex < verificationLinks.length) {
+                updateModalUI();
+            } else {
+                // Save 24h Unlock timestamp
+                localStorage.setItem('anime_unlock_time', new Date().getTime());
+                document.getElementById('unlockOverlay').style.display = 'none';
+                
+                // Play Video
+                if (pendingAnimeId) {
+                    playAnimeDirectly(pendingAnimeId);
+                }
+            }
+        }
+    }
+
+    function updateModalUI() {
+        document.getElementById('linkCounterText').innerText = `Link ${currentLinkIndex + 1} of 4`;
+        document.getElementById('openLinkBtn').innerHTML = `<i class="fa-solid fa-external-link-alt"></i> Open Link ${currentLinkIndex + 1}`;
+    }
+
+    // Play Video Function
+    function playAnimeDirectly(id) {
+        const anime = animeDatabase.find(item => item.id === id);
+        if (!anime) return;
+
+        const stage = document.getElementById('playerStage');
+        stage.style.display = 'block';
+
+        document.getElementById('videoTitle').innerText = anime.title;
+
+        // Render 6-7 Web Servers
+        const serverBar = document.getElementById('serverBar');
+        serverBar.innerHTML = '';
+
+        anime.webServers.forEach((srv, index) => {
+            const chip = document.createElement('button');
+            chip.className = 'server-chip' + (index === 0 ? ' active' : '');
+            chip.innerText = srv.name;
+            chip.onclick = () => switchServer(srv.url, chip);
+            serverBar.appendChild(chip);
+        });
+
+        switchServer(anime.webServers[0].url, serverBar.children[0]);
+        stage.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function switchServer(url, element) {
+        document.getElementById('embedPlayer').src = url;
+        if (element) {
+            document.querySelectorAll('.server-chip').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+        }
+    }
+
+    // Fast Search Functionality
+    function searchAnime() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        
+        const filtered = animeDatabase.filter(a => a.title.toLowerCase().includes(query));
+        renderLibraryData(filtered);
+    }
+
+    function renderFeatured() {
+        const featContainer = document.getElementById('featuredGrid');
+        featContainer.innerHTML = '';
+
+        const featuredAnimes = animeDatabase.filter(a => a.featured);
+        featuredAnimes.forEach(anime => {
             const card = document.createElement('div');
-            card.className = 'anime-card';
-            card.onclick = () => loadAnime(anime.id);
+            card.className = 'square-card';
+            card.onclick = () => handleAnimeClick(anime.id);
 
             card.innerHTML = `
-                <img src="${anime.poster}" alt="${anime.title}">
-                <div class="anime-info">
-                    <h3>${anime.title}</h3>
-                    <p>${anime.servers.length} Servers Available</p>
+                <img src="${anime.thumbnail}" alt="${anime.title}">
+                <div class="overlay">${anime.title}</div>
+            `;
+            featContainer.appendChild(card);
+        });
+    }
+
+    function renderLibraryData(list) {
+        const grid = document.getElementById('mainGrid');
+        grid.innerHTML = '';
+
+        list.forEach(anime => {
+            const card = document.createElement('div');
+            card.className = 'anime-card';
+            card.onclick = () => handleAnimeClick(anime.id);
+
+            card.innerHTML = `
+                <img src="${anime.thumbnail}" alt="${anime.title}">
+                <div class="card-info">
+                    <h4>${anime.title}</h4>
+                    <span>${anime.category}</span>
                 </div>
             `;
             grid.appendChild(card);
         });
     }
 
-    // Load selected anime into player
-    function loadAnime(animeId) {
-        currentSelectedAnime = animeData.find(a => a.id === animeId);
-        
-        if (!currentSelectedAnime) return;
-
-        document.getElementById('currentAnimeTitle').innerText = currentSelectedAnime.title;
-
-        // Build server dropdown & buttons
-        const select = document.getElementById('serverSelect');
-        const buttonsContainer = document.getElementById('serverButtons');
-        
-        select.innerHTML = '';
-        buttonsContainer.innerHTML = '';
-
-        currentSelectedAnime.servers.forEach((server, index) => {
-            // Populate Dropdown
-            const option = document.createElement('option');
-            option.value = server.url;
-            option.innerText = server.name;
-            select.appendChild(option);
-
-            // Populate Button bar
-            const btn = document.createElement('button');
-            btn.className = 'server-btn' + (index === 0 ? ' active' : '');
-            btn.innerText = server.name;
-            btn.onclick = () => {
-                select.value = server.url;
-                changeServer(server.url);
-            };
-            buttonsContainer.appendChild(btn);
+    function filterCategory(cat) {
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            if (btn.innerText === cat) btn.classList.add('active');
+            else btn.classList.remove('active');
         });
 
-        // Set default server link (First link)
-        changeServer(currentSelectedAnime.servers[0].url);
-        
-        // Scroll player into view
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (cat === 'All') {
+            renderLibraryData(animeDatabase);
+        } else {
+            const filtered = animeDatabase.filter(a => a.category === cat);
+            renderLibraryData(filtered);
+        }
     }
 
-    // Direct change video player URL without confirmation popup
-    function changeServer(url) {
-        const iframe = document.getElementById('videoPlayer');
-        iframe.src = url;
-
-        // Update button active UI
-        const buttons = document.querySelectorAll('.server-btn');
-        buttons.forEach(btn => {
-            if (currentSelectedAnime) {
-                const match = currentSelectedAnime.servers.find(s => s.url === url);
-                if (match && btn.innerText === match.name) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            }
-        });
+    function closePlayer() {
+        document.getElementById('embedPlayer').src = '';
+        document.getElementById('playerStage').style.display = 'none';
     }
 
-    // Initialize Page
     window.onload = () => {
-        renderCatalog();
-        loadAnime("1"); // Auto load first anime
+        renderFeatured();
+        renderLibraryData(animeDatabase);
     };
 </script>
 
