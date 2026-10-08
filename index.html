@@ -1,556 +1,371 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OmniHub — Anime & Movie Hub</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial, sans-serif;
-    background:#07070a;
-    color:white;
-}
-
-/* HEADER */
-header{
-    height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 7%;
-    background:#0d0d12;
-    border-bottom:1px solid #25252d;
-    position:sticky;
-    top:0;
-    z-index:100;
-}
-
-.logo{
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:1px;
-}
-
-.logo span{
-    color:#8b5cf6;
-}
-
-nav{
-    display:flex;
-    gap:10px;
-}
-
-nav button{
-    border:0;
-    background:#18181f;
-    color:#ddd;
-    padding:10px 18px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-nav button:hover,
-nav button.active{
-    background:#7c3aed;
-    color:white;
-}
-
-/* HERO */
-.hero{
-    padding:75px 7%;
-    background:
-    radial-gradient(circle at 80% 30%,#5b21b633,transparent 35%),
-    radial-gradient(circle at 20% 20%,#2563eb22,transparent 35%);
-}
-
-.badge{
-    display:inline-block;
-    background:#7c3aed22;
-    color:#a78bfa;
-    border:1px solid #7c3aed55;
-    padding:8px 14px;
-    border-radius:30px;
-    font-size:13px;
-    margin-bottom:20px;
-}
-
-.hero h1{
-    font-size:clamp(40px,7vw,75px);
-    line-height:1;
-    margin-bottom:20px;
-}
-
-.hero h1 span{
-    color:#8b5cf6;
-}
-
-.hero p{
-    color:#a1a1aa;
-    max-width:650px;
-    line-height:1.7;
-    font-size:17px;
-}
-
-.search{
-    margin-top:30px;
-    display:flex;
-    max-width:600px;
-}
-
-.search input{
-    flex:1;
-    padding:15px;
-    background:#111116;
-    color:white;
-    border:1px solid #303038;
-    border-radius:10px 0 0 10px;
-    outline:none;
-    font-size:15px;
-}
-
-.search button{
-    border:0;
-    padding:0 22px;
-    background:#7c3aed;
-    color:white;
-    font-weight:bold;
-    border-radius:0 10px 10px 0;
-}
-
-/* CONTENT */
-main{
-    padding:45px 7%;
-}
-
-.section{
-    display:none;
-}
-
-.section.active{
-    display:block;
-}
-
-.section-title{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:25px;
-}
-
-.section-title h2{
-    font-size:30px;
-}
-
-.section-title span{
-    color:#71717a;
-    font-size:14px;
-}
-
-/* CARDS */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-    gap:20px;
-}
-
-.card{
-    background:#111116;
-    border:1px solid #25252d;
-    border-radius:14px;
-    overflow:hidden;
-    transition:.25s;
-}
-
-.card:hover{
-    transform:translateY(-6px);
-    border-color:#7c3aed;
-    box-shadow:0 15px 35px #0008;
-}
-
-.poster{
-    height:260px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:20px;
-    font-size:25px;
-    font-weight:900;
-    background:
-    linear-gradient(135deg,#312e81,#7c3aed);
-}
-
-.poster.movie{
-    background:
-    linear-gradient(135deg,#172554,#2563eb);
-}
-
-.card-info{
-    padding:15px;
-}
-
-.card-info h3{
-    font-size:16px;
-    margin-bottom:8px;
-}
-
-.card-info p{
-    color:#71717a;
-    font-size:13px;
-}
-
-.watch{
-    width:100%;
-    margin-top:12px;
-    padding:10px;
-    border:0;
-    border-radius:7px;
-    background:#27272a;
-    color:white;
-    cursor:pointer;
-}
-
-.watch:hover{
-    background:#7c3aed;
-}
-
-/* FOOTER */
-footer{
-    text-align:center;
-    padding:35px;
-    color:#71717a;
-    border-top:1px solid #25252d;
-    margin-top:40px;
-}
-
-@media(max-width:600px){
-    header{
-        padding:0 20px;
-    }
-
-    .hero,
-    main{
-        padding-left:20px;
-        padding-right:20px;
-    }
-
-    nav button{
-        padding:8px 10px;
-        font-size:12px;
-    }
-
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:12px;
-    }
-
-    .poster{
-        height:210px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
-OMNI<span>HUB</span>
-</div>
-
-<nav>
-<button class="active" onclick="showSection('anime',this)">
-Anime Hub
-</button>
-
-<button onclick="showSection('movies',this)">
-Movie Hub
-</button>
-</nav>
-
-</header>
-
-
-<section class="hero">
-
-<div class="badge">
-● OMNIHUB ENTERTAINMENT
-</div>
-
-<h1>
-Your <span>Anime</span><br>
-& Movie Universe
-</h1>
-
-<p>
-Explore your entertainment hub for anime and movies.
-Search your favorite titles and discover something new.
-</p>
-
-<div class="search">
-
-<input
-id="search"
-type="text"
-placeholder="Search anime or movies..."
-oninput="searchContent()"
->
-
-<button>
-Search
-</button>
-
-</div>
-
-</section>
-
-
-<main>
-
-<!-- ANIME -->
-<section id="anime" class="section active">
-
-<div class="section-title">
-<h2>🔥 Anime Hub</h2>
-<span id="animeCount">6 titles</span>
-</div>
-
-<div class="grid" id="animeGrid">
-
-<div class="card" data-title="Demon Slayer">
-<div class="poster">DEMON<br>SLAYER</div>
-<div class="card-info">
-<h3>Demon Slayer</h3>
-<p>Anime • Action</p>
-<button class="watch" onclick="openTitle('Demon Slayer')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="Jujutsu Kaisen">
-<div class="poster">JUJUTSU<br>KAISEN</div>
-<div class="card-info">
-<h3>Jujutsu Kaisen</h3>
-<p>Anime • Action</p>
-<button class="watch" onclick="openTitle('Jujutsu Kaisen')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="One Piece">
-<div class="poster">ONE<br>PIECE</div>
-<div class="card-info">
-<h3>One Piece</h3>
-<p>Anime • Adventure</p>
-<button class="watch" onclick="openTitle('One Piece')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="Naruto">
-<div class="poster">NARUTO</div>
-<div class="card-info">
-<h3>Naruto</h3>
-<p>Anime • Ninja</p>
-<button class="watch" onclick="openTitle('Naruto')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="Attack on Titan">
-<div class="poster">ATTACK<br>ON TITAN</div>
-<div class="card-info">
-<h3>Attack on Titan</h3>
-<p>Anime • Fantasy</p>
-<button class="watch" onclick="openTitle('Attack on Titan')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="Dragon Ball">
-<div class="poster">DRAGON<br>BALL</div>
-<div class="card-info">
-<h3>Dragon Ball</h3>
-<p>Anime • Action</p>
-<button class="watch" onclick="openTitle('Dragon Ball')">
-Explore
-</button>
-</div>
-</div>
-
-</div>
-</section>
-
-
-<!-- MOVIES -->
-<section id="movies" class="section">
-
-<div class="section-title">
-<h2>🎬 Movie Hub</h2>
-<span>6 titles</span>
-</div>
-
-<div class="grid">
-
-<div class="card" data-title="Interstellar">
-<div class="poster movie">INTERSTELLAR</div>
-<div class="card-info">
-<h3>Interstellar</h3>
-<p>Sci-Fi • Drama</p>
-<button class="watch" onclick="openTitle('Interstellar')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="Oppenheimer">
-<div class="poster movie">OPPENHEIMER</div>
-<div class="card-info">
-<h3>Oppenheimer</h3>
-<p>Drama • History</p>
-<button class="watch" onclick="openTitle('Oppenheimer')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="Inception">
-<div class="poster movie">INCEPTION</div>
-<div class="card-info">
-<h3>Inception</h3>
-<p>Sci-Fi • Thriller</p>
-<button class="watch" onclick="openTitle('Inception')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="Avengers">
-<div class="poster movie">AVENGERS</div>
-<div class="card-info">
-<h3>Avengers</h3>
-<p>Action • Superhero</p>
-<button class="watch" onclick="openTitle('Avengers')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="Avatar">
-<div class="poster movie">AVATAR</div>
-<div class="card-info">
-<h3>Avatar</h3>
-<p>Fantasy • Adventure</p>
-<button class="watch" onclick="openTitle('Avatar')">
-Explore
-</button>
-</div>
-</div>
-
-<div class="card" data-title="The Batman">
-<div class="poster movie">THE<br>BATMAN</div>
-<div class="card-info">
-<h3>The Batman</h3>
-<p>Action • Crime</p>
-<button class="watch" onclick="openTitle('The Batman')">
-Explore
-</button>
-</div>
-</div>
-
-</div>
-</section>
-
-</main>
-
-
-<footer>
-© 2026 OmniHub — Anime & Movie Hub
-</footer>
-
-
-<script>
-
-function showSection(id,button){
-
-    document
-    .querySelectorAll(".section")
-    .forEach(section=>{
-        section.classList.remove("active");
-    });
-
-    document
-    .getElementById(id)
-    .classList.add("active");
-
-    document
-    .querySelectorAll("nav button")
-    .forEach(btn=>{
-        btn.classList.remove("active");
-    });
-
-    button.classList.add("active");
-
-    document.getElementById("search").value="";
-
-    searchContent();
-}
-
-
-function searchContent(){
-
-    const query =
-    document
-    .getElementById("search")
-    .value
-    .toLowerCase()
-    .trim();
-
-    const activeSection =
-    document.querySelector(".section.active");
-
-    const cards =
-    activeSection.querySelectorAll(".card");
-
-    cards.forEach(card=>{
-
-        const title =
-        card.dataset.title.toLowerCase();
-
-        if(title.includes(query)){
-            card.style.display="";
-        }else{
-            card.style.display="none";
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Stream Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --accent-color: #66fcf1;
+            --text-color: #c5c6c7;
+            --highlight-color: #45a29e;
         }
 
-    });
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
 
-function openTitle(title){
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
-    alert(
-        title +
-        " selected!\n\n" +
-        "Yahan tum baad me apna official trailer, details ya legal streaming link add kar sakte ho."
-    );
+        header h1 {
+            color: var(--accent-color);
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
 
-}
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
 
+        /* Player Container */
+        .player-section {
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            border: 1px solid #333;
+            margin-bottom: 30px;
+        }
+
+        /* Server Bar Header */
+        .server-control-bar {
+            background: var(--card-bg);
+            padding: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .anime-title-display {
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .server-selector-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .server-selector-wrapper label {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+        }
+
+        select.server-dropdown {
+            background-color: var(--bg-color);
+            color: #fff;
+            border: 1px solid var(--highlight-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Server Tabs */
+        .server-buttons-bar {
+            background: #151922;
+            padding: 10px 15px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 1px solid #222;
+        }
+
+        .server-btn {
+            background: #252c3b;
+            color: #fff;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .server-btn:hover, .server-btn.active {
+            background: var(--accent-color);
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* Video Iframe Frame */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            background: #000;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Anime Catalog Section */
+        .catalog-title {
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .anime-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--highlight-color);
+            box-shadow: 0 4px 15px rgba(102, 252, 241, 0.2);
+        }
+
+        .anime-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+
+        .anime-info {
+            padding: 12px;
+        }
+
+        .anime-info h3 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .anime-info p {
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><i class="fa-solid =>-play"></i> AnimeVerse Portal</h1>
+        <p>Multiple Servers me Anime Stream Karein</p>
+    </header>
+
+    <!-- Main Player Section -->
+    <div class="player-section">
+        <div class="server-control-bar">
+            <div class="anime-title-display" id="currentAnimeTitle">Anime Select Karein</div>
+            
+            <div class="server-selector-wrapper">
+                <label for="serverSelect"><i class="fa-solid fa-server"></i> Server Choose Karein:</label>
+                <select id="serverSelect" class="server-dropdown" onchange="changeServer(this.value)">
+                    <!-- Options JavaScript se render honge -->
+                </select>
+            </div>
+        </div>
+
+        <!-- Server Quick Access Buttons -->
+        <div class="server-buttons-bar" id="serverButtons">
+            <!-- Buttons dynamically load honge -->
+        </div>
+
+        <!-- Video Player Display -->
+        <div class="video-wrapper">
+            <iframe id="videoPlayer" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        </div>
+    </div>
+
+    <!-- Anime Selection Grid -->
+    <h2 class="catalog-title">Available Anime Series</h2>
+    <div class="anime-grid" id="animeGrid">
+        <!-- Anime List dynamically load hogi -->
+    </div>
+</div>
+
+<script>
+    // Database Structure: Every Anime has 6-7 Provider Embed Links
+    const animeData = [
+        {
+            id: "1",
+            title: "Naruto Shippuden",
+            poster: "https://via.placeholder.com/200x260/1f2833/66fcf1?text=Naruto",
+            servers: [
+                { name: "Server 1 (Vidstreaming)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 2 (Gogoanime)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 3 (Streamtape)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 4 (Doodstream)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 5 (Filemoon)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 6 (Mixdrop)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 7 (StreamWish)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" }
+            ]
+        },
+        {
+            id: "2",
+            title: "Attack On Titan",
+            poster: "https://via.placeholder.com/200x260/1f2833/66fcf1?text=AOT",
+            servers: [
+                { name: "Server 1 (Vidcloud)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                { name: "Server 2 (Vidstreaming)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                { name: "Server 3 (Mp4upload)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                { name: "Server 4 (Streamtape)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                { name: "Server 5 (Doodstream)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                { name: "Server 6 (Filemoon)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+                { name: "Server 7 (Upstream)", url: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
+            ]
+        },
+        {
+            id: "3",
+            title: "Demon Slayer",
+            poster: "https://via.placeholder.com/200x260/1f2833/66fcf1?text=Demon+Slayer",
+            servers: [
+                { name: "Server 1 (FastServer)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 2 (Gogoanime)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 3 (Vidstreaming)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 4 (Streamtape)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 5 (Doodstream)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 6 (Mixdrop)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" },
+                { name: "Server 7 (Filemoon)", url: "https://www.youtube.com/embed/tgbNymZ7vqY" }
+            ]
+        }
+    ];
+
+    let currentSelectedAnime = null;
+
+    // Load Anime Cards
+    function renderCatalog() {
+        const grid = document.getElementById('animeGrid');
+        grid.innerHTML = '';
+
+        animeData.forEach(anime => {
+            const card = document.createElement('div');
+            card.className = 'anime-card';
+            card.onclick = () => loadAnime(anime.id);
+
+            card.innerHTML = `
+                <img src="${anime.poster}" alt="${anime.title}">
+                <div class="anime-info">
+                    <h3>${anime.title}</h3>
+                    <p>${anime.servers.length} Servers Available</p>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // Load selected anime into player
+    function loadAnime(animeId) {
+        currentSelectedAnime = animeData.find(a => a.id === animeId);
+        
+        if (!currentSelectedAnime) return;
+
+        document.getElementById('currentAnimeTitle').innerText = currentSelectedAnime.title;
+
+        // Build server dropdown & buttons
+        const select = document.getElementById('serverSelect');
+        const buttonsContainer = document.getElementById('serverButtons');
+        
+        select.innerHTML = '';
+        buttonsContainer.innerHTML = '';
+
+        currentSelectedAnime.servers.forEach((server, index) => {
+            // Populate Dropdown
+            const option = document.createElement('option');
+            option.value = server.url;
+            option.innerText = server.name;
+            select.appendChild(option);
+
+            // Populate Button bar
+            const btn = document.createElement('button');
+            btn.className = 'server-btn' + (index === 0 ? ' active' : '');
+            btn.innerText = server.name;
+            btn.onclick = () => {
+                select.value = server.url;
+                changeServer(server.url);
+            };
+            buttonsContainer.appendChild(btn);
+        });
+
+        // Set default server link (First link)
+        changeServer(currentSelectedAnime.servers[0].url);
+        
+        // Scroll player into view
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Direct change video player URL without confirmation popup
+    function changeServer(url) {
+        const iframe = document.getElementById('videoPlayer');
+        iframe.src = url;
+
+        // Update button active UI
+        const buttons = document.querySelectorAll('.server-btn');
+        buttons.forEach(btn => {
+            if (currentSelectedAnime) {
+                const match = currentSelectedAnime.servers.find(s => s.url === url);
+                if (match && btn.innerText === match.name) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            }
+        });
+    }
+
+    // Initialize Page
+    window.onload = () => {
+        renderCatalog();
+        loadAnime("1"); // Auto load first anime
+    };
 </script>
 
 </body>
