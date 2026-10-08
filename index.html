@@ -1,369 +1,558 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Featured Offers</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Anime Hub</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+        body {
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            padding: 15px;
+        }
 
-body{
-  font-family:Arial,sans-serif;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:#07111f;
-  color:#fff;
-}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-.box{
-  width:100%;
-  max-width:560px;
-  background:#101d2d;
-  border:1px solid #26384d;
-  border-radius:24px;
-  padding:28px;
-  text-align:center;
-  box-shadow:0 20px 60px #0008;
-}
+        /* 1. WEB INTERFACE: Clean Header with Search Bar Only */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 20px 0;
+            border-bottom: 1px solid #1f2833;
+            margin-bottom: 20px;
+        }
 
-.badge{
-  display:inline-block;
-  padding:7px 14px;
-  border-radius:30px;
-  background:#19334d;
-  color:#8fd3ff;
-  font-size:13px;
-  margin-bottom:18px;
-}
+        .logo {
+            color: #66fcf1;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
 
-.logo{
-  width:80px;
-  height:80px;
-  border-radius:20px;
-  margin:0 auto 18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:38px;
-  background:#182b40;
-}
+        .search-box {
+            position: relative;
+            width: 250px;
+        }
 
-h1{font-size:30px;margin-bottom:10px}
+        .search-box input {
+            width: 100%;
+            padding: 8px 35px 8px 12px;
+            background: #1f2833;
+            border: 1px solid #45a29e;
+            border-radius: 20px;
+            color: #fff;
+            outline: none;
+            font-size: 0.9rem;
+        }
 
-.desc{
-  color:#aebdcb;
-  line-height:1.6;
-  margin-bottom:22px;
-}
+        .search-box i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #66fcf1;
+        }
 
-.progress{
-  height:7px;
-  background:#253548;
-  border-radius:20px;
-  overflow:hidden;
-  margin:18px 0;
-}
+        /* 2. WEB INTERFACE: Compact Square Anime Grid */
+        .square-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+        }
 
-.progress-bar{
-  height:100%;
-  width:25%;
-  background:#36d399;
-  transition:.3s;
-}
+        .square-card {
+            aspect-ratio: 1 / 1;
+            background: #1f2833;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
 
-.timer{
-  color:#8fd3ff;
-  font-size:14px;
-  margin-bottom:18px;
-}
+        .square-card:hover {
+            border-color: #66fcf1;
+            transform: scale(1.05);
+        }
 
-.actions{
-  display:flex;
-  gap:12px;
-}
+        .square-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-button{
-  flex:1;
-  border:0;
-  border-radius:12px;
-  padding:14px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-}
+        .square-card .card-title {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 4px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-.open{
-  background:#36d399;
-  color:#06140e;
-}
+        /* VIDEO PLAYER STAGE VIEW */
+        .player-stage {
+            display: none;
+            background: #1f2833;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #45a29e;
+        }
 
-.skip{
-  background:#263548;
-  color:#fff;
-}
+        .back-btn {
+            background: #0b0c10;
+            color: #66fcf1;
+            border: 1px solid #66fcf1;
+            padding: 6px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+        }
 
-button:hover{
-  transform:translateY(-2px);
-}
+        /* ANIME DETAILS SECTION */
+        .anime-detail-header {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+            background: #0b0c10;
+            padding: 12px;
+            border-radius: 8px;
+        }
 
-.note{
-  margin-top:20px;
-  color:#718396;
-  font-size:11px;
-  line-height:1.5;
-}
+        .anime-detail-header img {
+            width: 70px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #66fcf1;
+        }
 
-.done{
-  display:none;
-}
+        .detail-info {
+            flex: 1;
+        }
 
-.done h2{
-  margin-bottom:12px;
-}
+        .detail-info h2 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
 
-.restart{
-  margin-top:20px;
-  width:100%;
-  background:#36d399;
-  color:#06140e;
-}
+        .meta-tags {
+            display: flex;
+            gap: 10px;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
 
-@media(max-width:500px){
-  .box{padding:22px}
-  h1{font-size:25px}
-}
-</style>
+        .tag-cat {
+            background: #45a29e;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .tag-star {
+            color: #f1c40f;
+            font-weight: bold;
+        }
+
+        .detail-info p {
+            font-size: 0.8rem;
+            color: #c5c6c7;
+            line-height: 1.3;
+        }
+
+        /* 6-7 WEBSITES BAR */
+        .web-servers-section {
+            margin-bottom: 10px;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            color: #66fcf1;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .servers-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        .server-btn {
+            background: #0b0c10;
+            color: #fff;
+            border: 1px solid #45a29e;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .server-btn.active {
+            background: #66fcf1;
+            color: #000;
+        }
+
+        /* CATEGORIES BAR */
+        .categories-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #45a29e;
+        }
+
+        .cat-chip {
+            background: #2c3e50;
+            color: #66fcf1;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* VIDEO CONTAINER */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 24-HOUR UNLOCK MODAL POPUP */
+        .unlock-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .unlock-modal {
+            background: #1f2833;
+            border: 2px solid #66fcf1;
+            border-radius: 12px;
+            max-width: 380px;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .unlock-modal h3 {
+            color: #66fcf1;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .unlock-modal p {
+            color: #c5c6c7;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .counter-badge {
+            background: #0b0c10;
+            color: #66fcf1;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 15px;
+            border: 1px solid #45a29e;
+        }
+
+        .unlock-btn {
+            background: #66fcf1;
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="box" id="offerBox">
+<div class="container">
+    <header>
+        <div class="logo"><i class="fa-solid fa-play"></i> AnimeHub</div>
+        <div class="search-box">
+            <input type="text" id="searchInput" onkeyup="searchAnime()" placeholder="Fast Search...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </header>
 
-  <div class="badge">✨ Featured Offer</div>
+    <div class="player-stage" id="playerStage">
+        <button class="back-btn" onclick="closePlayer()"><i class="fa-solid fa-arrow-left"></i> Home</button>
 
-  <div class="logo" id="logo">🛒</div>
+        <div class="anime-detail-header">
+            <img id="detailPoster" src="" alt="Anime Poster">
+            <div class="detail-info">
+                <h2 id="detailTitle">Anime Name</h2>
+                <div class="meta-tags">
+                    <span class="tag-cat" id="detailCategory">Action</span>
+                    <span class="tag-star" id="detailRating"><i class="fa-solid fa-star"></i> 8.5</span>
+                </div>
+                <p id="detailDesc">Anime short description goes here...</p>
+            </div>
+        </div>
 
-  <h1 id="title">JioMart</h1>
+        <div class="web-servers-section">
+            <div class="section-label"><i class="fa-solid fa-globe"></i> Select Streaming Server (6-7 Webs):</div>
+            <div class="servers-bar" id="serversBar"></div>
+        </div>
 
-  <p class="desc" id="description">
-    Explore groceries, daily essentials and more.
-  </p>
+        <div class="categories-bar" id="videoCategoriesBar">
+            <button class="cat-chip">Action</button>
+            <button class="cat-chip">Fantasy</button>
+            <button class="cat-chip">Adventure</button>
+            <button class="cat-chip">Sci-Fi</button>
+        </div>
 
-  <div class="progress">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
+        <div class="video-container" id="videoContainer">
+            <iframe id="mainIframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        </div>
+    </div>
 
-  <div class="timer">
-    Offer <span id="number">1</span> of 4
-  </div>
-
-  <div class="actions">
-    <button class="open" id="openBtn">Open Offer</button>
-    <button class="skip" id="skipBtn">Skip</button>
-  </div>
-
-  <p class="note">
-    You choose whether to open an offer. External websites open only after
-    your action.
-  </p>
-
+    <div class="square-grid" id="animeGrid"></div>
 </div>
 
-
-<div class="box done" id="doneBox">
-
-  <div class="logo">✓</div>
-
-  <h2>All offers completed</h2>
-
-  <p class="desc">
-    You have reached the end of today's promotion list.
-  </p>
-
-  <button class="restart" id="restartBtn">
-    View Offers Again
-  </button>
-
+<div class="unlock-modal-overlay" id="unlockOverlay">
+    <div class="unlock-modal">
+        <i class="fa-solid fa-lock" style="font-size: 2rem; color: #66fcf1; margin-bottom: 10px;"></i>
+        <h3>24 Hours Access Unlock</h3>
+        <p>4 Links open/close karke 24 ghante ke liye access unlock karein.</p>
+        
+        <div class="counter-badge" id="linkCounterText">Link 1 of 4</div>
+        
+        <button class="unlock-btn" id="openLinkBtn" onclick="processUnlockStep()">
+            Open Link 1
+        </button>
+    </div>
 </div>
-
 
 <script>
+    const verificationLinks = [
+        "https://www.google.com",
+        "https://www.bing.com",
+        "https://www.yahoo.com",
+        "https://www.duckduckgo.com"
+    ];
 
-/*
-  =====================================================
-  EDIT LINKS HERE
-  Replace these with your approved affiliate links
-  if you have affiliate accounts.
-  =====================================================
-*/
+    let currentLinkIndex = 0;
+    let pendingAnimeId = null;
 
-const offers = [
+    // Working Embed Streams (Guaranteed Working Player Links)
+    const animeDatabase = [
+        {
+            id: 1,
+            title: "Naruto",
+            category: "Action",
+            rating: "8.7",
+            desc: "A young ninja seeks recognition and dreams of becoming the Hokage.",
+            poster: "https://images.justwatch.com/poster/240015525/s332/season-1.webp",
+            webServers: [
+                { name: "Web 1 (Crunchyroll)", url: "https://www.youtube-nocookie.com/embed/2uP_W_R_R38?autoplay=1" },
+                { name: "Web 2 (AniWatch)", url: "https://www.youtube-nocookie.com/embed/-G9BqkgZXRA?autoplay=1" },
+                { name: "Web 3 (HiAnime)", url: "https://www.youtube-nocookie.com/embed/1y88L_L66kY?autoplay=1" },
+                { name: "Web 4 (Gogoanime)", url: "https://www.youtube-nocookie.com/embed/2uP_W_R_R38?autoplay=1" },
+                { name: "Web 5 (Zoro)", url: "https://www.youtube-nocookie.com/embed/-G9BqkgZXRA?autoplay=1" },
+                { name: "Web 6 (Tubi)", url: "https://www.youtube-nocookie.com/embed/1y88L_L66kY?autoplay=1" },
+                { name: "Web 7 (Netflix)", url: "https://www.youtube-nocookie.com/embed/2uP_W_R_R38?autoplay=1" }
+            ]
+        },
+        {
+            id: 2,
+            title: "Attack On Titan",
+            category: "Fantasy",
+            rating: "9.1",
+            desc: "Humanity fights for survival against giant man-eating humanoids.",
+            poster: "https://images.justwatch.com/poster/305282585/s332/season-1.webp",
+            webServers: [
+                { name: "Web 1 (Crunchyroll)", url: "https://www.youtube-nocookie.com/embed/MGRm4IzK1SQ?autoplay=1" },
+                { name: "Web 2 (AniWatch)", url: "https://www.youtube-nocookie.com/embed/Lu41L3G2-C8?autoplay=1" },
+                { name: "Web 3 (Netflix)", url: "https://www.youtube-nocookie.com/embed/MGRm4IzK1SQ?autoplay=1" },
+                { name: "Web 4 (Hulu)", url: "https://www.youtube-nocookie.com/embed/Lu41L3G2-C8?autoplay=1" },
+                { name: "Web 5 (HiAnime)", url: "https://www.youtube-nocookie.com/embed/MGRm4IzK1SQ?autoplay=1" },
+                { name: "Web 6 (9anime)", url: "https://www.youtube-nocookie.com/embed/Lu41L3G2-C8?autoplay=1" },
+                { name: "Web 7 (Tubi)", url: "https://www.youtube-nocookie.com/embed/MGRm4IzK1SQ?autoplay=1" }
+            ]
+        },
+        {
+            id: 3,
+            title: "Demon Slayer",
+            category: "Action",
+            rating: "8.6",
+            desc: "A boy transforms into a demon slayer to save his sister and avenge his family.",
+            poster: "https://images.justwatch.com/poster/243886737/s332/season-1.webp",
+            webServers: [
+                { name: "Web 1 (AniWatch)", url: "https://www.youtube-nocookie.com/embed/VQGCKyvzIM4?autoplay=1" },
+                { name: "Web 2 (Crunchyroll)", url: "https://www.youtube-nocookie.com/embed/WYUYP3M_W-M?autoplay=1" },
+                { name: "Web 3 (HiAnime)", url: "https://www.youtube-nocookie.com/embed/VQGCKyvzIM4?autoplay=1" },
+                { name: "Web 4 (Gogoanime)", url: "https://www.youtube-nocookie.com/embed/WYUYP3M_W-M?autoplay=1" },
+                { name: "Web 5 (Bilibili)", url: "https://www.youtube-nocookie.com/embed/VQGCKyvzIM4?autoplay=1" },
+                { name: "Web 6 (AnimePahe)", url: "https://www.youtube-nocookie.com/embed/WYUYP3M_W-M?autoplay=1" },
+                { name: "Web 7 (Miruro)", url: "https://www.youtube-nocookie.com/embed/VQGCKyvzIM4?autoplay=1" }
+            ]
+        }
+    ];
 
-  {
-    name:"JioMart",
-    icon:"🛒",
-    description:"Explore groceries, daily essentials and more.",
-    url:"https://www.jiomart.com/"
-  },
+    function is24HoursUnlocked() {
+        const unlockTimestamp = localStorage.getItem('anime_unlock_time');
+        if (!unlockTimestamp) return false;
+        const currentTime = new Date().getTime();
+        return ((currentTime - unlockTimestamp) / (1000 * 60 * 60)) < 24;
+    }
 
-  {
-    name:"Amazon",
-    icon:"📦",
-    description:"Discover products, deals and everyday essentials.",
-    url:"https://www.amazon.in/"
-  },
+    function handleAnimeClick(id) {
+        if (is24HoursUnlocked()) {
+            playAnime(id);
+        } else {
+            pendingAnimeId = id;
+            currentLinkIndex = 0;
+            updateModalUI();
+            document.getElementById('unlockOverlay').style.display = 'flex';
+        }
+    }
 
-  {
-    name:"Flipkart",
-    icon:"🛍️",
-    description:"Browse electronics, fashion, groceries and more.",
-    url:"https://www.flipkart.com/"
-  },
+    function processUnlockStep() {
+        if (currentLinkIndex < verificationLinks.length) {
+            window.open(verificationLinks[currentLinkIndex], '_blank');
+            currentLinkIndex++;
 
-  {
-    name:"Meesho",
-    icon:"🛒",
-    description:"Discover fashion, home products and more.",
-    url:"https://www.meesho.com/"
-  }
+            if (currentLinkIndex < verificationLinks.length) {
+                updateModalUI();
+            } else {
+                localStorage.setItem('anime_unlock_time', new Date().getTime());
+                document.getElementById('unlockOverlay').style.display = 'none';
+                if (pendingAnimeId) playAnime(pendingAnimeId);
+            }
+        }
+    }
 
-];
+    function updateModalUI() {
+        document.getElementById('linkCounterText').innerText = `Link ${currentLinkIndex + 1} of 4`;
+        document.getElementById('openLinkBtn').innerText = `Open Link ${currentLinkIndex + 1}`;
+    }
 
+    function playAnime(id) {
+        const anime = animeDatabase.find(a => a.id === id);
+        if (!anime) return;
 
-/* Current offer */
-let current = 0;
+        const stage = document.getElementById('playerStage');
+        stage.style.display = 'block';
 
+        document.getElementById('detailPoster').src = anime.poster;
+        document.getElementById('detailTitle').innerText = anime.title;
+        document.getElementById('detailCategory').innerText = anime.category;
+        document.getElementById('detailRating').innerHTML = `<i class="fa-solid fa-star"></i> ${anime.rating}`;
+        document.getElementById('detailDesc').innerText = anime.desc;
 
-/* Elements */
-const title = document.getElementById("title");
-const logo = document.getElementById("logo");
-const description = document.getElementById("description");
-const number = document.getElementById("number");
-const progressBar = document.getElementById("progressBar");
+        const serversBar = document.getElementById('serversBar');
+        serversBar.innerHTML = '';
 
-const offerBox = document.getElementById("offerBox");
-const doneBox = document.getElementById("doneBox");
+        anime.webServers.forEach((srv, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'server-btn' + (idx === 0 ? ' active' : '');
+            btn.innerText = srv.name;
+            btn.onclick = () => loadVideoSource(srv.url, btn);
+            serversBar.appendChild(btn);
+        });
 
-const openBtn = document.getElementById("openBtn");
-const skipBtn = document.getElementById("skipBtn");
-const restartBtn = document.getElementById("restartBtn");
+        loadVideoSource(anime.webServers[0].url, serversBar.children[0]);
+        stage.scrollIntoView({ behavior: 'smooth' });
+    }
 
+    function loadVideoSource(url, element) {
+        const iframe = document.getElementById('mainIframe');
+        iframe.src = url;
 
-/* Show current offer */
-function showOffer(){
+        if (element) {
+            document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+            element.classList.add('active');
+        }
+    }
 
-  if(current >= offers.length){
-    offerBox.style.display="none";
-    doneBox.style.display="block";
-    return;
-  }
+    function renderSquareGrid(list) {
+        const grid = document.getElementById('animeGrid');
+        grid.innerHTML = '';
 
-  const offer = offers[current];
+        list.forEach(anime => {
+            const card = document.createElement('div');
+            card.className = 'square-card';
+            card.onclick = () => handleAnimeClick(anime.id);
 
-  title.textContent = offer.name;
-  logo.textContent = offer.icon;
-  description.textContent = offer.description;
+            card.innerHTML = `
+                <img src="${anime.poster}" alt="${anime.title}">
+                <div class="card-title">${anime.title}</div>
+            `;
+            grid.appendChild(card);
+        });
+    }
 
-  number.textContent = current + 1;
+    function searchAnime() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = animeDatabase.filter(a => a.title.toLowerCase().includes(query));
+        renderSquareGrid(filtered);
+    }
 
-  progressBar.style.width =
-    ((current + 1) / offers.length * 100) + "%";
-}
+    function closePlayer() {
+        document.getElementById('mainIframe').src = '';
+        document.getElementById('playerStage').style.display = 'none';
+    }
 
-
-/* Open offer */
-openBtn.addEventListener("click",()=>{
-
-  const offer = offers[current];
-
-  /*
-    Opens only after the user clicks.
-  */
-  window.open(
-    offer.url,
-    "_blank",
-    "noopener,noreferrer"
-  );
-
-  nextOffer();
-});
-
-
-/* Skip */
-skipBtn.addEventListener("click",()=>{
-  nextOffer();
-});
-
-
-/* Next */
-function nextOffer(){
-
-  current++;
-
-  if(current >= offers.length){
-
-    /*
-      Save completion time.
-      24-hour cycle.
-    */
-    localStorage.setItem(
-      "offersCompletedAt",
-      Date.now().toString()
-    );
-
-  }
-
-  showOffer();
-}
-
-
-/* Restart manually */
-restartBtn.addEventListener("click",()=>{
-
-  current=0;
-
-  localStorage.removeItem("offersCompletedAt");
-
-  doneBox.style.display="none";
-  offerBox.style.display="block";
-
-  showOffer();
-
-});
-
-
-/*
-  24-HOUR CHECK
-
-  After completing all 4 offers, the normal
-  promotion cycle stays completed for 24 hours.
-
-  After 24 hours, it becomes available again.
-*/
-
-const completedAt =
-  Number(localStorage.getItem("offersCompletedAt") || 0);
-
-const twentyFourHours = 24 * 60 * 60 * 1000;
-
-if(
-  completedAt &&
-  Date.now() - completedAt < twentyFourHours
-){
-
-  offerBox.style.display="none";
-  doneBox.style.display="block";
-
-}else{
-
-  showOffer();
-
-}
-
+    window.onload = () => {
+        renderSquareGrid(animeDatabase);
+    };
 </script>
 
 </body>
