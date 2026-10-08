@@ -2,1380 +2,556 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#080a10">
-
-<title>OmniHub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OmniHub — Anime & Movie Hub</title>
 
 <style>
-:root{
-  --bg:#080a10;
-  --panel:#11141d;
-  --panel2:#171b26;
-  --line:#252b39;
-  --text:#ffffff;
-  --muted:#9299aa;
-  --accent:#805cff;
-  --accent2:#a98fff;
-}
-
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 body{
-  min-height:100vh;
-  background:
-    radial-gradient(circle at 20% 0%,#21144a 0,transparent 32%),
-    radial-gradient(circle at 90% 20%,#172451 0,transparent 28%),
-    var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+    font-family:Arial, sans-serif;
+    background:#07070a;
+    color:white;
 }
-
-button,
-input{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-a{
-  text-decoration:none;
-}
-
 
 /* HEADER */
-
-.header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:#080a10;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-
-.header-inner{
-  max-width:1200px;
-  margin:auto;
-  padding:14px 18px;
-}
-
-.top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
+header{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+    background:#0d0d12;
+    border-bottom:1px solid #25252d;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .logo{
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:-1px;
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:1px;
 }
 
 .logo span{
-  color:var(--accent2);
+    color:#8b5cf6;
 }
 
-.live{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  color:#b9bfd0;
-  font-size:11px;
-  background:#151923;
-  border:1px solid var(--line);
-  padding:7px 10px;
-  border-radius:30px;
+nav{
+    display:flex;
+    gap:10px;
 }
 
-.dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#42e68a;
+nav button{
+    border:0;
+    background:#18181f;
+    color:#ddd;
+    padding:10px 18px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.search{
-  width:100%;
-  margin-top:14px;
-  padding:13px 16px;
-  border:1px solid var(--line);
-  outline:none;
-  border-radius:13px;
-  background:#11141d;
-  color:#fff;
+nav button:hover,
+nav button.active{
+    background:#7c3aed;
+    color:white;
 }
 
-.search::placeholder{
-  color:#747b8d;
-}
-
-.search:focus{
-  border-color:var(--accent);
-}
-
-.categories{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  margin-top:12px;
-  padding-bottom:2px;
-}
-
-.categories::-webkit-scrollbar{
-  display:none;
-}
-
-.cat{
-  white-space:nowrap;
-  border:1px solid var(--line);
-  background:#151923;
-  color:#bfc4d1;
-  padding:9px 15px;
-  border-radius:30px;
-}
-
-.cat.active{
-  background:var(--accent);
-  color:#fff;
-  border-color:var(--accent);
-}
-
-
-/* MAIN */
-
-.main{
-  max-width:1200px;
-  margin:auto;
-  padding:20px 18px 60px;
-}
-
+/* HERO */
 .hero{
-  position:relative;
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:30px 22px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(128,92,255,.22),
-      rgba(20,24,37,.9)
-    );
+    padding:75px 7%;
+    background:
+    radial-gradient(circle at 80% 30%,#5b21b633,transparent 35%),
+    radial-gradient(circle at 20% 20%,#2563eb22,transparent 35%);
+}
+
+.badge{
+    display:inline-block;
+    background:#7c3aed22;
+    color:#a78bfa;
+    border:1px solid #7c3aed55;
+    padding:8px 14px;
+    border-radius:30px;
+    font-size:13px;
+    margin-bottom:20px;
 }
 
 .hero h1{
-  position:relative;
-  z-index:1;
-  font-size:clamp(28px,6vw,50px);
-  letter-spacing:-2px;
+    font-size:clamp(40px,7vw,75px);
+    line-height:1;
+    margin-bottom:20px;
+}
+
+.hero h1 span{
+    color:#8b5cf6;
 }
 
 .hero p{
-  position:relative;
-  z-index:1;
-  max-width:650px;
-  color:#b4bac8;
-  margin-top:10px;
-  line-height:1.55;
+    color:#a1a1aa;
+    max-width:650px;
+    line-height:1.7;
+    font-size:17px;
 }
 
-.hero-actions{
-  position:relative;
-  z-index:2;
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:20px;
+.search{
+    margin-top:30px;
+    display:flex;
+    max-width:600px;
 }
 
-.primary,
-.secondary{
-  border:0;
-  padding:12px 17px;
-  border-radius:12px;
-  font-weight:700;
+.search input{
+    flex:1;
+    padding:15px;
+    background:#111116;
+    color:white;
+    border:1px solid #303038;
+    border-radius:10px 0 0 10px;
+    outline:none;
+    font-size:15px;
 }
 
-.primary{
-  background:var(--accent);
-  color:#fff;
+.search button{
+    border:0;
+    padding:0 22px;
+    background:#7c3aed;
+    color:white;
+    font-weight:bold;
+    border-radius:0 10px 10px 0;
 }
 
-.secondary{
-  background:#202531;
-  color:#fff;
-  border:1px solid var(--line);
+/* CONTENT */
+main{
+    padding:45px 7%;
 }
-
-
-/* SECTION */
 
 .section{
-  margin-top:28px;
+    display:none;
 }
 
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:13px;
+.section.active{
+    display:block;
 }
 
-.section-head h2{
-  font-size:21px;
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
 }
 
-.section-head span{
-  color:#858c9e;
-  font-size:12px;
+.section-title h2{
+    font-size:30px;
 }
 
+.section-title span{
+    color:#71717a;
+    font-size:14px;
+}
 
 /* CARDS */
-
 .grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-
-@media(min-width:650px){
-  .grid{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-  }
-}
-
-@media(min-width:950px){
-  .grid{
-    grid-template-columns:repeat(5,minmax(0,1fr));
-  }
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:20px;
 }
 
 .card{
-  overflow:hidden;
-  background:linear-gradient(180deg,#151923,#10131a);
-  border:1px solid var(--line);
-  border-radius:17px;
-  transition:.2s ease;
+    background:#111116;
+    border:1px solid #25252d;
+    border-radius:14px;
+    overflow:hidden;
+    transition:.25s;
 }
 
 .card:hover{
-  transform:translateY(-4px);
-  border-color:#6950d7;
+    transform:translateY(-6px);
+    border-color:#7c3aed;
+    box-shadow:0 15px 35px #0008;
 }
 
-.cover{
-  height:145px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
-  background:
-    radial-gradient(
-      circle at 50% 25%,
-      rgba(128,92,255,.25),
-      transparent 45%
-    ),
-    #171b25;
+.poster{
+    height:260px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    font-size:25px;
+    font-weight:900;
+    background:
+    linear-gradient(135deg,#312e81,#7c3aed);
 }
 
-.info{
-  padding:12px;
+.poster.movie{
+    background:
+    linear-gradient(135deg,#172554,#2563eb);
 }
 
-.info h3{
-  font-size:15px;
-  margin-bottom:5px;
+.card-info{
+    padding:15px;
 }
 
-.info p{
-  color:var(--muted);
-  font-size:11px;
-  min-height:30px;
+.card-info h3{
+    font-size:16px;
+    margin-bottom:8px;
 }
 
-.open-btn{
-  width:100%;
-  margin-top:10px;
-  padding:9px;
-  border:0;
-  border-radius:10px;
-  background:#222734;
-  color:#fff;
+.card-info p{
+    color:#71717a;
+    font-size:13px;
 }
 
-.open-btn:hover{
-  background:var(--accent);
+.watch{
+    width:100%;
+    margin-top:12px;
+    padding:10px;
+    border:0;
+    border-radius:7px;
+    background:#27272a;
+    color:white;
+    cursor:pointer;
 }
 
-
-/* PROMO */
-
-.promo{
-  margin-top:28px;
-  padding:18px;
-  border-radius:19px;
-  background:linear-gradient(135deg,#171329,#121620);
-  border:1px solid #30265b;
+.watch:hover{
+    background:#7c3aed;
 }
-
-.promo-title{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.promo p{
-  color:#aeb4c3;
-  font-size:13px;
-  line-height:1.5;
-  margin-top:7px;
-}
-
-.promo-btn{
-  width:100%;
-  margin-top:13px;
-  padding:12px;
-  border:0;
-  border-radius:11px;
-  background:var(--accent);
-  color:#fff;
-  font-weight:800;
-}
-
-.stats{
-  display:flex;
-  gap:9px;
-  margin-top:11px;
-}
-
-.stat{
-  flex:1;
-  padding:11px;
-  border-radius:11px;
-  text-align:center;
-  background:#1c202b;
-}
-
-.stat b{
-  display:block;
-  font-size:18px;
-}
-
-.stat small{
-  color:#858c9e;
-  font-size:10px;
-}
-
-
-/* MODAL */
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:500;
-  padding:15px;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.88);
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:min(760px,100%);
-  max-height:92vh;
-  overflow:auto;
-  background:#10131b;
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:17px;
-}
-
-.modal-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-
-.close{
-  border:0;
-  background:#242936;
-  color:#fff;
-  width:35px;
-  height:35px;
-  border-radius:10px;
-}
-
-.modal-desc{
-  color:#9ca3b3;
-  font-size:13px;
-  line-height:1.5;
-  margin-top:8px;
-}
-
-.preview{
-  width:100%;
-  aspect-ratio:16/9;
-  margin-top:15px;
-  border-radius:14px;
-  background:
-    radial-gradient(circle,#252b40,#080a0e 70%);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
-}
-
-.preview-icon{
-  font-size:55px;
-}
-
-.preview p{
-  color:#8e96a8;
-  font-size:12px;
-  margin-top:8px;
-}
-
-.modal-actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-  margin-top:12px;
-}
-
-.modal-actions a,
-.modal-actions button{
-  border:0;
-  padding:12px;
-  border-radius:11px;
-  text-align:center;
-  color:#fff;
-  background:#242936;
-}
-
-.modal-actions .watch{
-  background:var(--accent);
-}
-
-
-/* TOAST */
-
-.toast{
-  position:fixed;
-  z-index:900;
-  left:50%;
-  bottom:20px;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  background:#1d222d;
-  border:1px solid var(--line);
-  color:#fff;
-  padding:11px 15px;
-  border-radius:12px;
-  font-size:12px;
-  transition:.25s;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
 
 /* FOOTER */
-
 footer{
-  border-top:1px solid var(--line);
-  padding:30px 18px;
-  text-align:center;
-  color:#6f7685;
-  font-size:11px;
+    text-align:center;
+    padding:35px;
+    color:#71717a;
+    border-top:1px solid #25252d;
+    margin-top:40px;
+}
+
+@media(max-width:600px){
+    header{
+        padding:0 20px;
+    }
+
+    .hero,
+    main{
+        padding-left:20px;
+        padding-right:20px;
+    }
+
+    nav button{
+        padding:8px 10px;
+        font-size:12px;
+    }
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+
+    .poster{
+        height:210px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
+<header>
 
-  <div class="header-inner">
+<div class="logo">
+OMNI<span>HUB</span>
+</div>
 
-    <div class="top">
+<nav>
+<button class="active" onclick="showSection('anime',this)">
+Anime Hub
+</button>
 
-      <div class="logo">
-        OMNI<span>HUB</span>
-      </div>
-
-      <div class="live">
-        <i class="dot"></i>
-        ONLINE
-      </div>
-
-    </div>
-
-    <input
-      id="search"
-      class="search"
-      type="search"
-      placeholder="Search anime, movies, games, apps..."
-      autocomplete="off"
-    >
-
-    <div class="categories">
-
-      <button class="cat active"
-        onclick="setCategory('All',this)">
-        All
-      </button>
-
-      <button class="cat"
-        onclick="setCategory('Anime',this)">
-        🎌 Anime
-      </button>
-
-      <button class="cat"
-        onclick="setCategory('Movies',this)">
-        🎬 Movies
-      </button>
-
-      <button class="cat"
-        onclick="setCategory('Games',this)">
-        🎮 Games
-      </button>
-
-      <button class="cat"
-        onclick="setCategory('Apps',this)">
-        📱 Apps
-      </button>
-
-    </div>
-
-  </div>
+<button onclick="showSection('movies',this)">
+Movie Hub
+</button>
+</nav>
 
 </header>
 
 
-<main class="main">
-
 <section class="hero">
 
-  <h1>
-    Your digital world.<br>
-    One hub.
-  </h1>
+<div class="badge">
+● OMNIHUB ENTERTAINMENT
+</div>
 
-  <p>
-    Discover apps, games, anime and movies through one
-    clean OmniHub experience.
-  </p>
+<h1>
+Your <span>Anime</span><br>
+& Movie Universe
+</h1>
 
-  <div class="hero-actions">
+<p>
+Explore your entertainment hub for anime and movies.
+Search your favorite titles and discover something new.
+</p>
 
-    <button
-      class="primary"
-      onclick="setCategoryByName('All')">
-      Explore Everything
-    </button>
+<div class="search">
 
-    <button
-      class="secondary"
-      onclick="scrollToPromo()">
-      Featured
-    </button>
+<input
+id="search"
+type="text"
+placeholder="Search anime or movies..."
+oninput="searchContent()"
+>
 
-  </div>
+<button>
+Search
+</button>
 
-</section>
-
-
-<section class="section">
-
-  <div class="section-head">
-
-    <h2 id="sectionTitle">
-      Everything
-    </h2>
-
-    <span id="resultCount">
-      0 items
-    </span>
-
-  </div>
-
-  <div id="grid" class="grid"></div>
+</div>
 
 </section>
 
 
-<section id="promo" class="promo">
+<main>
 
-  <div class="promo-title">
-    <span>🚀</span>
-    <h2>Featured Promotion</h2>
-  </div>
+<!-- ANIME -->
+<section id="anime" class="section active">
 
-  <p>
-    Open an approved promotional offer. Genuine user activity
-    can be measured by the connected advertising or affiliate network.
-  </p>
+<div class="section-title">
+<h2>🔥 Anime Hub</h2>
+<span id="animeCount">6 titles</span>
+</div>
 
-  <button
-    class="promo-btn"
-    onclick="openPromotion()">
-    Open Promotion
-  </button>
+<div class="grid" id="animeGrid">
 
-  <div class="stats">
+<div class="card" data-title="Demon Slayer">
+<div class="poster">DEMON<br>SLAYER</div>
+<div class="card-info">
+<h3>Demon Slayer</h3>
+<p>Anime • Action</p>
+<button class="watch" onclick="openTitle('Demon Slayer')">
+Explore
+</button>
+</div>
+</div>
 
-    <div class="stat">
-      <b id="totalClicks">0</b>
-      <small>OmniHub Opens</small>
-    </div>
+<div class="card" data-title="Jujutsu Kaisen">
+<div class="poster">JUJUTSU<br>KAISEN</div>
+<div class="card-info">
+<h3>Jujutsu Kaisen</h3>
+<p>Anime • Action</p>
+<button class="watch" onclick="openTitle('Jujutsu Kaisen')">
+Explore
+</button>
+</div>
+</div>
 
-    <div class="stat">
-      <b id="todayClicks">0</b>
-      <small>Today</small>
-    </div>
+<div class="card" data-title="One Piece">
+<div class="poster">ONE<br>PIECE</div>
+<div class="card-info">
+<h3>One Piece</h3>
+<p>Anime • Adventure</p>
+<button class="watch" onclick="openTitle('One Piece')">
+Explore
+</button>
+</div>
+</div>
 
-  </div>
+<div class="card" data-title="Naruto">
+<div class="poster">NARUTO</div>
+<div class="card-info">
+<h3>Naruto</h3>
+<p>Anime • Ninja</p>
+<button class="watch" onclick="openTitle('Naruto')">
+Explore
+</button>
+</div>
+</div>
 
+<div class="card" data-title="Attack on Titan">
+<div class="poster">ATTACK<br>ON TITAN</div>
+<div class="card-info">
+<h3>Attack on Titan</h3>
+<p>Anime • Fantasy</p>
+<button class="watch" onclick="openTitle('Attack on Titan')">
+Explore
+</button>
+</div>
+</div>
+
+<div class="card" data-title="Dragon Ball">
+<div class="poster">DRAGON<br>BALL</div>
+<div class="card-info">
+<h3>Dragon Ball</h3>
+<p>Anime • Action</p>
+<button class="watch" onclick="openTitle('Dragon Ball')">
+Explore
+</button>
+</div>
+</div>
+
+</div>
+</section>
+
+
+<!-- MOVIES -->
+<section id="movies" class="section">
+
+<div class="section-title">
+<h2>🎬 Movie Hub</h2>
+<span>6 titles</span>
+</div>
+
+<div class="grid">
+
+<div class="card" data-title="Interstellar">
+<div class="poster movie">INTERSTELLAR</div>
+<div class="card-info">
+<h3>Interstellar</h3>
+<p>Sci-Fi • Drama</p>
+<button class="watch" onclick="openTitle('Interstellar')">
+Explore
+</button>
+</div>
+</div>
+
+<div class="card" data-title="Oppenheimer">
+<div class="poster movie">OPPENHEIMER</div>
+<div class="card-info">
+<h3>Oppenheimer</h3>
+<p>Drama • History</p>
+<button class="watch" onclick="openTitle('Oppenheimer')">
+Explore
+</button>
+</div>
+</div>
+
+<div class="card" data-title="Inception">
+<div class="poster movie">INCEPTION</div>
+<div class="card-info">
+<h3>Inception</h3>
+<p>Sci-Fi • Thriller</p>
+<button class="watch" onclick="openTitle('Inception')">
+Explore
+</button>
+</div>
+</div>
+
+<div class="card" data-title="Avengers">
+<div class="poster movie">AVENGERS</div>
+<div class="card-info">
+<h3>Avengers</h3>
+<p>Action • Superhero</p>
+<button class="watch" onclick="openTitle('Avengers')">
+Explore
+</button>
+</div>
+</div>
+
+<div class="card" data-title="Avatar">
+<div class="poster movie">AVATAR</div>
+<div class="card-info">
+<h3>Avatar</h3>
+<p>Fantasy • Adventure</p>
+<button class="watch" onclick="openTitle('Avatar')">
+Explore
+</button>
+</div>
+</div>
+
+<div class="card" data-title="The Batman">
+<div class="poster movie">THE<br>BATMAN</div>
+<div class="card-info">
+<h3>The Batman</h3>
+<p>Action • Crime</p>
+<button class="watch" onclick="openTitle('The Batman')">
+Explore
+</button>
+</div>
+</div>
+
+</div>
 </section>
 
 </main>
 
 
 <footer>
-  © 2026 OmniHub • Official and authorized sources only
+© 2026 OmniHub — Anime & Movie Hub
 </footer>
-
-
-<!-- MODAL -->
-
-<div id="modal" class="modal">
-
-  <div class="modal-box">
-
-    <div class="modal-top">
-
-      <div>
-        <h2 id="modalTitle">
-          OmniHub
-        </h2>
-      </div>
-
-      <button
-        class="close"
-        onclick="closeModal()">
-        ✕
-      </button>
-
-    </div>
-
-    <p
-      id="modalDesc"
-      class="modal-desc">
-    </p>
-
-    <div class="preview">
-
-      <div
-        id="modalIcon"
-        class="preview-icon">
-        ✨
-      </div>
-
-      <p>
-        OmniHub preview
-      </p>
-
-    </div>
-
-    <div class="modal-actions">
-
-      <a
-        id="openSource"
-        class="watch"
-        target="_blank"
-        rel="noopener noreferrer">
-        Open Official Source
-      </a>
-
-      <button onclick="closeModal()">
-        Close
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<div id="toast" class="toast"></div>
 
 
 <script>
 
-/* PROMOTION LINK */
+function showSection(id,button){
 
-const PROMO_LINK =
-  "YOUR_APPROVED_TRACKING_LINK";
-
-
-/* CONTENT DATABASE */
-
-const CONTENT = [
-
-  {
-    title:"Anime Hub",
-    type:"Anime",
-    icon:"🍥",
-    desc:"Anime from an official source.",
-    link:"https://www.youtube.com/@AniOneAsia"
-  },
-
-  {
-    title:"Anime Hub",
-    type:"Anime",
-    icon:"🎌",
-    desc:"Official anime platform.",
-    link:"https://www.crunchyroll.com/"
-  },
-
-  {
-    title:"Movie Hub",
-    type:"Movies",
-    icon:"🎬",
-    desc:"Official movie destination.",
-    link:"https://www.youtube.com/movies"
-  },
-
-  {
-    title:"Game Hub",
-    type:"Games",
-    icon:"🎮",
-    desc:"Open-source strategy game.",
-    link:"https://f-droid.org/en/packages/io.anuke.mindustry/"
-  },
-
-  {
-    title:"Unciv",
-    type:"Games",
-    icon:"🏰",
-    desc:"Open-source strategy game.",
-    link:"https://f-droid.org/en/packages/com.unciv.app/"
-  },
-
-  {
-    title:"Shattered Pixel Dungeon",
-    type:"Games",
-    icon:"⚔️",
-    desc:"Open-source roguelike game.",
-    link:"https://f-droid.org/en/packages/com.shatteredpixel.shatteredpixeldungeon/"
-  },
-
-  {
-    title:"SuperTuxKart",
-    type:"Games",
-    icon:"🏎️",
-    desc:"Open-source kart racing game.",
-    link:"https://f-droid.org/en/packages/org.supertuxkart.stk/"
-  },
-
-  {
-    title:"Instagram",
-    type:"Apps",
-    icon:"📸",
-    desc:"Open Instagram.",
-    link:"https://www.instagram.com/"
-  },
-
-  {
-    title:"MX Player",
-    type:"Apps",
-    icon:"📺",
-    desc:"Open MX Player.",
-    link:"https://www.mxplayer.in/"
-  },
-
-  {
-    title:"Facebook",
-    type:"Apps",
-    icon:"📘",
-    desc:"Open Facebook.",
-    link:"https://www.facebook.com/"
-  },
-
-  {
-    title:"File Manager",
-    type:"Apps",
-    icon:"📁",
-    desc:"Open-source file manager.",
-    link:"https://f-droid.org/en/packages/org.fossify.filemanager/"
-  },
-
-  {
-    title:"KDE Connect",
-    type:"Apps",
-    icon:"🔗",
-    desc:"Connect Android and other devices.",
-    link:"https://f-droid.org/packages/org.kde.kdeconnect_tp/"
-  },
-
-  {
-    title:"YouTube",
-    type:"Apps",
-    icon:"▶️",
-    desc:"Open YouTube.",
-    link:"https://www.youtube.com/"
-  }
-
-];
-
-
-let activeCategory = "All";
-
-
-/* RENDER */
-
-function render(){
-
-  const grid =
-    document.getElementById("grid");
-
-  const search =
     document
-      .getElementById("search")
-      .value
-      .toLowerCase()
-      .trim();
+    .querySelectorAll(".section")
+    .forEach(section=>{
+        section.classList.remove("active");
+    });
 
-  let data = [...CONTENT];
+    document
+    .getElementById(id)
+    .classList.add("active");
 
-
-  if(activeCategory !== "All"){
-
-    data = data.filter(
-      x => x.type === activeCategory
-    );
-
-  }
-
-
-  if(search){
-
-    data = data.filter(x =>
-
-      x.title
-        .toLowerCase()
-        .includes(search)
-
-      ||
-
-      x.type
-        .toLowerCase()
-        .includes(search)
-
-      ||
-
-      x.desc
-        .toLowerCase()
-        .includes(search)
-
-    );
-
-  }
-
-
-  document
-    .getElementById("resultCount")
-    .textContent =
-      data.length +
-      (
-        data.length === 1
-          ? " item"
-          : " items"
-      );
-
-
-  grid.innerHTML = "";
-
-
-  if(!data.length){
-
-    grid.innerHTML = `
-      <div style="
-        grid-column:1/-1;
-        padding:30px;
-        text-align:center;
-        color:#858c9e;
-        background:#11141b;
-        border:1px solid #252b39;
-        border-radius:16px;
-      ">
-        Nothing found in OmniHub.
-      </div>
-    `;
-
-    return;
-  }
-
-
-  data.forEach(item => {
-
-    const index =
-      CONTENT.indexOf(item);
-
-    grid.innerHTML += `
-
-      <article class="card">
-
-        <div class="cover">
-          ${item.icon}
-        </div>
-
-        <div class="info">
-
-          <h3>
-            ${escapeHTML(item.title)}
-          </h3>
-
-          <p>
-            ${escapeHTML(item.type)}
-            •
-            ${escapeHTML(item.desc)}
-          </p>
-
-          <button
-            class="open-btn"
-            onclick="openItem(${index})">
-            Open
-          </button>
-
-        </div>
-
-      </article>
-
-    `;
-
-  });
-
-}
-
-
-/* CATEGORY */
-
-function setCategory(category,button){
-
-  activeCategory = category;
-
-
-  document
-    .querySelectorAll(".cat")
-    .forEach(
-      x => x.classList.remove("active")
-    );
-
-
-  if(button){
+    document
+    .querySelectorAll("nav button")
+    .forEach(btn=>{
+        btn.classList.remove("active");
+    });
 
     button.classList.add("active");
 
-  }
+    document.getElementById("search").value="";
 
-
-  document
-    .getElementById("sectionTitle")
-    .textContent =
-      category === "All"
-        ? "Everything"
-        : category;
-
-
-  render();
-
+    searchContent();
 }
 
 
-function setCategoryByName(category){
+function searchContent(){
 
-  const buttons =
-    document.querySelectorAll(".cat");
+    const query =
+    document
+    .getElementById("search")
+    .value
+    .toLowerCase()
+    .trim();
 
+    const activeSection =
+    document.querySelector(".section.active");
 
-  buttons.forEach(button => {
+    const cards =
+    activeSection.querySelectorAll(".card");
 
-    const text =
-      button.textContent.toLowerCase();
+    cards.forEach(card=>{
 
+        const title =
+        card.dataset.title.toLowerCase();
 
-    if(
-      category === "All" &&
-      text.includes("all")
-    ){
+        if(title.includes(query)){
+            card.style.display="";
+        }else{
+            card.style.display="none";
+        }
 
-      setCategory(
-        category,
-        button
-      );
-
-    }
-
-
-    if(
-      category !== "All" &&
-      text.includes(
-        category.toLowerCase()
-      )
-    ){
-
-      setCategory(
-        category,
-        button
-      );
-
-    }
-
-  });
-
-}
-
-
-/* SEARCH */
-
-document
-  .getElementById("search")
-  .addEventListener(
-    "input",
-    render
-  );
-
-
-/* OPEN ITEM */
-
-function openItem(index){
-
-  const item =
-    CONTENT[index];
-
-
-  if(!item){
-    return;
-  }
-
-
-  document
-    .getElementById("modalTitle")
-    .textContent =
-      item.title;
-
-
-  document
-    .getElementById("modalDesc")
-    .textContent =
-      item.desc;
-
-
-  document
-    .getElementById("modalIcon")
-    .textContent =
-      item.icon;
-
-
-  document
-    .getElementById("openSource")
-    .href =
-      item.link;
-
-
-  document
-    .getElementById("modal")
-    .classList
-    .add("show");
-
-}
-
-
-/* CLOSE MODAL */
-
-function closeModal(){
-
-  document
-    .getElementById("modal")
-    .classList
-    .remove("show");
-
-}
-
-
-document
-  .getElementById("modal")
-  .addEventListener(
-    "click",
-    function(e){
-
-      if(e.target === this){
-
-        closeModal();
-
-      }
-
-    }
-  );
-
-
-document.addEventListener(
-  "keydown",
-  function(e){
-
-    if(e.key === "Escape"){
-
-      closeModal();
-
-    }
-
-  }
-);
-
-
-/* PROMOTION */
-
-function todayKey(){
-
-  const d =
-    new Date();
-
-
-  return d.getFullYear() +
-    "-" +
-    String(
-      d.getMonth()+1
-    ).padStart(2,"0") +
-    "-" +
-    String(
-      d.getDate()
-    ).padStart(2,"0");
-
-}
-
-
-function openPromotion(){
-
-  if(
-    PROMO_LINK ===
-    "YOUR_APPROVED_TRACKING_LINK"
-  ){
-
-    showToast(
-      "Pehle approved promotion link add karo."
-    );
-
-    return;
-
-  }
-
-
-  const current =
-    todayKey();
-
-
-  const saved =
-    localStorage.getItem(
-      "omni_date"
-    );
-
-
-  let total =
-    Number(
-      localStorage.getItem(
-        "omni_total"
-      ) || 0
-    );
-
-
-  let today =
-    Number(
-      localStorage.getItem(
-        "omni_today"
-      ) || 0
-    );
-
-
-  if(saved !== current){
-
-    today = 0;
-
-    localStorage.setItem(
-      "omni_date",
-      current
-    );
-
-  }
-
-
-  total++;
-  today++;
-
-
-  localStorage.setItem(
-    "omni_total",
-    total
-  );
-
-
-  localStorage.setItem(
-    "omni_today",
-    today
-  );
-
-
-  updateStats();
-
-
-  window.open(
-    PROMO_LINK,
-    "_blank",
-    "noopener,noreferrer"
-  );
-
-}
-
-
-/* STATS */
-
-function updateStats(){
-
-  document
-    .getElementById(
-      "totalClicks"
-    )
-    .textContent =
-      localStorage.getItem(
-        "omni_total"
-      ) || "0";
-
-
-  document
-    .getElementById(
-      "todayClicks"
-    )
-    .textContent =
-      localStorage.getItem(
-        "omni_today"
-      ) || "0";
-
-}
-
-
-updateStats();
-
-
-/* TOAST */
-
-let toastTimer;
-
-
-function showToast(message){
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-
-  toast.textContent =
-    message;
-
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  clearTimeout(
-    toastTimer
-  );
-
-
-  toastTimer =
-    setTimeout(
-      () =>
-        toast.classList.remove(
-          "show"
-        ),
-      2500
-    );
-
-}
-
-
-/* SCROLL */
-
-function scrollToPromo(){
-
-  document
-    .getElementById("promo")
-    .scrollIntoView({
-      behavior:"smooth"
     });
-
 }
 
 
-/* SECURITY */
+function openTitle(title){
 
-function escapeHTML(value){
-
-  return String(value)
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-    .replaceAll(
-      "'",
-      "&#039;"
+    alert(
+        title +
+        " selected!\n\n" +
+        "Yahan tum baad me apna official trailer, details ya legal streaming link add kar sakte ho."
     );
 
 }
-
-
-/* START */
-
-render();
 
 </script>
 
 </body>
-  </html>
+</html>
